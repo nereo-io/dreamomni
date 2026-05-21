@@ -1,11 +1,14 @@
 import type { Footer } from '@/types/blocks/footer';
 import type { Header } from '@/types/blocks/header';
 import { defaultLocale } from '@/i18n/locale';
+import { getGeminiOmniIntentLinks } from '@/config/geminiomni-landing';
 
 const geminiOmniLogo = {
   src: '/logo.png',
   alt: 'GeminiOmni AI Video Generator',
 };
+
+const isVideoEffectsLink = (url?: string) => url === '/video-effects';
 
 export function buildGeminiOmniHeader(header: Header): Header {
   return {
@@ -18,6 +21,19 @@ export function buildGeminiOmniHeader(header: Header): Header {
           url: header.brand.url || '/',
         }
       : header.brand,
+    nav: header.nav
+      ? {
+          ...header.nav,
+          items: header.nav.items
+            ?.filter((item) => !isVideoEffectsLink(item.url))
+            .map((item) => ({
+              ...item,
+              children: item.children?.filter(
+                (child) => !isVideoEffectsLink(child.url)
+              ),
+            })),
+        }
+      : header.nav,
   };
 }
 
@@ -175,6 +191,7 @@ function getFooterCopy(locale: string) {
 
 export function buildGeminiOmniFooter(footer: Footer, locale = defaultLocale): Footer {
   const copy = getFooterCopy(locale);
+  const intentLinks = getGeminiOmniIntentLinks(locale);
 
   return {
     ...footer,
@@ -210,6 +227,10 @@ export function buildGeminiOmniFooter(footer: Footer, locale = defaultLocale): F
             { title: copy.aiVideoGenerator, url: '/' },
             { title: copy.textToVideo, url: '/text-to-video' },
             { title: copy.imageToVideo, url: '/image-to-video' },
+            ...intentLinks.map((item) => ({
+              title: item.title,
+              url: item.href,
+            })),
           ],
         },
         {

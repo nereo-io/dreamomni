@@ -1,6 +1,7 @@
 import Stripe from "stripe";
 import { handleOrderSession } from "@/services/order";
 import { redirect } from "next/navigation";
+import { getTrimmedEnv } from "@/lib/env";
 
 export const dynamic = "force-dynamic";
 
@@ -9,7 +10,7 @@ export default async function ({ params }: { params: { session_id: string } }) {
   let payFailRedirect = process.env.NEXT_PUBLIC_PAY_FAIL_URL || "/";
 
   try {
-    const stripePrivateKey = process.env.STRIPE_PRIVATE_KEY;
+    const stripePrivateKey = getTrimmedEnv("STRIPE_PRIVATE_KEY");
     if (!stripePrivateKey) {
       console.warn("STRIPE_PRIVATE_KEY is not set; skipping pay success handling.");
       redirect(payFailRedirect);

@@ -1,9 +1,10 @@
 import { NextResponse } from "next/server";
 import Stripe from "stripe";
+import { getPublicWebUrl, getTrimmedEnv } from "@/lib/env";
 
 export async function POST(req: Request) {
   try {
-    const stripePrivateKey = process.env.STRIPE_PRIVATE_KEY;
+    const stripePrivateKey = getTrimmedEnv("STRIPE_PRIVATE_KEY");
     if (!stripePrivateKey) {
       throw new Error("Missing Stripe private key");
     }
@@ -18,7 +19,7 @@ export async function POST(req: Request) {
     // Create a billing portal session
     const session = await stripe.billingPortal.sessions.create({
       customer: customerId,
-      return_url: `${process.env.NEXT_PUBLIC_WEB_URL}`,
+      return_url: getPublicWebUrl(),
     });
 
     return NextResponse.json({ url: session.url });

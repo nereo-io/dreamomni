@@ -16,6 +16,7 @@ import { Order } from "@/types/order";
 import { getSnowId } from "@/lib/hash";
 import { getPayssionConfig } from "@/config/payssion";
 import { getPaymentProvider } from "@/lib/payment-methods";
+import { getPublicWebUrl } from "@/lib/env";
 import { findActiveSubscriptionsByUserUuid } from "@/models/subscription";
 import { findActiveCreemSubscriptionsByUserUuid } from "@/models/creem-subscription";
 import { findActiveStripeSubscriptionsByUserUuid } from "@/models/stripe-subscription";
@@ -264,7 +265,7 @@ export async function POST(req: NextRequest) {
       userUuid: user_uuid,
       userEmail: user_email,
       paymentMethod: payment_method,
-      returnUrl: `${process.env.NEXT_PUBLIC_WEB_URL}/pricing`,
+      returnUrl: `${getPublicWebUrl()}/pricing`,
       // returnUrl: `https://www.veo3ai.io/pricing`,
       reference: `mdt${order_no}`,
       metadata: {

@@ -6,6 +6,7 @@ import { Order } from "@/types/order";
 import Stripe from "stripe";
 import { findUserByUuid, updateUserAttribution } from "@/models/user";
 import { getSnowId } from "@/lib/hash";
+import { getAnyProductConfig, getStripePriceId } from "@/config/products";
 import {
   getAttributionFromCookie,
   isDirectSnapshot,
@@ -13,10 +14,11 @@ import {
   resolveAttribution,
 } from "@/lib/attribution";
 import { getClientIdFromCookie } from "@/lib/yandex-metrica";
+import { getPublicWebUrl, getTrimmedEnv } from "@/lib/env";
 
 // 延迟初始化 Stripe 客户端，避免构建时错误
 function getStripeClient() {
-  const privateKey = process.env.STRIPE_PRIVATE_KEY;
+  const privateKey = getTrimmedEnv("STRIPE_PRIVATE_KEY");
   if (!privateKey) {
     throw new Error("STRIPE_PRIVATE_KEY environment variable is not set");
   }
@@ -39,10 +41,7 @@ export async function POST(req: Request) {
     } = await req.json();
 
     if (!cancel_url) {
-      cancel_url = `${
-        process.env.NEXT_PUBLIC_PAY_CANCEL_URL ||
-        process.env.NEXT_PUBLIC_WEB_URL
-      }`;
+      cancel_url = `${process.env.NEXT_PUBLIC_PAY_CANCEL_URL || getPublicWebUrl()}`;
     }
 
     if (!amount || !interval || !currency || !product_id) {
@@ -54,6 +53,14 @@ export async function POST(req: Request) {
     }
 
     const is_subscription = interval === "month" || interval === "year";
+    const productConfig = getAnyProductConfig(product_id);
+    const stripePriceId =
+      productConfig &&
+      productConfig.amount === amount &&
+      productConfig.currency.toLowerCase() === currency.toLowerCase() &&
+      productConfig.interval === interval
+        ? getStripePriceId(product_id)
+        : undefined;
 
     if (interval === "year" && valid_months !== 12) {
       return respErr("invalid valid_months");
@@ -159,21 +166,26 @@ export async function POST(req: Request) {
     let options: Stripe.Checkout.SessionCreateParams = {
       payment_method_types: ["card"],
       line_items: [
-        {
-          price_data: {
-            currency: currency,
-            product_data: {
-              name: product_name,
+        stripePriceId
+          ? {
+              price: stripePriceId,
+              quantity: 1,
+            }
+          : {
+              price_data: {
+                currency: currency,
+                product_data: {
+                  name: product_name,
+                },
+                unit_amount: amount,
+                recurring: is_subscription
+                  ? {
+                      interval: interval,
+                    }
+                  : undefined,
+              },
+              quantity: 1,
             },
-            unit_amount: amount,
-            recurring: is_subscription
-              ? {
-                  interval: interval,
-                }
-              : undefined,
-          },
-          quantity: 1,
-        },
       ],
       allow_promotion_codes: true,
       metadata: {
@@ -188,7 +200,7 @@ export async function POST(req: Request) {
         user_uuid: user_uuid,
       },
       mode: is_subscription ? "subscription" : "payment",
-      success_url: `${process.env.NEXT_PUBLIC_WEB_URL}/pay-success/{CHECKOUT_SESSION_ID}`,
+      success_url: `${getPublicWebUrl()}/pay-success/{CHECKOUT_SESSION_ID}`,
       cancel_url: cancel_url,
     };
 
@@ -220,7 +232,7 @@ export async function POST(req: Request) {
     await updateOrderSession(order_no, stripe_session_id, order_detail);
 
     return respData({
-      public_key: process.env.STRIPE_PUBLIC_KEY,
+      public_key: getTrimmedEnv("STRIPE_PUBLIC_KEY"),
       order_no: order_no,
       session_id: stripe_session_id,
     });

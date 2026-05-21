@@ -50,6 +50,12 @@ type LandingLocaleCopy = {
   };
 };
 
+export type GeminiOmniIntentLink = {
+  title: string;
+  description: string;
+  href: string;
+};
+
 const landingCopy: Record<string, LandingLocaleCopy> = {
   en: {
     metadata: {
@@ -1187,6 +1193,213 @@ const landingCopy: Record<string, LandingLocaleCopy> = {
   },
 };
 
+const intentLinksCopy: Record<string, GeminiOmniIntentLink[]> = {
+  en: [
+    {
+      title: "Gemini Omni API Access",
+      description: "Understand API options, official Veo endpoints, and browser-based generation on GeminiOmni.",
+      href: "/gemini-omni-api",
+    },
+    {
+      title: "Gemini Omni Pricing",
+      description: "Compare free credits, subscriptions, and credit packs before scaling video creation.",
+      href: "/gemini-omni-pricing",
+    },
+    {
+      title: "Gemini Omni Free Access",
+      description: "See how to start free, where limits apply, and when paid credits make sense.",
+      href: "/gemini-omni-free",
+    },
+    {
+      title: "Gemini Omni Alternatives vs Veo 3.1",
+      description: "Compare Gemini Omni-style workflows with Veo 3.1 and other AI video options.",
+      href: "/gemini-omni-alternatives-vs-veo-3-1",
+    },
+  ],
+  zh: [
+    {
+      title: "Gemini Omni API 访问",
+      description: "了解 API 选择、官方 Veo 端点，以及 GeminiOmni 的浏览器生成流程。",
+      href: "/gemini-omni-api",
+    },
+    {
+      title: "Gemini Omni 定价",
+      description: "在扩大视频创作前，比较免费积分、订阅和积分包。",
+      href: "/gemini-omni-pricing",
+    },
+    {
+      title: "Gemini Omni 免费访问",
+      description: "了解如何免费开始、限制在哪里，以及何时需要付费积分。",
+      href: "/gemini-omni-free",
+    },
+    {
+      title: "Gemini Omni 替代方案 vs Veo 3.1",
+      description: "比较 Gemini Omni 风格工作流、Veo 3.1 和其他 AI 视频方案。",
+      href: "/gemini-omni-alternatives-vs-veo-3-1",
+    },
+  ],
+  ja: [
+    {
+      title: "Gemini Omni API アクセス",
+      description: "API 選択肢、公式 Veo エンドポイント、GeminiOmni のブラウザ生成を確認できます。",
+      href: "/gemini-omni-api",
+    },
+    {
+      title: "Gemini Omni 価格",
+      description: "無料クレジット、サブスクリプション、クレジットパックを比較できます。",
+      href: "/gemini-omni-pricing",
+    },
+    {
+      title: "Gemini Omni 無料アクセス",
+      description: "無料で始める方法、制限、有料クレジットが必要になる場面を確認できます。",
+      href: "/gemini-omni-free",
+    },
+    {
+      title: "Gemini Omni 代替案 vs Veo 3.1",
+      description: "Gemini Omni 風ワークフロー、Veo 3.1、その他の AI 動画モデルを比較します。",
+      href: "/gemini-omni-alternatives-vs-veo-3-1",
+    },
+  ],
+  ko: [
+    {
+      title: "Gemini Omni API 액세스",
+      description: "API 옵션, 공식 Veo 엔드포인트, GeminiOmni 브라우저 생성을 확인하세요.",
+      href: "/gemini-omni-api",
+    },
+    {
+      title: "Gemini Omni 가격",
+      description: "무료 크레딧, 구독, 크레딧 팩을 비교하고 확장하세요.",
+      href: "/gemini-omni-pricing",
+    },
+    {
+      title: "Gemini Omni 무료 액세스",
+      description: "무료 시작 방법, 제한, 유료 크레딧이 필요한 시점을 확인하세요.",
+      href: "/gemini-omni-free",
+    },
+    {
+      title: "Gemini Omni 대안 vs Veo 3.1",
+      description: "Gemini Omni 스타일 워크플로, Veo 3.1, 기타 AI 비디오 옵션을 비교하세요.",
+      href: "/gemini-omni-alternatives-vs-veo-3-1",
+    },
+  ],
+  de: [
+    {
+      title: "Gemini Omni API-Zugang",
+      description: "API-Optionen, offizielle Veo-Endpunkte und browserbasierte Generierung mit GeminiOmni.",
+      href: "/gemini-omni-api",
+    },
+    {
+      title: "Gemini Omni Preise",
+      description: "Vergleiche kostenlose Credits, Abos und Credit-Pakete vor dem Skalieren.",
+      href: "/gemini-omni-pricing",
+    },
+    {
+      title: "Gemini Omni kostenlos nutzen",
+      description: "So startest du kostenlos, wo Limits gelten und wann Credits sinnvoll sind.",
+      href: "/gemini-omni-free",
+    },
+    {
+      title: "Gemini Omni Alternativen vs Veo 3.1",
+      description: "Vergleiche Gemini-Omni-Workflows mit Veo 3.1 und anderen KI-Videooptionen.",
+      href: "/gemini-omni-alternatives-vs-veo-3-1",
+    },
+  ],
+  fr: [
+    {
+      title: "Acces API Gemini Omni",
+      description: "Comparez les options API, les points d'acces Veo officiels et la generation dans GeminiOmni.",
+      href: "/gemini-omni-api",
+    },
+    {
+      title: "Tarifs Gemini Omni",
+      description: "Comparez credits gratuits, abonnements et packs de credits avant de passer a l'echelle.",
+      href: "/gemini-omni-pricing",
+    },
+    {
+      title: "Acces gratuit Gemini Omni",
+      description: "Voyez comment commencer gratuitement, ou sont les limites et quand payer des credits.",
+      href: "/gemini-omni-free",
+    },
+    {
+      title: "Alternatives Gemini Omni vs Veo 3.1",
+      description: "Comparez les workflows Gemini Omni, Veo 3.1 et d'autres options de video IA.",
+      href: "/gemini-omni-alternatives-vs-veo-3-1",
+    },
+  ],
+  es: [
+    {
+      title: "Acceso API Gemini Omni",
+      description: "Revisa opciones API, endpoints oficiales de Veo y generacion en navegador con GeminiOmni.",
+      href: "/gemini-omni-api",
+    },
+    {
+      title: "Precios de Gemini Omni",
+      description: "Compara creditos gratis, suscripciones y paquetes antes de escalar la creacion.",
+      href: "/gemini-omni-pricing",
+    },
+    {
+      title: "Acceso gratis a Gemini Omni",
+      description: "Aprende como empezar gratis, que limites existen y cuando conviene pagar creditos.",
+      href: "/gemini-omni-free",
+    },
+    {
+      title: "Alternativas Gemini Omni vs Veo 3.1",
+      description: "Compara flujos estilo Gemini Omni con Veo 3.1 y otras opciones de video IA.",
+      href: "/gemini-omni-alternatives-vs-veo-3-1",
+    },
+  ],
+  pt: [
+    {
+      title: "Acesso API Gemini Omni",
+      description: "Entenda opcoes de API, endpoints oficiais do Veo e geracao no navegador com GeminiOmni.",
+      href: "/gemini-omni-api",
+    },
+    {
+      title: "Precos do Gemini Omni",
+      description: "Compare creditos gratis, assinaturas e pacotes antes de escalar a criacao.",
+      href: "/gemini-omni-pricing",
+    },
+    {
+      title: "Acesso gratis ao Gemini Omni",
+      description: "Veja como comecar gratis, onde ha limites e quando creditos pagos fazem sentido.",
+      href: "/gemini-omni-free",
+    },
+    {
+      title: "Alternativas Gemini Omni vs Veo 3.1",
+      description: "Compare fluxos estilo Gemini Omni com Veo 3.1 e outras opcoes de video IA.",
+      href: "/gemini-omni-alternatives-vs-veo-3-1",
+    },
+  ],
+  ru: [
+    {
+      title: "Доступ к Gemini Omni API",
+      description: "Разберите API-варианты, официальные Veo endpoints и генерацию в браузере GeminiOmni.",
+      href: "/gemini-omni-api",
+    },
+    {
+      title: "Цены Gemini Omni",
+      description: "Сравните бесплатные кредиты, подписки и пакеты кредитов перед масштабированием.",
+      href: "/gemini-omni-pricing",
+    },
+    {
+      title: "Бесплатный доступ Gemini Omni",
+      description: "Узнайте, как начать бесплатно, какие есть лимиты и когда нужны платные кредиты.",
+      href: "/gemini-omni-free",
+    },
+    {
+      title: "Альтернативы Gemini Omni vs Veo 3.1",
+      description: "Сравните Gemini Omni-style workflow, Veo 3.1 и другие варианты ИИ-видео.",
+      href: "/gemini-omni-alternatives-vs-veo-3-1",
+    },
+  ],
+};
+
 export function getGeminiOmniLandingCopy(locale: string): LandingLocaleCopy {
   return landingCopy[locale] || landingCopy[defaultLocale];
+}
+
+export function getGeminiOmniIntentLinks(
+  locale: string
+): GeminiOmniIntentLink[] {
+  return intentLinksCopy[locale] || intentLinksCopy[defaultLocale];
 }

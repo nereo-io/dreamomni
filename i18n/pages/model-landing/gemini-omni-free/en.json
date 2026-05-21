@@ -1,0 +1,317 @@
+{
+  "banner": {
+    "title": "Gemini Omni Free Access",
+    "description": "Learn how to try Gemini Omni-style AI video generation for free on GeminiOmni, what free credits are best for, and where practical limits start when you move from experiments to production.",
+    "tabs": [
+      {
+        "type": "text",
+        "title": "Start With a Free Prompt",
+        "subTitle": "Prompt",
+        "value": "text-to-video",
+        "modelName": "GeminiOmni",
+        "modelLogo": "/logo.png",
+        "placeholder": "Write a focused video idea to test your free GeminiOmni workflow...",
+        "buttonText": "Create Free"
+      },
+      {
+        "type": "image",
+        "title": "Try Image to Video",
+        "subTitle": "Image",
+        "value": "image-to-video",
+        "modelName": "GeminiOmni",
+        "modelLogo": "/logo.png",
+        "placeholder": "Upload a reference image and test image-to-video creation",
+        "tips": "Upload JPG, PNG, WEBP, or GIF images up to 20MB.",
+        "buttonText": "Create Free"
+      }
+    ]
+  },
+  "breadcrumb": {
+    "items": [
+      {
+        "label": "Home",
+        "href": "/"
+      },
+      {
+        "label": "Gemini Omni Free Access"
+      }
+    ]
+  },
+  "features": {
+    "title": "What Free Access Is Good For",
+    "details": [
+      {
+        "title": "Validate the Workflow Before Paying",
+        "description": "Free access is best for learning how prompts behave, testing image references, and deciding whether GeminiOmni fits your creative style. Use it to test the interface, generation speed, prompt structure, and download flow before you buy more credits.",
+        "type": "table",
+        "data": {
+          "headers": [
+            {
+              "title": "Free Use Case"
+            },
+            {
+              "title": "Why It Matters"
+            }
+          ],
+          "rows": [
+            {
+              "cells": [
+                {
+                  "type": "text",
+                  "content": "First prompt test"
+                },
+                {
+                  "type": "text",
+                  "content": "See whether your idea can become a usable video draft"
+                }
+              ]
+            },
+            {
+              "cells": [
+                {
+                  "type": "text",
+                  "content": "Reference image test"
+                },
+                {
+                  "type": "text",
+                  "content": "Check whether a product, person, or style reference improves control"
+                }
+              ]
+            },
+            {
+              "cells": [
+                {
+                  "type": "text",
+                  "content": "Workflow check"
+                },
+                {
+                  "type": "text",
+                  "content": "Confirm history, playback, and download behavior before scaling"
+                }
+              ]
+            }
+          ]
+        }
+      },
+      {
+        "title": "Free Does Not Mean Unlimited",
+        "description": "AI video generation is compute-heavy, so free access usually comes with credit, speed, model, or usage limits. Treat free credits as a way to evaluate fit, not as a permanent replacement for a production plan.",
+        "type": "table",
+        "data": {
+          "headers": [
+            {
+              "title": "Limit Type"
+            },
+            {
+              "title": "What to Expect"
+            }
+          ],
+          "rows": [
+            {
+              "cells": [
+                {
+                  "type": "text",
+                  "content": "Credits"
+                },
+                {
+                  "type": "text",
+                  "content": "Free credits can run out after a small number of generations or retries"
+                }
+              ]
+            },
+            {
+              "cells": [
+                {
+                  "type": "text",
+                  "content": "Model choice"
+                },
+                {
+                  "type": "text",
+                  "content": "Some premium workflows may require paid credits"
+                }
+              ]
+            },
+            {
+              "cells": [
+                {
+                  "type": "text",
+                  "content": "Production volume"
+                },
+                {
+                  "type": "text",
+                  "content": "Campaign batches, client work, and repeated variants usually need paid capacity"
+                }
+              ]
+            }
+          ]
+        }
+      },
+      {
+        "title": "Get More from Each Free Generation",
+        "description": "The best way to stretch free credits is to write complete prompts and avoid vague trial-and-error. Include subject, environment, motion, camera, style, duration, and anything that must not change.",
+        "type": "table",
+        "data": {
+          "headers": [
+            {
+              "title": "Prompt Detail"
+            },
+            {
+              "title": "Example"
+            }
+          ],
+          "rows": [
+            {
+              "cells": [
+                {
+                  "type": "text",
+                  "content": "Camera"
+                },
+                {
+                  "type": "text",
+                  "content": "Slow dolly-in, close-up, overhead, handheld, or wide establishing shot"
+                }
+              ]
+            },
+            {
+              "cells": [
+                {
+                  "type": "text",
+                  "content": "Motion"
+                },
+                {
+                  "type": "text",
+                  "content": "Subject walks forward, product rotates, clouds move, fabric flutters"
+                }
+              ]
+            },
+            {
+              "cells": [
+                {
+                  "type": "text",
+                  "content": "Style"
+                },
+                {
+                  "type": "text",
+                  "content": "Documentary, cinematic ad, product demo, anime, 3D render, editorial"
+                }
+              ]
+            }
+          ]
+        }
+      }
+    ]
+  },
+  "usageGuide": {
+    "title": "How to Try GeminiOmni for Free",
+    "description": "Use free access to answer one question: can this workflow produce the kind of video you need?",
+    "steps": [
+      {
+        "number": "01",
+        "title": "Sign in and check credits",
+        "description": "Create an account and confirm your available credits before generation."
+      },
+      {
+        "number": "02",
+        "title": "Run a focused test",
+        "description": "Use one strong prompt or one clean reference image instead of many vague attempts."
+      },
+      {
+        "number": "03",
+        "title": "Review output and decide",
+        "description": "If the result is close, iterate or move to a paid credit path for larger batches."
+      }
+    ],
+    "buttonText": "Start Free"
+  },
+  "comparison": {
+    "title": "Free Access vs Paid Credits",
+    "featureLabel": "Criteria",
+    "models": [
+      "Free Access",
+      "Paid Credits"
+    ],
+    "features": [
+      {
+        "name": "Best for first test",
+        "values": [
+          true,
+          true
+        ]
+      },
+      {
+        "name": "Best for repeated variants",
+        "values": [
+          false,
+          true
+        ]
+      },
+      {
+        "name": "Best for client/project work",
+        "values": [
+          false,
+          true
+        ]
+      },
+      {
+        "name": "Main goal",
+        "values": [
+          "Evaluate fit",
+          "Produce at scale"
+        ]
+      }
+    ]
+  },
+  "relatedModels": {
+    "title": "Continue After Your Free Test",
+    "buttonText": "Open",
+    "models": [
+      {
+        "name": "Gemini Omni Pricing",
+        "slug": "gemini-omni-pricing",
+        "description": "Compare plans and credit packs.",
+        "logo": "/logo.png"
+      },
+      {
+        "name": "Image to Video",
+        "slug": "image-to-video",
+        "description": "Animate a reference image into a video.",
+        "logo": "/logo.png"
+      },
+      {
+        "name": "Text to Video",
+        "slug": "text-to-video",
+        "description": "Generate video from prompts.",
+        "logo": "/logo.png"
+      }
+    ]
+  },
+  "faq": {
+    "name": "faq",
+    "label": "FAQ",
+    "title": "Gemini Omni Free Access Questions",
+    "description": "Answers about starting without paying first.",
+    "items": [
+      {
+        "title": "Can I use GeminiOmni for free?",
+        "description": "Yes. GeminiOmni provides a free starting path with credits so you can try AI video generation before choosing a paid plan."
+      },
+      {
+        "title": "Do free credits last forever?",
+        "description": "Free credits are intended for evaluation. For repeated generation, larger batches, or production work, use paid credits or a subscription."
+      },
+      {
+        "title": "What should I test first?",
+        "description": "Start with one concrete prompt or one reference image that represents your real use case. This gives a more useful signal than random demos."
+      },
+      {
+        "title": "Is free GeminiOmni access the same as a free Google API?",
+        "description": "No. GeminiOmni free access is product-level access. Official Google API access and pricing are separate."
+      }
+    ]
+  },
+  "cta": {
+    "title": "Use Your First Free Credits on a Real Idea",
+    "description": "A focused prompt teaches you more than a generic demo.",
+    "buttonText": "Try GeminiOmni Free"
+  }
+}

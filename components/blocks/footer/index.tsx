@@ -75,29 +75,6 @@ export default function Footer({ footer }: { footer: FooterType }) {
                   </ul>
                 </div>
               ))}
-              {footer.effects && (
-                <div>
-                  <p className="mb-4 font-bold text-base">
-                    {footer.effects.title || "Popular Effects"}
-                  </p>
-                  <ul className="space-y-3 text-base text-muted-foreground">
-                    {footer.effects.items?.map((effect, i) => (
-                      <li key={i} className="font-medium hover:text-primary">
-                        <a href={`/video-effects/${effect.slug}`}>
-                          {effect.title}
-                        </a>
-                      </li>
-                    ))}
-                    {footer.effects.moreUrl && (
-                      <li className="font-medium hover:text-primary">
-                        <a href={footer.effects.moreUrl}>
-                          {footer.effects.moreText || "More Effects →"}
-                        </a>
-                      </li>
-                    )}
-                  </ul>
-                </div>
-              )}
               {footer.contact && (
                 <div className="text-center lg:text-left">
                   <p className="mb-4 font-bold text-base">
@@ -118,7 +95,7 @@ export default function Footer({ footer }: { footer: FooterType }) {
                                 className="size-5 flex-shrink-0 mt-0.5"
                               />
                             )}
-                            <span className="break-words">
+                            <span className="min-w-0 break-all">
                               {item.value || item.title}
                             </span>
                           </a>
@@ -130,7 +107,7 @@ export default function Footer({ footer }: { footer: FooterType }) {
                                 className="size-5 flex-shrink-0 mt-0.5"
                               />
                             )}
-                            <span className="break-words">
+                            <span className="min-w-0 break-all">
                               {item.value || item.title}
                             </span>
                           </div>

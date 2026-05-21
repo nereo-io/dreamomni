@@ -33,15 +33,9 @@ import SignToggle from "@/components/sign/toggle";
 import ThemeToggle from "@/components/theme/toggle";
 import { cn } from "@/lib/utils";
 import { useEffect, useState } from "react";
-import { useTranslations } from "next-intl";
-import { effects } from "@/data/effects";
 
 export default function Header({ header }: { header: HeaderType }) {
   const [addBorder, setAddBorder] = useState(false);
-  const t = useTranslations();
-  
-  // Get first 10 effects for dropdown
-  const dropdownEffects = effects.slice(0, 10);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -87,12 +81,8 @@ export default function Header({ header }: { header: HeaderType }) {
           <div className="flex items-center">
             <div className="flex items-center mr-8">
               {header.nav?.items?.map((item, i) => {
-                // Check if this is AI Image item (usually second item) and insert Video Effects after it
-                const isAIImage = item.title === "AI Image" || i === 1;
-                const elements = [];
-                
                 if (item.children && item.children.length > 0) {
-                  elements.push(
+                  return (
                     <NavigationMenu key={i}>
                       <NavigationMenuList>
                         <NavigationMenuItem
@@ -141,75 +131,29 @@ export default function Header({ header }: { header: HeaderType }) {
                       </NavigationMenuList>
                     </NavigationMenu>
                   );
-                } else {
-                  elements.push(
-                    <a
-                      key={i}
-                      className={cn(
-                        "text-white/90 hover:text-white font-medium px-4 py-2 rounded-md transition-colors inline-flex items-center",
-                        "text-lg !text-lg"
-                      )}
-                      style={{ fontSize: '20px' }}
-                      href={item.url}
-                      target={item.target}
-                    >
-                      {item.icon && (
-                        <Icon
-                          name={item.icon}
-                          className="size-4 shrink-0 mr-2"
-                        />
-                      )}
-                      {item.title}
-                    </a>
-                  );
                 }
 
-                // Add Video Effects dropdown after AI Image
-                if (isAIImage) {
-                  elements.push(
-                    <NavigationMenu key="video-effects">
-                      <NavigationMenuList>
-                        <NavigationMenuItem className="text-white/90">
-                          <NavigationMenuTrigger 
-                            className="text-white/90 hover:text-white font-medium text-lg" 
-                            style={{ fontSize: '20px' }}
-                          >
-                            <span>{t("header.video_effects")}</span>
-                          </NavigationMenuTrigger>
-                          <NavigationMenuContent>
-                            <div className="min-w-[320px] p-2">
-                              <div className="grid grid-cols-2 gap-1">
-                                {dropdownEffects.map((effect) => (
-                                  <NavigationMenuLink key={effect.id} asChild>
-                                    <a
-                                      href={`/video-effects/${effect.id}`}
-                                      className="flex items-center select-none gap-2 rounded-sm px-3 py-2 text-base font-medium leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground"
-                                    >
-                                      {effect.titleKey ? t(`effects.${effect.titleKey}`) : effect.title}
-                                    </a>
-                                  </NavigationMenuLink>
-                                ))}
-                              </div>
-                              <div className="border-t mt-2 pt-2">
-                                <NavigationMenuLink asChild>
-                                  <a
-                                    href="/video-effects"
-                                    className="flex items-center justify-center select-none gap-2 rounded-sm px-3 py-2 text-base font-medium leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground text-primary"
-                                  >
-                                    {t("header.more_effects")} →
-                                  </a>
-                                </NavigationMenuLink>
-                              </div>
-                            </div>
-                          </NavigationMenuContent>
-                        </NavigationMenuItem>
-                      </NavigationMenuList>
-                    </NavigationMenu>
-                  );
-                }
-
-                return elements;
-              }).flat()}
+                return (
+                  <a
+                    key={i}
+                    className={cn(
+                      "text-white/90 hover:text-white font-medium px-4 py-2 rounded-md transition-colors inline-flex items-center",
+                      "text-lg !text-lg"
+                    )}
+                    style={{ fontSize: '20px' }}
+                    href={item.url}
+                    target={item.target}
+                  >
+                    {item.icon && (
+                      <Icon
+                        name={item.icon}
+                        className="size-4 shrink-0 mr-2"
+                      />
+                    )}
+                    {item.title}
+                  </a>
+                );
+              })}
             </div>
             <div className="shrink-0 flex gap-3 items-center">
             {header.show_locale && <LocaleToggle />}
@@ -348,38 +292,6 @@ export default function Header({ header }: { header: HeaderType }) {
                         </a>
                       );
                     })}
-                    
-                    {/* Video Effects Section for Mobile - Added after other nav items */}
-                    <AccordionItem value="video-effects" className="border-b-0">
-                      <AccordionTrigger className="mb-4 py-0 font-semibold hover:no-underline text-left">
-                        {t("header.video_effects")}
-                      </AccordionTrigger>
-                      <AccordionContent className="mt-2">
-                        <div className="grid grid-cols-2 gap-1">
-                          {dropdownEffects.map((effect) => (
-                            <a
-                              key={effect.id}
-                              href={`/video-effects/${effect.id}`}
-                              className="flex items-center select-none gap-2 rounded-md px-3 py-2 leading-none outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground text-sm"
-                            >
-                              <span className="text-base font-medium">
-                                {effect.titleKey ? t(`effects.${effect.titleKey}`) : effect.title}
-                              </span>
-                            </a>
-                          ))}
-                        </div>
-                        <div className="border-t mt-2 pt-2">
-                          <a
-                            href="/video-effects"
-                            className="flex items-center justify-center select-none gap-2 rounded-md px-3 py-2 leading-none outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground text-primary"
-                          >
-                            <span className="text-base font-medium">
-                              {t("header.more_effects")} →
-                            </span>
-                          </a>
-                        </div>
-                      </AccordionContent>
-                    </AccordionItem>
                   </Accordion>
                 </div>
                 <div className="flex-1"></div>

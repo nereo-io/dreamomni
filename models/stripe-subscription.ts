@@ -6,9 +6,9 @@ export interface StripeSubscription {
   stripe_subscription_id: string;
   stripe_customer_id?: string;
   stripe_session_id?: string;
-  plan_type: "monthly" | "yearly";
-  amount: number;
-  currency: string;
+  plan_type?: "monthly" | "yearly";
+  amount?: number;
+  currency?: string;
   status:
     | "active"
     | "canceled"
@@ -21,6 +21,8 @@ export interface StripeSubscription {
   canceled_at?: string;
   product_name?: string;
   product_id?: string;
+  price_id?: string;
+  metadata?: Record<string, unknown>;
   created_at: string;
   updated_at: string;
 }

@@ -4,6 +4,7 @@ import { getModelLandingPage } from "@/services/page";
 import ModelLandingPage from "@/components/blocks/model-landing-page";
 import {
   MODEL_LANDING_PAGES,
+  isIndexableModelSlug,
   isValidModelSlug,
 } from "@/config/model-landing-pages";
 import { defaultLocale, locales } from "@/i18n/locale";
@@ -66,8 +67,8 @@ export async function generateMetadata({
     description,
     keywords: t(`${model}.keywords`),
     robots: {
-      index: false,
-      follow: false,
+      index: isIndexableModelSlug(model),
+      follow: isIndexableModelSlug(model),
     },
     alternates: {
       canonical: canonicalUrl,

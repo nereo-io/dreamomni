@@ -1,0 +1,330 @@
+{
+  "banner": {
+    "title": "Gemini Omni Alternatives vs Veo 3.1",
+    "description": "Compare Gemini Omni-style browser workflows, Google Veo 3.1, and other AI video generation options by access path, cost model, creative control, and who should choose each tool.",
+    "tabs": [
+      {
+        "type": "text",
+        "title": "Test a Comparison Prompt",
+        "subTitle": "Prompt",
+        "value": "text-to-video",
+        "modelName": "GeminiOmni",
+        "modelLogo": "/logo.png",
+        "placeholder": "Describe a cinematic video idea you would use to compare GeminiOmni, Veo 3.1, and other alternatives...",
+        "buttonText": "Create Video"
+      },
+      {
+        "type": "image",
+        "title": "Compare Image to Video",
+        "subTitle": "Image",
+        "value": "image-to-video",
+        "modelName": "GeminiOmni",
+        "modelLogo": "/logo.png",
+        "placeholder": "Upload a reference image to test visual control",
+        "tips": "Upload JPG, PNG, WEBP, or GIF images up to 20MB.",
+        "buttonText": "Create Video"
+      }
+    ]
+  },
+  "breadcrumb": {
+    "items": [
+      {
+        "label": "Home",
+        "href": "/"
+      },
+      {
+        "label": "Gemini Omni Alternatives vs Veo 3.1"
+      }
+    ]
+  },
+  "features": {
+    "title": "How to Choose Between Gemini Omni-Style Tools and Veo 3.1",
+    "details": [
+      {
+        "title": "Use GeminiOmni When You Need Fast Online Creation",
+        "description": "GeminiOmni is strongest as a practical browser workflow: generate from text, animate images, review history, and download outputs without building infrastructure. It is a good first stop for marketers, creators, and teams that want results before API engineering.",
+        "type": "table",
+        "data": {
+          "headers": [
+            {
+              "title": "Best Fit"
+            },
+            {
+              "title": "Why"
+            }
+          ],
+          "rows": [
+            {
+              "cells": [
+                {
+                  "type": "text",
+                  "content": "Creators and marketers"
+                },
+                {
+                  "type": "text",
+                  "content": "Fast prompt-to-video and image-to-video workflow"
+                }
+              ]
+            },
+            {
+              "cells": [
+                {
+                  "type": "text",
+                  "content": "Campaign prototyping"
+                },
+                {
+                  "type": "text",
+                  "content": "Quick iteration before committing to a production pipeline"
+                }
+              ]
+            },
+            {
+              "cells": [
+                {
+                  "type": "text",
+                  "content": "Teams without API setup"
+                },
+                {
+                  "type": "text",
+                  "content": "No provider keys, queue workers, or storage callbacks needed"
+                }
+              ]
+            }
+          ]
+        }
+      },
+      {
+        "title": "Use Veo 3.1 When You Need Official Google Video API Paths",
+        "description": "Veo 3.1 is an official Google video model family available through Google developer and cloud surfaces. Public Google pricing currently lists paid-tier per-second video generation. It is a better fit when your team specifically wants official Google model access and can support developer setup and usage budgeting.",
+        "type": "table",
+        "data": {
+          "headers": [
+            {
+              "title": "Veo 3.1 Strength"
+            },
+            {
+              "title": "Planning Note"
+            }
+          ],
+          "rows": [
+            {
+              "cells": [
+                {
+                  "type": "text",
+                  "content": "Official Google model path"
+                },
+                {
+                  "type": "text",
+                  "content": "Use Gemini API or Vertex AI documentation as the source of truth"
+                }
+              ]
+            },
+            {
+              "cells": [
+                {
+                  "type": "text",
+                  "content": "API-oriented deployment"
+                },
+                {
+                  "type": "text",
+                  "content": "Requires credentials, billing controls, job handling, and asset storage"
+                }
+              ]
+            },
+            {
+              "cells": [
+                {
+                  "type": "text",
+                  "content": "Per-second pricing"
+                },
+                {
+                  "type": "text",
+                  "content": "Budget by clip duration, retries, and generated variants"
+                }
+              ]
+            }
+          ]
+        }
+      },
+      {
+        "title": "Consider Other Alternatives by Workflow, Not Hype",
+        "description": "Sora, Kling, Hailuo, Seedance, and other video models can be useful alternatives depending on style, speed, prompt control, image reference handling, price, and regional availability. The best model is the one that repeatedly produces usable results for your exact prompt class.",
+        "type": "table",
+        "data": {
+          "headers": [
+            {
+              "title": "Alternative Need"
+            },
+            {
+              "title": "What to Compare"
+            }
+          ],
+          "rows": [
+            {
+              "cells": [
+                {
+                  "type": "text",
+                  "content": "Cinematic realism"
+                },
+                {
+                  "type": "text",
+                  "content": "Prompt fidelity, motion coherence, lighting, and camera behavior"
+                }
+              ]
+            },
+            {
+              "cells": [
+                {
+                  "type": "text",
+                  "content": "Image reference control"
+                },
+                {
+                  "type": "text",
+                  "content": "Subject consistency, product accuracy, and frame-to-frame stability"
+                }
+              ]
+            },
+            {
+              "cells": [
+                {
+                  "type": "text",
+                  "content": "Cost and throughput"
+                },
+                {
+                  "type": "text",
+                  "content": "Credits, per-second pricing, queue speed, and failure handling"
+                }
+              ]
+            }
+          ]
+        }
+      }
+    ]
+  },
+  "usageGuide": {
+    "title": "How to Run a Fair Model Comparison",
+    "description": "Use the same brief across tools so you compare outputs, not prompt differences.",
+    "steps": [
+      {
+        "number": "01",
+        "title": "Write one benchmark prompt",
+        "description": "Include subject, action, camera, mood, style, duration, and audio requirements."
+      },
+      {
+        "number": "02",
+        "title": "Use the same reference assets",
+        "description": "If image control matters, test the same source image in each workflow."
+      },
+      {
+        "number": "03",
+        "title": "Score the output",
+        "description": "Compare prompt fidelity, motion, identity consistency, cost, speed, and download quality."
+      }
+    ],
+    "buttonText": "Run a Test Prompt"
+  },
+  "comparison": {
+    "title": "Gemini Omni Alternatives Compared with Veo 3.1",
+    "featureLabel": "Criteria",
+    "models": [
+      "GeminiOmni",
+      "Veo 3.1",
+      "Other AI Video Tools"
+    ],
+    "features": [
+      {
+        "name": "Primary access path",
+        "values": [
+          "Browser workflow",
+          "Official Google API or app surfaces",
+          "Provider-specific"
+        ]
+      },
+      {
+        "name": "Best first step",
+        "values": [
+          "Create and evaluate quickly",
+          "Plan official API or premium model use",
+          "Test style and price fit"
+        ]
+      },
+      {
+        "name": "Developer setup required",
+        "values": [
+          false,
+          true,
+          "Sometimes"
+        ]
+      },
+      {
+        "name": "Pricing style",
+        "values": [
+          "Credits and plans",
+          "Official per-second/provider pricing",
+          "Credits, subscriptions, or API billing"
+        ]
+      },
+      {
+        "name": "Best for",
+        "values": [
+          "Creators and campaign teams",
+          "Teams needing Google model access",
+          "Specific style, speed, or budget needs"
+        ]
+      }
+    ]
+  },
+  "relatedModels": {
+    "title": "Compare More Video Workflows",
+    "buttonText": "Compare",
+    "models": [
+      {
+        "name": "Veo 3.1",
+        "slug": "veo-3-1",
+        "description": "Explore the Veo 3.1 model landing page.",
+        "logo": "/imgs/intro/veo.svg"
+      },
+      {
+        "name": "Sora 2",
+        "slug": "sora-2",
+        "description": "Compare another major AI video generation model.",
+        "logo": "/imgs/intro/sora.png"
+      },
+      {
+        "name": "Gemini Omni API Access",
+        "slug": "gemini-omni-api",
+        "description": "Understand API paths before automating video generation.",
+        "logo": "/logo.png"
+      }
+    ]
+  },
+  "faq": {
+    "name": "faq",
+    "label": "FAQ",
+    "title": "Gemini Omni Alternatives Questions",
+    "description": "Answers for comparing GeminiOmni, Veo 3.1, and other AI video tools.",
+    "items": [
+      {
+        "title": "Is GeminiOmni the same as Veo 3.1?",
+        "description": "No. GeminiOmni is an independent browser-based product for Gemini Omni-style video creation. Veo 3.1 is an official Google video model family available through Google surfaces."
+      },
+      {
+        "title": "Which is better, GeminiOmni or Veo 3.1?",
+        "description": "Choose GeminiOmni when you want fast online creation without API setup. Choose Veo 3.1 when you specifically need official Google video model access and can manage API or cloud billing."
+      },
+      {
+        "title": "What are the best Gemini Omni alternatives?",
+        "description": "Good alternatives depend on your goal. Compare Veo 3.1, Sora-style tools, Kling, Hailuo, Seedance workflows, and image-to-video tools using the same prompt and reference assets."
+      },
+      {
+        "title": "How should I compare models fairly?",
+        "description": "Use the same prompt, same reference image, same duration target, and the same scoring criteria: prompt fidelity, motion, identity consistency, cost, speed, and final usability."
+      }
+    ]
+  },
+  "cta": {
+    "title": "Compare with a Real Prompt, Not a Headline",
+    "description": "Run one focused test and judge the output by your actual production needs.",
+    "buttonText": "Start Comparing"
+  }
+}

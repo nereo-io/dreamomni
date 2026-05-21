@@ -10,6 +10,7 @@ interface BreadcrumbProps {
 
 export default function Breadcrumb({ section }: BreadcrumbProps) {
   const { items } = section;
+  const baseUrl = process.env.NEXT_PUBLIC_WEB_URL || "https://geminiomni.tv";
 
   // JSON-LD structured data for breadcrumb
   const jsonLd = {
@@ -19,7 +20,7 @@ export default function Breadcrumb({ section }: BreadcrumbProps) {
       "@type": "ListItem",
       position: index + 1,
       name: item.label,
-      ...(item.href && { item: `https://veo3ai.io${item.href}` }),
+      ...(item.href && { item: `${baseUrl}${item.href}` }),
     })),
   };
 

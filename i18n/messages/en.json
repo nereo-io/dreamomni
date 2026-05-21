@@ -1310,6 +1310,26 @@
       }
     }
   },
+  "gemini-omni-api": {
+    "title": "Gemini Omni API Access Guide",
+    "description": "Learn Gemini Omni API access options, when to use GeminiOmni's browser workflow, and how official Google Veo API paths affect cost and setup.",
+    "keywords": "Gemini Omni API, Gemini Omni API access, Gemini Omni developer API, Gemini API video, Veo 3.1 API, AI video API, GeminiOmni API"
+  },
+  "gemini-omni-pricing": {
+    "title": "Gemini Omni Pricing: Free Credits, Plans, and Costs",
+    "description": "Compare Gemini Omni pricing options on GeminiOmni, including free credits, subscriptions, credit packs, and practical AI video generation budgeting.",
+    "keywords": "Gemini Omni pricing, Gemini Omni cost, Gemini Omni plans, Gemini Omni credits, free Gemini Omni, AI video pricing, GeminiOmni pricing"
+  },
+  "gemini-omni-free": {
+    "title": "Gemini Omni Free Access: Try AI Video Generation",
+    "description": "See how to try Gemini Omni-style AI video generation free on GeminiOmni, what free credits cover, and when paid credits make sense.",
+    "keywords": "Gemini Omni free, free Gemini Omni access, Gemini Omni free trial, free AI video generator, GeminiOmni free credits, try Gemini Omni"
+  },
+  "gemini-omni-alternatives-vs-veo-3-1": {
+    "title": "Gemini Omni Alternatives vs Veo 3.1",
+    "description": "Compare Gemini Omni-style workflows with Veo 3.1 and other AI video alternatives by access, cost, API setup, creative control, and best use case.",
+    "keywords": "Gemini Omni alternatives, Gemini Omni vs Veo 3.1, Veo 3.1 alternative, Gemini Omni comparison, AI video generator alternatives, best Gemini Omni alternative"
+  },
   "gpt-image-2": {
     "title": "GPT Image 2 AI Image Generator Online | Seedance",
     "description": "Try GPT Image 2 on Seedance for text-to-image generation and image editing. Create readable posters, product labels, UI mockups, ads, and high-quality creative assets.",

@@ -4,6 +4,7 @@ import path from "node:path";
 import { MetadataRoute } from "next";
 import { getPostsByLocale } from "@/models/post";
 import { locales } from "@/i18n/locale";
+import { INDEXABLE_MODEL_LANDING_PAGES } from "@/config/model-landing-pages";
 
 // 禁用 Vercel Edge 缓存，确保每次访问都重新查 Supabase 获取最新文章
 export const dynamic = "force-dynamic";
@@ -42,6 +43,12 @@ const STATIC_PAGE_SOURCE_FILES: Record<string, string> = {
   "/privacy-policy": "app/(legal)/privacy-policy/page.mdx",
   "/terms-of-service": "app/(legal)/terms-of-service/page.mdx",
   "/refund-policy": "app/(legal)/refund-policy/page.mdx",
+  ...Object.fromEntries(
+    INDEXABLE_MODEL_LANDING_PAGES.map((model) => [
+      `/${model}`,
+      `i18n/pages/model-landing/${model}/en.json`,
+    ])
+  ),
   // "/home" removed: blocked by robots.txt
 };
 
@@ -178,6 +185,11 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
         changeFrequency: "monthly",
         priority: 0.5,
       },
+      ...INDEXABLE_MODEL_LANDING_PAGES.map((model) => ({
+        path: `/${model}`,
+        changeFrequency: "weekly" as const,
+        priority: 0.8,
+      })),
     ];
 
     const staticPages = publicStaticPages.map((page) =>

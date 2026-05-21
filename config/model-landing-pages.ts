@@ -8,6 +8,10 @@
  */
 
 export const MODEL_LANDING_PAGES = [
+  'gemini-omni-api',
+  'gemini-omni-pricing',
+  'gemini-omni-free',
+  'gemini-omni-alternatives-vs-veo-3-1',
   'nano-banana',
   'nano-banana-pro',
   'wan-2-5',
@@ -27,9 +31,24 @@ export const MODEL_LANDING_PAGES = [
 
 export type ModelSlug = typeof MODEL_LANDING_PAGES[number];
 
+export const INDEXABLE_MODEL_LANDING_PAGES = [
+  'gemini-omni-api',
+  'gemini-omni-pricing',
+  'gemini-omni-free',
+  'gemini-omni-alternatives-vs-veo-3-1',
+] as const satisfies readonly ModelSlug[];
+
+export type IndexableModelSlug = typeof INDEXABLE_MODEL_LANDING_PAGES[number];
+
 /**
  * Check if a given slug is a valid model landing page
  */
 export function isValidModelSlug(slug: string): slug is ModelSlug {
   return MODEL_LANDING_PAGES.includes(slug as ModelSlug);
+}
+
+export function isIndexableModelSlug(
+  slug: string
+): slug is IndexableModelSlug {
+  return INDEXABLE_MODEL_LANDING_PAGES.includes(slug as IndexableModelSlug);
 }

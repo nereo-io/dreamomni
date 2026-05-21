@@ -8,17 +8,27 @@ import {
   SubscriptionWebhookResult,
   PaymentError,
 } from "./types";
-import { getAnyProductConfig, isBundle } from "@/config/products";
+import {
+  getAnyProductConfig,
+  getStripePriceId,
+  isBundle,
+} from "@/config/products";
+import { getTrimmedEnv } from "@/lib/env";
 
 export class StripeProvider extends BasePaymentProvider {
   name = "stripe";
 
   validateConfig(): boolean {
-    return !!(process.env.STRIPE_PRIVATE_KEY && process.env.STRIPE_PUBLIC_KEY);
+    return !!getTrimmedEnv("STRIPE_PRIVATE_KEY");
   }
 
   private getStripe(): Stripe {
-    return new Stripe(process.env.STRIPE_PRIVATE_KEY!);
+    return new Stripe(getTrimmedEnv("STRIPE_PRIVATE_KEY")!);
+  }
+
+  private buildSuccessUrl(returnUrl: string): string {
+    const separator = returnUrl.includes("?") ? "&" : "?";
+    return `${returnUrl}${separator}payment=success&session_id={CHECKOUT_SESSION_ID}`;
   }
 
   async createMandate(request: MandateRequest): Promise<MandateResponse> {
@@ -43,6 +53,7 @@ export class StripeProvider extends BasePaymentProvider {
 
       const isOneTime = isBundle(productId);
       const stripe = this.getStripe();
+      const stripePriceId = getStripePriceId(productId);
 
       const sessionMetadata: Record<string, string> = {
         user_uuid: request.userUuid,
@@ -68,10 +79,16 @@ export class StripeProvider extends BasePaymentProvider {
 
       const sessionParams: Stripe.Checkout.SessionCreateParams = {
         mode: isOneTime ? "payment" : "subscription",
-        line_items: [{ price_data: priceData, quantity: 1 }],
-        success_url: `${request.returnUrl}?payment=success`,
+        line_items: [
+          stripePriceId
+            ? { price: stripePriceId, quantity: 1 }
+            : { price_data: priceData, quantity: 1 },
+        ],
+        success_url: this.buildSuccessUrl(request.returnUrl),
         cancel_url: request.returnUrl,
+        client_reference_id: request.reference,
         customer_email: request.userEmail,
+        allow_promotion_codes: true,
         metadata: sessionMetadata,
       };
 

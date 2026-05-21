@@ -126,7 +126,7 @@ export function getProductConfig(productId: string): ProductConfig | undefined {
  */
 export function getProviderProductId(
   productId: string,
-  provider: "creem",
+  provider: "creem" | "stripe",
 ): string | undefined {
   const config = getAnyProductConfig(productId);
   if (!config) return undefined;
@@ -135,7 +135,26 @@ export function getProviderProductId(
     return config.creem_product_id;
   }
 
+  if (provider === "stripe") {
+    return getStripePriceId(productId);
+  }
+
   return undefined;
+}
+
+/**
+ * Stripe Price IDs are environment-specific, so keep them out of source.
+ * Example: mini-monthly -> STRIPE_PRICE_MINI_MONTHLY
+ */
+export function getStripePriceEnvName(productId: string): string {
+  const suffix = productId.toUpperCase().replace(/[^A-Z0-9]+/g, "_");
+  return `STRIPE_PRICE_${suffix}`;
+}
+
+export function getStripePriceId(productId: string): string | undefined {
+  const envName = getStripePriceEnvName(productId);
+  const priceId = process.env[envName]?.trim();
+  return priceId || undefined;
 }
 
 /**

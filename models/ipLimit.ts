@@ -1,12 +1,15 @@
 import { getSupabaseClient } from "./db";
 
 export interface IPLimit {
-  id: number;
+  id: number | string;
   ip_address: string;
   registration_count: number;
-  first_registration: string;
-  last_registration: string;
-  is_blocked: boolean;
+  first_registration?: string;
+  last_registration?: string;
+  first_registration_at?: string;
+  last_registration_at?: string;
+  is_blocked?: boolean;
+  blocked_until?: string | null;
   created_at: string;
 }
 
@@ -51,6 +54,7 @@ export async function upsertIPRegistrationCount(ip: string): Promise<void> {
       .update({
         registration_count: existingRecord.registration_count + 1,
         last_registration: new Date().toISOString(),
+        last_registration_at: new Date().toISOString(),
       })
       .eq("ip_address", ip);
 
@@ -65,6 +69,8 @@ export async function upsertIPRegistrationCount(ip: string): Promise<void> {
       registration_count: 1,
       first_registration: now,
       last_registration: now,
+      first_registration_at: now,
+      last_registration_at: now,
       is_blocked: false,
     });
 
@@ -89,8 +95,12 @@ export async function countIPRegistrationsSince(
     return 0; // IP没有注册记录
   }
 
-  const firstRegistration = new Date(ipRecord.first_registration);
-  const lastRegistration = new Date(ipRecord.last_registration);
+  const firstRegistration = new Date(
+    ipRecord.first_registration || ipRecord.first_registration_at || ipRecord.created_at
+  );
+  const lastRegistration = new Date(
+    ipRecord.last_registration || ipRecord.last_registration_at || ipRecord.created_at
+  );
 
   // 情况1：最后注册早于查询时间 → 确定返回0
   if (lastRegistration < since) {

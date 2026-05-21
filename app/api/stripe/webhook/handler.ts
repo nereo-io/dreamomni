@@ -1,11 +1,12 @@
 import Stripe from "stripe";
 import { respOk } from "@/lib/resp";
 import { handleInvoicePayment, handleOrderSession } from "@/services/order";
+import { getTrimmedEnv } from "@/lib/env";
 
 export async function handleStripeWebhook(req: Request) {
   try {
-    const stripePrivateKey = process.env.STRIPE_PRIVATE_KEY;
-    const stripeWebhookSecret = process.env.STRIPE_WEBHOOK_SECRET;
+    const stripePrivateKey = getTrimmedEnv("STRIPE_PRIVATE_KEY");
+    const stripeWebhookSecret = getTrimmedEnv("STRIPE_WEBHOOK_SECRET");
 
     if (!stripePrivateKey || !stripeWebhookSecret) {
       throw new Error("invalid stripe config");

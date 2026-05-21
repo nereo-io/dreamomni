@@ -2,6 +2,7 @@ import { User } from "@/types/user";
 import { getIsoTimestr } from "@/lib/time";
 import { getSupabaseClient } from "./db";
 import Stripe from "stripe";
+import { getTrimmedEnv } from "@/lib/env";
 import type { AttributionSnapshot } from "@/types/attribution";
 
 export async function insertUser(user: User) {
@@ -93,7 +94,7 @@ export async function getStripeCustomerId(
 
   try {
     // 使用 Stripe Session ID 获取 Customer ID
-    const stripe = new Stripe(process.env.STRIPE_PRIVATE_KEY || "");
+    const stripe = new Stripe(getTrimmedEnv("STRIPE_PRIVATE_KEY") || "");
     const session = await stripe.checkout.sessions.retrieve(
       order.stripe_session_id
     );

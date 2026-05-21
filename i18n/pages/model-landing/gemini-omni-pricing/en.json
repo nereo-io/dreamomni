@@ -1,0 +1,368 @@
+{
+  "banner": {
+    "title": "Gemini Omni Pricing and Credits",
+    "description": "Understand how GeminiOmni pricing works: free signup credits for trying the product, paid subscription tiers for recurring creation, and credit packs for teams that need extra AI video or image generation capacity.",
+    "tabs": [
+      {
+        "type": "text",
+        "title": "Create Before You Scale",
+        "subTitle": "Prompt",
+        "value": "text-to-video",
+        "modelName": "GeminiOmni",
+        "modelLogo": "/logo.png",
+        "placeholder": "Describe a short video you want to generate before choosing a larger credit plan...",
+        "buttonText": "Create Video"
+      },
+      {
+        "type": "image",
+        "title": "Image to Video",
+        "subTitle": "Image",
+        "value": "image-to-video",
+        "modelName": "GeminiOmni",
+        "modelLogo": "/logo.png",
+        "placeholder": "Upload an image to estimate whether this workflow fits your project",
+        "tips": "Upload JPG, PNG, WEBP, or GIF images up to 20MB.",
+        "buttonText": "Create Video"
+      }
+    ]
+  },
+  "breadcrumb": {
+    "items": [
+      {
+        "label": "Home",
+        "href": "/"
+      },
+      {
+        "label": "Gemini Omni Pricing"
+      }
+    ]
+  },
+  "features": {
+    "title": "How GeminiOmni Pricing Works",
+    "details": [
+      {
+        "title": "Start Free, Then Scale with Credits",
+        "description": "GeminiOmni uses a credit-based model so different generation workflows can have different costs. New users can start with free credits, then move to subscriptions or credit bundles when they need more output, higher volume, or repeated campaign work.",
+        "type": "table",
+        "data": {
+          "headers": [
+            {
+              "title": "Option"
+            },
+            {
+              "title": "Best For"
+            },
+            {
+              "title": "Typical Use"
+            }
+          ],
+          "rows": [
+            {
+              "cells": [
+                {
+                  "type": "text",
+                  "content": "Free starting credits"
+                },
+                {
+                  "type": "text",
+                  "content": "Testing the product"
+                },
+                {
+                  "type": "text",
+                  "content": "Try a few prompts and compare text-to-video vs image-to-video"
+                }
+              ]
+            },
+            {
+              "cells": [
+                {
+                  "type": "text",
+                  "content": "Monthly subscription"
+                },
+                {
+                  "type": "text",
+                  "content": "Regular creators"
+                },
+                {
+                  "type": "text",
+                  "content": "A predictable credit allowance each billing cycle"
+                }
+              ]
+            },
+            {
+              "cells": [
+                {
+                  "type": "text",
+                  "content": "Credit packs"
+                },
+                {
+                  "type": "text",
+                  "content": "Project bursts"
+                },
+                {
+                  "type": "text",
+                  "content": "Extra credits for launches, content batches, and client work"
+                }
+              ]
+            }
+          ]
+        }
+      },
+      {
+        "title": "Current Subscription Ladder in This Product",
+        "description": "The active product configuration includes Mini, Standard, Plus, and Max subscription tiers. The exact checkout price and availability can vary by payment provider and region, so use the live pricing modal as the final source before purchase.",
+        "type": "table",
+        "data": {
+          "headers": [
+            {
+              "title": "Tier"
+            },
+            {
+              "title": "Monthly Credits"
+            },
+            {
+              "title": "Who It Fits"
+            }
+          ],
+          "rows": [
+            {
+              "cells": [
+                {
+                  "type": "text",
+                  "content": "Mini"
+                },
+                {
+                  "type": "text",
+                  "content": "200 credits"
+                },
+                {
+                  "type": "text",
+                  "content": "Occasional testing and small creative batches"
+                }
+              ]
+            },
+            {
+              "cells": [
+                {
+                  "type": "text",
+                  "content": "Standard"
+                },
+                {
+                  "type": "text",
+                  "content": "1,000 credits"
+                },
+                {
+                  "type": "text",
+                  "content": "Steady content production and creator workflows"
+                }
+              ]
+            },
+            {
+              "cells": [
+                {
+                  "type": "text",
+                  "content": "Plus"
+                },
+                {
+                  "type": "text",
+                  "content": "3,000 credits"
+                },
+                {
+                  "type": "text",
+                  "content": "Frequent campaigns and multi-format iteration"
+                }
+              ]
+            },
+            {
+              "cells": [
+                {
+                  "type": "text",
+                  "content": "Max"
+                },
+                {
+                  "type": "text",
+                  "content": "12,000 credits"
+                },
+                {
+                  "type": "text",
+                  "content": "High-volume teams and launch windows"
+                }
+              ]
+            }
+          ]
+        }
+      },
+      {
+        "title": "Budgeting for AI Video Generation",
+        "description": "AI video costs more than text or static image generation because each clip requires many frames, motion coherence, and often audio or reference processing. Budget by finished clips, not only by prompts, because revisions and failed creative directions are part of real production.",
+        "type": "table",
+        "data": {
+          "headers": [
+            {
+              "title": "Budget Lever"
+            },
+            {
+              "title": "How to Control It"
+            }
+          ],
+          "rows": [
+            {
+              "cells": [
+                {
+                  "type": "text",
+                  "content": "Prompt clarity"
+                },
+                {
+                  "type": "text",
+                  "content": "Describe subject, motion, camera, style, duration, and negative constraints up front"
+                }
+              ]
+            },
+            {
+              "cells": [
+                {
+                  "type": "text",
+                  "content": "Reference assets"
+                },
+                {
+                  "type": "text",
+                  "content": "Use images to reduce ambiguity when identity or product appearance matters"
+                }
+              ]
+            },
+            {
+              "cells": [
+                {
+                  "type": "text",
+                  "content": "Iteration policy"
+                },
+                {
+                  "type": "text",
+                  "content": "Set a cap per concept before generating many variants"
+                }
+              ]
+            }
+          ]
+        }
+      }
+    ]
+  },
+  "usageGuide": {
+    "title": "How to Choose a GeminiOmni Plan",
+    "description": "Match plan size to how often you create, how many variants you need, and whether you are experimenting or producing finished assets.",
+    "steps": [
+      {
+        "number": "01",
+        "title": "Use the free credits first",
+        "description": "Test the core workflows and note how many credits your preferred generation type uses."
+      },
+      {
+        "number": "02",
+        "title": "Estimate monthly output",
+        "description": "Count expected finished clips, draft variants, and prompt revisions rather than only final downloads."
+      },
+      {
+        "number": "03",
+        "title": "Pick subscription or pack",
+        "description": "Choose a recurring plan for steady work, or a one-time credit pack for a short production burst."
+      }
+    ],
+    "buttonText": "Compare Pricing"
+  },
+  "comparison": {
+    "title": "Free, Subscription, and Credit Pack Comparison",
+    "featureLabel": "Criteria",
+    "models": [
+      "Free Start",
+      "Subscription",
+      "Credit Pack"
+    ],
+    "features": [
+      {
+        "name": "Best for testing",
+        "values": [
+          true,
+          true,
+          false
+        ]
+      },
+      {
+        "name": "Best for recurring work",
+        "values": [
+          false,
+          true,
+          false
+        ]
+      },
+      {
+        "name": "Best for one-time campaigns",
+        "values": [
+          false,
+          false,
+          true
+        ]
+      },
+      {
+        "name": "Budget style",
+        "values": [
+          "Trial credits",
+          "Monthly or yearly",
+          "One-time purchase"
+        ]
+      }
+    ]
+  },
+  "relatedModels": {
+    "title": "Plan Your Gemini Omni Workflow",
+    "buttonText": "Open",
+    "models": [
+      {
+        "name": "Gemini Omni Free Access",
+        "slug": "gemini-omni-free",
+        "description": "Start with free credits and understand limits.",
+        "logo": "/logo.png"
+      },
+      {
+        "name": "Gemini Omni API Access",
+        "slug": "gemini-omni-api",
+        "description": "Decide when API automation is worth it.",
+        "logo": "/logo.png"
+      },
+      {
+        "name": "Text to Video",
+        "slug": "text-to-video",
+        "description": "Create videos from written prompts.",
+        "logo": "/logo.png"
+      }
+    ]
+  },
+  "faq": {
+    "name": "faq",
+    "label": "FAQ",
+    "title": "Gemini Omni Pricing Questions",
+    "description": "Answers about credits, plans, and budgeting.",
+    "items": [
+      {
+        "title": "Is GeminiOmni free?",
+        "description": "GeminiOmni offers a free starting path with signup credits. Larger or repeated generation workloads require paid credits or a subscription."
+      },
+      {
+        "title": "What are credits?",
+        "description": "Credits are the unit GeminiOmni uses to pay for AI generation workflows. Different models and settings can require different credit amounts."
+      },
+      {
+        "title": "Which plan should I choose?",
+        "description": "Start free, estimate your monthly generation volume, then choose a subscription for recurring work or a credit pack for a one-time campaign."
+      },
+      {
+        "title": "Is this the same as Google API pricing?",
+        "description": "No. GeminiOmni pricing is product credit pricing. Official Google Gemini API or Vertex AI video pricing is separate and may be billed per second."
+      }
+    ]
+  },
+  "cta": {
+    "title": "Start Free, Then Choose the Right Credit Path",
+    "description": "Try the generator first so your plan decision is grounded in real output.",
+    "buttonText": "Create a Video"
+  }
+}

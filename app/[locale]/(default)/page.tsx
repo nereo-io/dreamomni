@@ -16,7 +16,10 @@ import {
 import AuthRedirect from "@/components/auth/auth-redirect";
 import StructuredData from "@/components/seo/structured-data";
 import { Button } from "@/components/ui/button";
-import { getGeminiOmniLandingCopy } from "@/config/geminiomni-landing";
+import {
+  getGeminiOmniIntentLinks,
+  getGeminiOmniLandingCopy,
+} from "@/config/geminiomni-landing";
 import { defaultLocale, locales } from "@/i18n/locale";
 
 export const revalidate = 3600;
@@ -59,6 +62,7 @@ export default async function LandingPage({
   const textToVideoHref = getLocalizedPath(locale, "/text-to-video");
   const imageToVideoHref = getLocalizedPath(locale, "/image-to-video");
   const copy = getGeminiOmniLandingCopy(locale);
+  const intentLinks = getGeminiOmniIntentLinks(locale);
 
   return (
     <>
@@ -152,6 +156,30 @@ export default async function LandingPage({
             <p className="text-base leading-8 text-slate-300">
               {copy.model.description}
             </p>
+          </div>
+        </section>
+
+        <section className="px-5 pb-20 sm:px-8">
+          <div className="mx-auto max-w-7xl">
+            <div className="grid gap-3 md:grid-cols-2 xl:grid-cols-4">
+              {intentLinks.map((item) => (
+                <Link
+                  key={item.href}
+                  href={getLocalizedPath(locale, item.href)}
+                  className="group rounded-md border border-cyan-200/20 bg-cyan-200/[0.06] p-5 transition hover:border-cyan-200/45 hover:bg-cyan-200/[0.1]"
+                >
+                  <div className="flex items-start justify-between gap-4">
+                    <h3 className="text-base font-semibold text-white">
+                      {item.title}
+                    </h3>
+                    <ArrowRight className="mt-0.5 h-4 w-4 shrink-0 text-cyan-200 transition group-hover:translate-x-0.5" />
+                  </div>
+                  <p className="mt-3 text-sm leading-6 text-slate-300">
+                    {item.description}
+                  </p>
+                </Link>
+              ))}
+            </div>
           </div>
         </section>
 

@@ -1,6 +1,7 @@
 import { execSync } from 'child_process';
 import { existsSync } from 'node:fs';
 import sitemap from '@/app/sitemap';
+import { INDEXABLE_MODEL_LANDING_PAGES } from '@/config/model-landing-pages';
 import { locales } from '@/i18n/locale';
 import { getPostsByLocale } from '@/models/post';
 
@@ -42,7 +43,8 @@ describe('sitemap', () => {
     mockExistsSync.mockReturnValue(false);
 
     const entries = await sitemap();
-    const expectedStaticPageCount = 10 * locales.length;
+    const expectedStaticPageCount =
+      (10 + INDEXABLE_MODEL_LANDING_PAGES.length) * locales.length;
 
     expect(mockExecSync).not.toHaveBeenCalled();
     expect(entries).toHaveLength(expectedStaticPageCount);
