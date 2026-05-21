@@ -38,7 +38,7 @@ describe('video model availability', () => {
         providerModelId: 'gemini-omni-video',
         supportedDurations: [4, 6, 8, 10],
         supportedAspectRatios: ['16:9', '9:16'],
-        supportedResolutions: ['720p'],
+        supportedResolutions: ['720p', '1080p', '4k'],
         internal: true,
       })
     );
@@ -46,7 +46,7 @@ describe('video model availability', () => {
       expect.objectContaining({
         provider: VideoModelProvider.KIEAI,
         providerModelId: 'gemini-omni-video',
-        supportedResolutions: ['720p'],
+        supportedResolutions: ['720p', '1080p', '4k'],
         internal: true,
       })
     );

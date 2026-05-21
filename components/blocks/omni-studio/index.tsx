@@ -6,11 +6,8 @@ import {
   ImageIcon,
   Film,
   Link2,
-  Music,
   Play,
-  Plus,
   Trash2,
-  UserRound,
   Upload,
 } from "lucide-react";
 import { toast } from "sonner";
@@ -19,6 +16,7 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { CaptchaModal } from "@/components/ui/captcha-modal";
 import VideoHistory from "@/components/blocks/video-history";
+import { CreditsCostSection } from "@/components/blocks/common/CreditsCostSection";
 import useCredits from "@/hooks/useCredits";
 import useVideoGeneration, {
   type VideoGenerationParams,
@@ -38,7 +36,11 @@ interface OmniMediaItem {
 const TEXT_MODEL_ID = "kie-gemini-omni-video-text-to-video";
 const REFERENCE_MODEL_ID = "kie-gemini-omni-video-image-to-video";
 const MAX_UNITS = 7;
-const MAX_CHARACTERS = 3;
+const RESOLUTION_OPTIONS = [
+  { value: "720p", label: "720p" },
+  { value: "1080p", label: "1080p" },
+  { value: "4k", label: "4K" },
+];
 
 function getKindFromUrl(url: string): OmniMediaKind {
   const pathname = url.split("?")[0].toLowerCase();
@@ -65,13 +67,9 @@ export function OmniStudio() {
   const [prompt, setPrompt] = useState("");
   const [mediaItems, setMediaItems] = useState<OmniMediaItem[]>([]);
   const [externalUrl, setExternalUrl] = useState("");
-  const [audioId, setAudioId] = useState("");
-  const [characterInput, setCharacterInput] = useState("");
-  const [characterIds, setCharacterIds] = useState<string[]>([]);
   const [duration, setDuration] = useState("8");
   const [aspectRatio, setAspectRatio] = useState("16:9");
   const [resolution, setResolution] = useState("720p");
-  const [seed, setSeed] = useState("");
   const [videoStart, setVideoStart] = useState("0");
   const [videoEnd, setVideoEnd] = useState("");
   const [isUploading, setIsUploading] = useState(false);
@@ -89,10 +87,8 @@ export function OmniStudio() {
     () => mediaItems.filter((item) => item.kind === "video"),
     [mediaItems]
   );
-  const usedUnits =
-    imageItems.length + videoItems.length * 2 + characterIds.length;
-  const hasReferenceInput =
-    imageItems.length > 0 || videoItems.length > 0 || characterIds.length > 0;
+  const usedUnits = imageItems.length + videoItems.length * 2;
+  const hasReferenceInput = imageItems.length > 0 || videoItems.length > 0;
   const selectedModel = hasReferenceInput ? REFERENCE_MODEL_ID : TEXT_MODEL_ID;
   const estimatedCredits = calculateCredits(
     selectedModel,
@@ -129,7 +125,6 @@ export function OmniStudio() {
         const nextUnits =
           current.filter((media) => media.kind === "image").length +
           current.filter((media) => media.kind === "video").length * 2 +
-          characterIds.length +
           (item.kind === "video" ? 2 : 1);
 
         if (nextUnits > MAX_UNITS) {
@@ -140,7 +135,7 @@ export function OmniStudio() {
         return [...current, item];
       });
     },
-    [characterIds.length]
+    []
   );
 
   const handleFileUpload = useCallback(
@@ -206,33 +201,10 @@ export function OmniStudio() {
     setExternalUrl("");
   };
 
-  const handleAddCharacter = () => {
-    const nextId = characterInput.trim();
-    if (!nextId) {
-      return;
-    }
-    if (characterIds.includes(nextId)) {
-      setCharacterInput("");
-      return;
-    }
-    if (characterIds.length >= MAX_CHARACTERS) {
-      toast.error("Gemini Omni supports up to 3 character IDs.");
-      return;
-    }
-    if (usedUnits + 1 > MAX_UNITS) {
-      toast.error("Reference limit exceeded. Gemini Omni allows 7 units.");
-      return;
-    }
-    setCharacterIds((current) => [...current, nextId]);
-    setCharacterInput("");
-  };
-
   const removeMedia = (index: number) => {
-    setMediaItems((current) => current.filter((_, itemIndex) => itemIndex !== index));
-  };
-
-  const removeCharacter = (id: string) => {
-    setCharacterIds((current) => current.filter((characterId) => characterId !== id));
+    setMediaItems((current) =>
+      current.filter((_, itemIndex) => itemIndex !== index)
+    );
   };
 
   const buildParams = (): VideoGenerationParams => {
@@ -240,8 +212,6 @@ export function OmniStudio() {
     const parsedEnd = Number.parseFloat(videoEnd);
     const imageUrls = imageItems.map((item) => item.url);
     const sourceVideo = videoItems[0];
-    const characterRefs = characterIds.filter(Boolean);
-    const audioRefs = audioId.trim() ? [audioId.trim()] : undefined;
 
     return {
       model: selectedModel,
@@ -249,7 +219,7 @@ export function OmniStudio() {
       duration,
       aspect_ratio: aspectRatio,
       resolution,
-      generate_audio: !!audioRefs,
+      generate_audio: false,
       enable_prompt_enhancement: false,
       image_url: imageUrls[0],
       image_urls: imageUrls.length > 0 ? imageUrls : undefined,
@@ -265,9 +235,6 @@ export function OmniStudio() {
             },
           ]
         : undefined,
-      audio_ids: audioRefs,
-      character_ids: characterRefs.length > 0 ? characterRefs : undefined,
-      seed: seed.trim() ? Number.parseInt(seed.trim(), 10) : undefined,
     };
   };
 
@@ -326,276 +293,215 @@ export function OmniStudio() {
 
   return (
     <div className="mb-8 flex w-full flex-col gap-3 lg:h-[calc(100vh-120px)] lg:flex-row">
-      <section className="flex w-full flex-shrink-0 flex-col rounded-xl bg-gray-900 shadow-lg lg:h-[calc(100vh-90px)] lg:max-h-[calc(100vh-90px)] lg:w-[520px] lg:overflow-hidden">
-        <div className="border-b border-gray-800 px-5 py-4">
-          <h1 className="text-xl font-semibold text-white">Omni Studio</h1>
-          <p className="mt-1 text-sm leading-6 text-gray-400">
-            Text, images, source video, audio IDs, and character IDs in one Gemini Omni request.
-          </p>
-        </div>
-
-        <div className="flex-1 space-y-5 overflow-y-auto px-5 py-5 lg:dark-scrollbar">
-          <div>
-            <label className="mb-2 block text-sm font-medium text-gray-300">
-              Prompt
-            </label>
-            <Textarea
-              value={prompt}
-              onChange={(event) => setPrompt(event.target.value)}
-              placeholder="Describe the scene, edits, timing, camera movement, and what each reference should control."
-              className="min-h-[160px] resize-none border-gray-700 bg-gray-800 text-gray-100 placeholder:text-gray-500"
-              maxLength={2000}
-              disabled={isGenerating}
-            />
-            <div className="mt-1 text-right text-xs text-gray-500">
-              {promptLength}/2000
+      <section className="video-generator-container flex w-full flex-shrink-0 flex-col rounded-xl bg-gray-900 shadow-lg lg:h-[calc(100vh-90px)] lg:max-h-[calc(100vh-90px)] lg:w-[520px] lg:overflow-hidden">
+        <div className="lg:flex-1 lg:overflow-y-auto lg:dark-scrollbar">
+          <div className="space-y-4 px-4 py-4 md:space-y-5 md:px-6 md:py-5">
+            <div className="border-b border-gray-700 pb-3">
+              <h1 className="text-xl font-semibold text-white">
+                Omni Studio
+              </h1>
             </div>
-          </div>
 
-          <div className="rounded-lg border border-gray-800 bg-gray-950/50 p-4">
-            <div className="mb-3 flex items-center justify-between gap-3">
-              <div className="flex items-center gap-2 text-sm font-medium text-gray-200">
-                <SparkUnitIcon />
-                References
+            <div>
+              <div className="mb-4 flex flex-wrap items-center justify-between gap-x-4 gap-y-2">
+                <div className="text-lg font-semibold text-white">Prompt</div>
+                <div className="text-xs text-gray-500">
+                  {promptLength}/2000
+                </div>
               </div>
+              <Textarea
+                value={prompt}
+                onChange={(event) => setPrompt(event.target.value)}
+                placeholder="Describe the scene, edits, timing, camera movement, and what each reference should control."
+                className="mt-0 min-h-[150px] resize-none overflow-y-auto border-gray-600 bg-gray-800 text-gray-100 placeholder:text-gray-400"
+                maxLength={2000}
+                disabled={isGenerating}
+              />
+            </div>
+
+          <div>
+            <div className="mb-4 flex items-center justify-between gap-3">
+              <div className="text-lg font-semibold text-white">References</div>
               <span className="text-xs text-gray-500">
                 {usedUnits}/{MAX_UNITS} units
               </span>
             </div>
 
-            <div className="grid gap-2 sm:grid-cols-[1fr_auto]">
-              <Input
-                value={externalUrl}
-                onChange={(event) => setExternalUrl(event.target.value)}
-                placeholder="Paste public image or video URL"
-                className="border-gray-700 bg-gray-800 text-gray-100 placeholder:text-gray-500"
-                disabled={isGenerating || !canAddMedia}
-              />
-              <Button
-                type="button"
-                variant="secondary"
-                onClick={handleAddExternalUrl}
-                disabled={isGenerating || !canAddMedia}
-                className="min-h-[40px]"
-              >
-                <Link2 className="mr-2 h-4 w-4" />
-                Add URL
-              </Button>
-            </div>
-
-            <button
-              type="button"
-              onClick={() => fileInputRef.current?.click()}
-              disabled={isGenerating || isUploading || !canAddMedia}
-              className="mt-3 flex min-h-[78px] w-full items-center justify-center gap-3 rounded-lg border border-dashed border-gray-700 bg-gray-900/70 px-4 py-4 text-left transition-colors hover:border-gray-500 disabled:cursor-not-allowed disabled:opacity-60"
-            >
-              <Upload className="h-5 w-5 text-gray-400" />
-              <span className="text-sm text-gray-300">
-                {isUploading ? "Uploading..." : "Upload images or one source video"}
-              </span>
-            </button>
-            <input
-              ref={fileInputRef}
-              type="file"
-              accept="image/jpeg,image/jpg,image/png,image/webp,video/mp4,video/quicktime"
-              multiple
-              onChange={handleFileChange}
-              className="hidden"
-            />
-
-            {mediaItems.length > 0 && (
-              <div className="mt-3 grid grid-cols-2 gap-2">
-                {mediaItems.map((item, index) => (
-                  <div
-                    key={`${item.url}-${index}`}
-                    className="group relative overflow-hidden rounded-lg border border-gray-800 bg-gray-900"
-                  >
-                    {item.kind === "image" ? (
-                      <img
-                        src={item.url}
-                        alt={item.name}
-                        className="h-24 w-full object-cover"
-                      />
-                    ) : (
-                      <div className="flex h-24 flex-col items-center justify-center gap-2 text-gray-300">
-                        <Film className="h-6 w-6 text-blue-300" />
-                        <span className="max-w-full truncate px-3 text-xs">
-                          {item.name}
-                        </span>
-                      </div>
-                    )}
-                    <div className="absolute bottom-0 left-0 right-0 flex items-center justify-between bg-black/70 px-2 py-1">
-                      <span className="flex items-center gap-1 text-xs text-gray-200">
-                        {item.kind === "image" ? (
-                          <ImageIcon className="h-3 w-3" />
-                        ) : (
-                          <Film className="h-3 w-3" />
-                        )}
-                        {item.kind === "image" ? "1 unit" : "2 units"}
-                      </span>
-                      <button
-                        type="button"
-                        onClick={() => removeMedia(index)}
-                        className="rounded p-0.5 text-gray-400 transition-colors hover:bg-white/10 hover:text-white"
-                        aria-label="Remove reference"
-                      >
-                        <Trash2 className="h-3.5 w-3.5" />
-                      </button>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            )}
-
-            {videoItems.length > 0 && (
-              <div className="mt-3 grid gap-2 sm:grid-cols-2">
-                <label className="text-xs text-gray-400">
-                  Video start
-                  <Input
-                    value={videoStart}
-                    onChange={(event) => setVideoStart(event.target.value)}
-                    className="mt-1 border-gray-700 bg-gray-800 text-gray-100"
-                    inputMode="decimal"
-                  />
-                </label>
-                <label className="text-xs text-gray-400">
-                  Video end
-                  <Input
-                    value={videoEnd}
-                    onChange={(event) => setVideoEnd(event.target.value)}
-                    placeholder={duration}
-                    className="mt-1 border-gray-700 bg-gray-800 text-gray-100"
-                    inputMode="decimal"
-                  />
-                </label>
-              </div>
-            )}
-          </div>
-
-          <div className="grid gap-3 sm:grid-cols-2">
-            <label className="text-sm font-medium text-gray-300">
-              Duration
-              <select
-                value={duration}
-                onChange={(event) => setDuration(event.target.value)}
-                className="mt-2 h-10 w-full rounded-md border border-gray-700 bg-gray-800 px-3 text-sm text-gray-100"
-              >
-                {["4", "6", "8", "10"].map((value) => (
-                  <option key={value} value={value}>
-                    {value}s
-                  </option>
-                ))}
-              </select>
-            </label>
-            <label className="text-sm font-medium text-gray-300">
-              Aspect ratio
-              <select
-                value={aspectRatio}
-                onChange={(event) => setAspectRatio(event.target.value)}
-                className="mt-2 h-10 w-full rounded-md border border-gray-700 bg-gray-800 px-3 text-sm text-gray-100"
-              >
-                <option value="16:9">16:9</option>
-                <option value="9:16">9:16</option>
-              </select>
-            </label>
-            <label className="text-sm font-medium text-gray-300">
-              Resolution
-              <select
-                value={resolution}
-                onChange={(event) => setResolution(event.target.value)}
-                className="mt-2 h-10 w-full rounded-md border border-gray-700 bg-gray-800 px-3 text-sm text-gray-100"
-              >
-                <option value="720p">720p</option>
-              </select>
-            </label>
-            <label className="text-sm font-medium text-gray-300">
-              Seed
-              <Input
-                value={seed}
-                onChange={(event) => setSeed(event.target.value)}
-                placeholder="Optional"
-                className="mt-2 border-gray-700 bg-gray-800 text-gray-100 placeholder:text-gray-500"
-                inputMode="numeric"
-              />
-            </label>
-          </div>
-
-          <div className="grid gap-3">
-            <label className="text-sm font-medium text-gray-300">
-              Audio ID
-              <div className="mt-2 flex items-center gap-2">
-                <Music className="h-4 w-4 text-gray-500" />
+            <div className="rounded-lg border border-gray-800 bg-gray-950/50 p-4">
+              <div className="grid gap-2 sm:grid-cols-[1fr_auto]">
                 <Input
-                  value={audioId}
-                  onChange={(event) => setAudioId(event.target.value)}
-                  placeholder="audio_..."
+                  value={externalUrl}
+                  onChange={(event) => setExternalUrl(event.target.value)}
+                  placeholder="Paste public image or video URL"
                   className="border-gray-700 bg-gray-800 text-gray-100 placeholder:text-gray-500"
-                />
-              </div>
-            </label>
-
-            <div>
-              <label className="text-sm font-medium text-gray-300">
-                Character IDs
-              </label>
-              <div className="mt-2 grid gap-2 sm:grid-cols-[1fr_auto]">
-                <Input
-                  value={characterInput}
-                  onChange={(event) => setCharacterInput(event.target.value)}
-                  placeholder="character_..."
-                  className="border-gray-700 bg-gray-800 text-gray-100 placeholder:text-gray-500"
-                  onKeyDown={(event) => {
-                    if (event.key === "Enter") {
-                      event.preventDefault();
-                      handleAddCharacter();
-                    }
-                  }}
+                  disabled={isGenerating || !canAddMedia}
                 />
                 <Button
                   type="button"
                   variant="secondary"
-                  onClick={handleAddCharacter}
-                  disabled={characterIds.length >= MAX_CHARACTERS}
+                  onClick={handleAddExternalUrl}
+                  disabled={isGenerating || !canAddMedia}
+                  className="min-h-[40px]"
                 >
-                  <Plus className="mr-2 h-4 w-4" />
-                  Add
+                  <Link2 className="mr-2 h-4 w-4" />
+                  Add URL
                 </Button>
               </div>
-              {characterIds.length > 0 && (
-                <div className="mt-2 flex flex-wrap gap-2">
-                  {characterIds.map((id) => (
-                    <button
-                      key={id}
-                      type="button"
-                      onClick={() => removeCharacter(id)}
-                      className="inline-flex items-center gap-1 rounded-md border border-gray-700 bg-gray-800 px-2 py-1 text-xs text-gray-200 hover:border-gray-500"
+
+              <button
+                type="button"
+                onClick={() => fileInputRef.current?.click()}
+                disabled={isGenerating || isUploading || !canAddMedia}
+                className="mt-3 flex min-h-[78px] w-full items-center justify-center gap-3 rounded-lg border border-dashed border-gray-700 bg-gray-900/70 px-4 py-4 text-left transition-colors hover:border-gray-500 disabled:cursor-not-allowed disabled:opacity-60"
+              >
+                <Upload className="h-5 w-5 text-gray-400" />
+                <span className="text-sm text-gray-300">
+                  {isUploading
+                    ? "Uploading..."
+                    : "Upload images or one source video"}
+                </span>
+              </button>
+              <input
+                ref={fileInputRef}
+                type="file"
+                accept="image/jpeg,image/jpg,image/png,image/webp,video/mp4,video/quicktime"
+                multiple
+                onChange={handleFileChange}
+                className="hidden"
+              />
+
+              {mediaItems.length > 0 && (
+                <div className="mt-3 grid grid-cols-2 gap-2">
+                  {mediaItems.map((item, index) => (
+                    <div
+                      key={`${item.url}-${index}`}
+                      className="group relative overflow-hidden rounded-lg border border-gray-800 bg-gray-900"
                     >
-                      <UserRound className="h-3 w-3" />
-                      {id}
-                      <Trash2 className="h-3 w-3 text-gray-500" />
-                    </button>
+                      {item.kind === "image" ? (
+                        <img
+                          src={item.url}
+                          alt={item.name}
+                          className="h-24 w-full object-cover"
+                        />
+                      ) : (
+                        <div className="flex h-24 flex-col items-center justify-center gap-2 text-gray-300">
+                          <Film className="h-6 w-6 text-blue-300" />
+                          <span className="max-w-full truncate px-3 text-xs">
+                            {item.name}
+                          </span>
+                        </div>
+                      )}
+                      <div className="absolute bottom-0 left-0 right-0 flex items-center justify-between bg-black/70 px-2 py-1">
+                        <span className="flex items-center gap-1 text-xs text-gray-200">
+                          {item.kind === "image" ? (
+                            <ImageIcon className="h-3 w-3" />
+                          ) : (
+                            <Film className="h-3 w-3" />
+                          )}
+                          {item.kind === "image" ? "1 unit" : "2 units"}
+                        </span>
+                        <button
+                          type="button"
+                          onClick={() => removeMedia(index)}
+                          className="rounded p-0.5 text-gray-400 transition-colors hover:bg-white/10 hover:text-white"
+                          aria-label="Remove reference"
+                        >
+                          <Trash2 className="h-3.5 w-3.5" />
+                        </button>
+                      </div>
+                    </div>
                   ))}
+                </div>
+              )}
+
+              {videoItems.length > 0 && (
+                <div className="mt-3 grid gap-2 sm:grid-cols-2">
+                  <label className="text-xs text-gray-400">
+                    Video start
+                    <Input
+                      value={videoStart}
+                      onChange={(event) => setVideoStart(event.target.value)}
+                      className="mt-1 border-gray-700 bg-gray-800 text-gray-100"
+                      inputMode="decimal"
+                    />
+                  </label>
+                  <label className="text-xs text-gray-400">
+                    Video end
+                    <Input
+                      value={videoEnd}
+                      onChange={(event) => setVideoEnd(event.target.value)}
+                      placeholder={duration}
+                      className="mt-1 border-gray-700 bg-gray-800 text-gray-100"
+                      inputMode="decimal"
+                    />
+                  </label>
                 </div>
               )}
             </div>
           </div>
+
+          <div>
+            <div className="mb-4 text-lg font-semibold text-white">
+              Settings
+            </div>
+
+            <RadioOptionGroup
+              label="Ratio"
+              name="omni-aspect-ratio"
+              value={aspectRatio}
+              options={[
+                { value: "16:9", label: "16:9" },
+                { value: "9:16", label: "9:16" },
+              ]}
+              onChange={setAspectRatio}
+              disabled={isGenerating}
+            />
+
+            <RadioOptionGroup
+              label="Duration"
+              name="omni-duration"
+              value={duration}
+              options={["4", "6", "8", "10"].map((value) => ({
+                value,
+                label: `${value}s`,
+              }))}
+              onChange={setDuration}
+              disabled={isGenerating}
+            />
+
+            <RadioOptionGroup
+              label="Resolution"
+              name="omni-resolution"
+              value={resolution}
+              options={RESOLUTION_OPTIONS}
+              onChange={setResolution}
+              disabled={isGenerating}
+            />
+          </div>
+        </div>
         </div>
 
         <div className="border-t border-gray-800 bg-gray-900/95 p-5">
-          <div className="mb-3 flex items-center justify-between text-sm">
-            <span className="text-gray-400">Cost</span>
-            <button
-              type="button"
-              onClick={() => setShowPricingModal(true)}
-              className="text-gray-100 hover:text-primary"
-            >
-              {estimatedCredits} credits
-            </button>
-          </div>
+          <CreditsCostSection
+            leftCredits={leftCredits}
+            estimatedCost={estimatedCredits}
+            onShowPricing={() => setShowPricingModal(true)}
+            labels={{
+              credits: "Credits",
+              cost: "Cost",
+              recharge: "Recharge",
+            }}
+            className="mb-4 border border-gray-800 bg-gray-800/80"
+          />
           <Button
             type="button"
             onClick={handleSubmit}
-            disabled={isGenerating || isUploading || !prompt.trim()}
+            disabled={
+              isGenerating ||
+              isUploading ||
+              !prompt.trim() ||
+              (leftCredits !== null && leftCredits < estimatedCredits)
+            }
             className="min-h-[44px] w-full"
           >
             <Play className="mr-2 h-4 w-4" />
@@ -624,10 +530,56 @@ export function OmniStudio() {
   );
 }
 
-function SparkUnitIcon() {
+function RadioOptionGroup({
+  label,
+  name,
+  value,
+  options,
+  onChange,
+  disabled,
+}: {
+  label: string;
+  name: string;
+  value: string;
+  options: Array<{ value: string; label: string }>;
+  onChange: (value: string) => void;
+  disabled?: boolean;
+}) {
   return (
-    <span className="inline-flex h-6 w-6 items-center justify-center rounded-md bg-primary/15 text-primary">
-      <Plus className="h-3.5 w-3.5" />
-    </span>
+    <div className="mb-4">
+      <label className="mb-2 block text-sm text-gray-300">{label}</label>
+      <div className="flex flex-wrap gap-3 sm:gap-6">
+        {options.map((option) => {
+          const selected = value === option.value;
+
+          return (
+            <label
+              key={option.value}
+              className="flex min-w-0 cursor-pointer items-center text-sm text-gray-300"
+            >
+              <input
+                type="radio"
+                name={name}
+                value={option.value}
+                checked={selected}
+                disabled={disabled}
+                onChange={(event) => onChange(event.target.value)}
+                className="sr-only"
+              />
+              <span
+                className={`mr-2 flex h-4 w-4 flex-shrink-0 rounded-full border-2 ${
+                  selected ? "border-primary bg-primary" : "border-gray-500"
+                }`}
+              >
+                {selected && (
+                  <span className="m-0.5 h-2 w-2 rounded-full bg-white" />
+                )}
+              </span>
+              <span>{option.label}</span>
+            </label>
+          );
+        })}
+      </div>
+    </div>
   );
 }

@@ -540,13 +540,13 @@ export const VIDEO_MODELS: Record<string, VideoModelConfig> = {
     sortOrder: 140,
     perSecondCredits: 2,
     description: "Gemini Omni Video generation via Kie.ai",
-    features: ["Wait 180s", "Audio", "720p Beta"],
+    features: ["Wait 180s", "Audio", "4K Beta"],
     maxDuration: 10,
     supportedAspectRatios: ["16:9", "9:16"],
     supportsAudio: true,
     estimatedGenerationTime: 180,
     supportedDurations: [4, 6, 8, 10],
-    supportedResolutions: ["720p"],
+    supportedResolutions: ["720p", "1080p", "4k"],
     useSignedCallback: true,
     internal: true,
   },
@@ -563,13 +563,13 @@ export const VIDEO_MODELS: Record<string, VideoModelConfig> = {
     sortOrder: 140,
     perSecondCredits: 2,
     description: "Gemini Omni Video generation from image references via Kie.ai",
-    features: ["Wait 180s", "Audio", "720p Beta"],
+    features: ["Wait 180s", "Audio", "4K Beta"],
     maxDuration: 10,
     supportedAspectRatios: ["16:9", "9:16"],
     supportsAudio: true,
     estimatedGenerationTime: 180,
     supportedDurations: [4, 6, 8, 10],
-    supportedResolutions: ["720p"],
+    supportedResolutions: ["720p", "1080p", "4k"],
     imageCapabilities: {
       maxImages: 7,
       minImages: 1,
@@ -1301,6 +1301,12 @@ export function calculateCredits(
   // 1080p: 8 credits/s
   if (isKieAiWanModel(modelId) && normalizedResolution === "1080p") {
     totalCredits = totalCredits * 8 / 5;
+  }
+
+  // Kie.ai Gemini Omni Video: 720p/1080p share the base per-second price;
+  // 4K is exposed as the higher quality tier.
+  if (isKieAiGeminiOmniModel(modelId) && normalizedResolution === "4k") {
+    totalCredits *= 2;
   }
 
   // Veo3 模型支持音频，需要额外费用
