@@ -1,5 +1,6 @@
 import {
   getVideoModel,
+  calculateCredits,
   getImageToVideoModels,
   getSupportedModelIds,
   getTextToVideoModels,
@@ -59,5 +60,11 @@ describe('video model availability', () => {
         'kie-gemini-omni-video-image-to-video',
       ])
     );
+  });
+
+  it('prices Gemini Omni resolutions with storage-aware multipliers', () => {
+    expect(calculateCredits('kie-gemini-omni-video-text-to-video', 8, false, '720p')).toBe(16);
+    expect(calculateCredits('kie-gemini-omni-video-text-to-video', 8, false, '1080p')).toBe(24);
+    expect(calculateCredits('kie-gemini-omni-video-text-to-video', 8, false, '4k')).toBe(32);
   });
 });

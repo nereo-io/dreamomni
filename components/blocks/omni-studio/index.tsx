@@ -6,6 +6,7 @@ import {
   ImageIcon,
   Film,
   Link2,
+  Music,
   Play,
   Trash2,
   Upload,
@@ -36,6 +37,7 @@ interface OmniMediaItem {
 const TEXT_MODEL_ID = "kie-gemini-omni-video-text-to-video";
 const REFERENCE_MODEL_ID = "kie-gemini-omni-video-image-to-video";
 const MAX_UNITS = 7;
+const MAX_AUDIO_IDS = 1;
 const RESOLUTION_OPTIONS = [
   { value: "720p", label: "720p" },
   { value: "1080p", label: "1080p" },
@@ -67,6 +69,8 @@ export function OmniStudio() {
   const [prompt, setPrompt] = useState("");
   const [mediaItems, setMediaItems] = useState<OmniMediaItem[]>([]);
   const [externalUrl, setExternalUrl] = useState("");
+  const [audioIdInput, setAudioIdInput] = useState("");
+  const [audioIds, setAudioIds] = useState<string[]>([]);
   const [duration, setDuration] = useState("8");
   const [aspectRatio, setAspectRatio] = useState("16:9");
   const [resolution, setResolution] = useState("720p");
@@ -201,10 +205,31 @@ export function OmniStudio() {
     setExternalUrl("");
   };
 
+  const handleAddAudioId = () => {
+    const nextAudioId = audioIdInput.trim();
+    if (!nextAudioId) {
+      return;
+    }
+    if (audioIds.includes(nextAudioId)) {
+      setAudioIdInput("");
+      return;
+    }
+    if (audioIds.length >= MAX_AUDIO_IDS) {
+      toast.error("Gemini Omni supports one audio reference ID per request.");
+      return;
+    }
+    setAudioIds((current) => [...current, nextAudioId]);
+    setAudioIdInput("");
+  };
+
   const removeMedia = (index: number) => {
     setMediaItems((current) =>
       current.filter((_, itemIndex) => itemIndex !== index)
     );
+  };
+
+  const removeAudioId = (id: string) => {
+    setAudioIds((current) => current.filter((audioId) => audioId !== id));
   };
 
   const buildParams = (): VideoGenerationParams => {
@@ -219,11 +244,12 @@ export function OmniStudio() {
       duration,
       aspect_ratio: aspectRatio,
       resolution,
-      generate_audio: false,
+      generate_audio: audioIds.length > 0,
       enable_prompt_enhancement: false,
       image_url: imageUrls[0],
       image_urls: imageUrls.length > 0 ? imageUrls : undefined,
       media_urls: mediaItems.map((item) => item.url),
+      audio_ids: audioIds.length > 0 ? audioIds : undefined,
       video_list: sourceVideo
         ? [
             {
@@ -347,6 +373,49 @@ export function OmniStudio() {
                   Add URL
                 </Button>
               </div>
+
+              <div className="mt-3 grid gap-2 sm:grid-cols-[1fr_auto]">
+                <Input
+                  value={audioIdInput}
+                  onChange={(event) => setAudioIdInput(event.target.value)}
+                  placeholder="Paste KIE audio ID"
+                  className="border-gray-700 bg-gray-800 text-gray-100 placeholder:text-gray-500"
+                  disabled={isGenerating || audioIds.length >= MAX_AUDIO_IDS}
+                  onKeyDown={(event) => {
+                    if (event.key === "Enter") {
+                      event.preventDefault();
+                      handleAddAudioId();
+                    }
+                  }}
+                />
+                <Button
+                  type="button"
+                  variant="secondary"
+                  onClick={handleAddAudioId}
+                  disabled={isGenerating || audioIds.length >= MAX_AUDIO_IDS}
+                  className="min-h-[40px]"
+                >
+                  <Music className="mr-2 h-4 w-4" />
+                  Add Audio
+                </Button>
+              </div>
+
+              {audioIds.length > 0 && (
+                <div className="mt-3 flex flex-wrap gap-2">
+                  {audioIds.map((id) => (
+                    <button
+                      key={id}
+                      type="button"
+                      onClick={() => removeAudioId(id)}
+                      className="inline-flex max-w-full items-center gap-1.5 rounded-md border border-gray-700 bg-gray-800 px-2 py-1 text-xs text-gray-200 transition-colors hover:border-gray-500"
+                    >
+                      <Music className="h-3.5 w-3.5 flex-shrink-0 text-green-400" />
+                      <span className="truncate">{id}</span>
+                      <Trash2 className="h-3.5 w-3.5 flex-shrink-0 text-gray-500" />
+                    </button>
+                  ))}
+                </div>
+              )}
 
               <button
                 type="button"

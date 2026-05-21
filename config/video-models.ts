@@ -1303,10 +1303,14 @@ export function calculateCredits(
     totalCredits = totalCredits * 8 / 5;
   }
 
-  // Kie.ai Gemini Omni Video: 720p/1080p share the base per-second price;
-  // 4K is exposed as the higher quality tier.
-  if (isKieAiGeminiOmniModel(modelId) && normalizedResolution === "4k") {
-    totalCredits *= 2;
+  // Kie.ai Gemini Omni Video: higher resolutions carry extra generation and
+  // storage cost. 720p is the base tier, 1080p is 1.5x, and 4K is 2x.
+  if (isKieAiGeminiOmniModel(modelId)) {
+    if (normalizedResolution === "1080p") {
+      totalCredits *= 1.5;
+    } else if (normalizedResolution === "4k") {
+      totalCredits *= 2;
+    }
   }
 
   // Veo3 模型支持音频，需要额外费用
