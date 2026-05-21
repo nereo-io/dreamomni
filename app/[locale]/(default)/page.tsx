@@ -3,7 +3,6 @@ import type React from 'react';
 import {
   ArrowRight,
   Camera,
-  Check,
   Download,
   Film,
   ImageIcon,
@@ -13,8 +12,8 @@ import {
   ShieldCheck,
   Sparkles,
   Wand2,
-  Zap,
 } from 'lucide-react';
+import Hero from '@/components/blocks/hero';
 import AuthRedirect from '@/components/auth/auth-redirect';
 import StructuredData from '@/components/seo/structured-data';
 import { Button } from '@/components/ui/button';
@@ -168,104 +167,24 @@ export default async function LandingPage({
   params: { locale: string };
 }) {
   const textToVideoHref = getLocalizedPath(locale, '/text-to-video');
-  const imageToVideoHref = getLocalizedPath(locale, '/image-to-video');
   const copy = getGeminiOmniLandingCopy(locale);
   const intentLinks = getGeminiOmniIntentLinks(locale);
   const relatedIntentLinks = intentLinks.filter(
     (item) => !item.href.includes('api')
   );
 
+  const heroData = {
+    name: 'hero',
+    title: copy.hero.title,
+    highlight_text: 'Gemini Omni',
+    description: copy.hero.description,
+  };
+
   return (
     <>
       <AuthRedirect preserveSearchParams />
-      <main className="min-h-screen bg-slate-950 text-white">
-        <section className="relative isolate overflow-hidden bg-[radial-gradient(circle_at_20%_18%,rgba(34,211,238,0.20),transparent_34%),linear-gradient(135deg,#f8fafc_0%,#eaf4ff_45%,#dbeafe_100%)] px-5 pb-16 pt-24 text-slate-950 sm:px-8">
-          <div className="mx-auto grid max-w-7xl gap-10 lg:grid-cols-[0.92fr_1.08fr] lg:items-center">
-            <div>
-              <div className="flex h-12 w-12 items-center justify-center rounded-lg bg-blue-600 text-white shadow-lg shadow-blue-500/20">
-                <Sparkles className="h-6 w-6" />
-              </div>
-              <h1 className="mt-6 text-4xl font-semibold leading-tight tracking-normal text-slate-950 sm:text-5xl lg:text-6xl">
-                {copy.hero.title}
-              </h1>
-              <p className="mt-6 max-w-3xl text-base leading-8 text-slate-700 sm:text-lg">
-                {copy.hero.description}
-              </p>
-              <div className="mt-8 flex flex-col gap-3 sm:flex-row">
-                <Button
-                  asChild
-                  size="lg"
-                  className="h-12 rounded-md bg-blue-600 px-6 text-white shadow-lg shadow-blue-500/20 hover:bg-blue-700"
-                >
-                  <Link href={textToVideoHref}>
-                    <Zap className="h-4 w-4" />
-                    {copy.hero.primaryCta}
-                  </Link>
-                </Button>
-                <Button
-                  asChild
-                  variant="outline"
-                  size="lg"
-                  className="h-12 rounded-md border-slate-300 bg-white/80 px-6 text-slate-900 hover:bg-white"
-                >
-                  <Link href={imageToVideoHref}>
-                    <ImageIcon className="h-4 w-4" />
-                    {copy.hero.secondaryCta}
-                  </Link>
-                </Button>
-              </div>
-              <div className="mt-8 grid gap-3 text-sm text-slate-700">
-                {copy.hero.highlights.map((item) => (
-                  <div key={item} className="flex items-center gap-3">
-                    <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-blue-600 text-white">
-                      <Check className="h-3.5 w-3.5" />
-                    </span>
-                    <span>{item}</span>
-                  </div>
-                ))}
-              </div>
-            </div>
-
-            <div className="rounded-md border border-slate-200 bg-white/80 p-4 shadow-2xl shadow-blue-200/40 backdrop-blur">
-              <div className="grid gap-3 sm:grid-cols-[1.15fr_0.85fr]">
-                <div className="overflow-hidden rounded-md bg-black">
-                  <video
-                    className="aspect-video h-full w-full object-cover"
-                    src={exampleVideos[0]}
-                    controls
-                    muted
-                    playsInline
-                    preload="metadata"
-                  />
-                </div>
-                <div className="grid gap-3">
-                  {copy.hero.preview.map(({ label, value }) => (
-                    <div
-                      key={label}
-                      className="rounded-md border border-slate-200 bg-white p-3 text-sm"
-                    >
-                      <div className="font-semibold text-blue-700">{label}</div>
-                      <div className="mt-1 leading-6 text-slate-600">{value}</div>
-                    </div>
-                  ))}
-                </div>
-              </div>
-              <div className="mt-4 flex flex-wrap gap-2 text-sm font-medium">
-                {['Text to Video', 'Image to Video', 'Prompt Editing', 'Creator Workflow'].map(
-                  (item) => (
-                    <span
-                      key={item}
-                      className="rounded-md border border-blue-200 bg-blue-50 px-3 py-1.5 text-blue-700"
-                    >
-                      {item}
-                    </span>
-                  )
-                )}
-              </div>
-            </div>
-          </div>
-        </section>
-
+      <Hero hero={heroData} />
+      <main className="bg-slate-950 text-white">
         <section className="bg-white px-5 py-16 text-slate-950 sm:px-8">
           <div className="mx-auto max-w-7xl">
             <div className="flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
