@@ -15,6 +15,7 @@ import {
 } from 'lucide-react';
 import HoverPlayVideo from '@/components/blocks/hover-play-video';
 import OmniVideoHero from '@/components/blocks/omni-video-hero';
+import CTA from '@/components/blocks/cta';
 import AuthRedirect from '@/components/auth/auth-redirect';
 import StructuredData from '@/components/seo/structured-data';
 import { Button } from '@/components/ui/button';
@@ -1091,6 +1092,7 @@ export default async function LandingPage({
   params: { locale: string };
 }) {
   const textToVideoHref = getLocalizedPath(locale, '/text-to-video');
+  const omniStudioHref = getLocalizedPath(locale, '/omni-studio');
   const copy = getGeminiOmniLandingCopy(locale);
   const homeCopy =
     homePageSectionCopy[locale] || homePageSectionCopy[defaultLocale];
@@ -1106,6 +1108,11 @@ export default async function LandingPage({
     ...item,
     src: productUseCaseSources[index],
   }));
+  const ctaSection = {
+    name: 'cta',
+    title: copy.workflow.title,
+    buttons: [{ title: 'Free Gemini Omni', url: omniStudioHref }],
+  };
 
   return (
     <>
@@ -1341,6 +1348,8 @@ export default async function LandingPage({
             </p>
           </div>
         </section>
+
+        <CTA section={ctaSection} />
       </main>
 
       <StructuredData type="faq" data={{ questions: copy.faq.items }} />
