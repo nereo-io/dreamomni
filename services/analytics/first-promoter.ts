@@ -37,7 +37,7 @@ export function trackFPRSignUp({ email, userId }: FPRSignUpPayload = {}) {
 
   fpr?.('referral', {
     email,
-    userId,
+    uid: userId,
   });
 }
 
