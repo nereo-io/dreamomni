@@ -22,6 +22,7 @@ import { useEmailAuth } from "@/hooks/useEmailAuth";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { useSearchParams } from "next/navigation";
 import { Turnstile } from "@marsidev/react-turnstile";
+import { getPostLoginRedirect } from "@/lib/auth-redirect";
 
 interface EmailFormData {
   email: string;
@@ -226,7 +227,9 @@ export default function SignForm({
                       variant="outline"
                       className="w-full"
                       onClick={() => {
-                        signIn("google");
+                        signIn("google", {
+                          callbackUrl: getPostLoginRedirect(callbackUrl),
+                        });
                       }}
                     >
                       <SiGoogle className="w-4 h-4" />
@@ -241,7 +244,9 @@ export default function SignForm({
                       variant="outline"
                       className="w-full"
                       onClick={() => {
-                        signIn("github");
+                        signIn("github", {
+                          callbackUrl: getPostLoginRedirect(callbackUrl),
+                        });
                       }}
                     >
                       <SiGithub className="w-4 h-4" />
@@ -253,7 +258,9 @@ export default function SignForm({
                       variant="outline"
                       className="w-full"
                       onClick={() => {
-                        signIn("apple");
+                        signIn("apple", {
+                          callbackUrl: getPostLoginRedirect(callbackUrl),
+                        });
                       }}
                     >
                       <SiApple className="w-4 h-4" />

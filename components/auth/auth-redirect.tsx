@@ -3,6 +3,7 @@
 import { useEffect } from "react";
 import { useSession } from "next-auth/react";
 import { useRouter, useSearchParams } from "next/navigation";
+import { DEFAULT_POST_LOGIN_REDIRECT } from "@/lib/auth-redirect";
 
 interface AuthRedirectProps {
   redirectTo?: string;
@@ -10,7 +11,7 @@ interface AuthRedirectProps {
 }
 
 export default function AuthRedirect({
-  redirectTo = "/image-to-video",
+  redirectTo = DEFAULT_POST_LOGIN_REDIRECT,
   preserveSearchParams = false,
 }: AuthRedirectProps) {
   const { data: session, status } = useSession();

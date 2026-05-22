@@ -5,6 +5,7 @@ import { signIn } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { useYandexTracking } from "@/hooks/useYandexTracking";
 import { trackUetEvent } from "@/lib/bing-uet";
+import { getPostLoginRedirect } from "@/lib/auth-redirect";
 
 interface SignupData {
   email: string;
@@ -59,7 +60,7 @@ export function useEmailAuth() {
       });
 
       if (authResult?.ok) {
-        router.push(callbackUrl || "/image-to-video");
+        router.push(getPostLoginRedirect(callbackUrl));
         return true;
       }
 

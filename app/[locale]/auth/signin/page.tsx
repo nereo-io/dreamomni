@@ -1,6 +1,7 @@
-import SignForm from "@/components/sign/form";
-import { auth } from "@/auth";
-import { redirect } from "next/navigation";
+import SignForm from '@/components/sign/form';
+import { auth } from '@/auth';
+import { getPostLoginRedirect } from '@/lib/auth-redirect';
+import { redirect } from 'next/navigation';
 
 export default async function SignInPage({
   searchParams,
@@ -9,7 +10,7 @@ export default async function SignInPage({
 }) {
   const session = await auth();
   if (session) {
-    return redirect(searchParams.callbackUrl || "/image-to-video");
+    return redirect(getPostLoginRedirect(searchParams.callbackUrl));
   }
 
   return (

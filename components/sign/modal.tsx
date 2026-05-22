@@ -34,6 +34,7 @@ import { useEmailAuth } from "@/hooks/useEmailAuth";
 import { useForm } from "react-hook-form";
 import { useState } from "react";
 import { Turnstile } from "@marsidev/react-turnstile";
+import { DEFAULT_POST_LOGIN_REDIRECT } from "@/lib/auth-redirect";
 
 export default function SignModal() {
   const t = useTranslations();
@@ -273,7 +274,11 @@ function ProfileForm({ className, mode, setMode, showEmailAuth, setShowEmailAuth
               <Button
                 variant="outline"
                 className="w-full flex items-center gap-2"
-                onClick={() => signIn("google")}
+                onClick={() =>
+                  signIn("google", {
+                    callbackUrl: DEFAULT_POST_LOGIN_REDIRECT,
+                  })
+                }
               >
                 <SiGoogle className="w-4 h-4" />
                 {t("sign_modal.google_sign_in")}
@@ -288,7 +293,11 @@ function ProfileForm({ className, mode, setMode, showEmailAuth, setShowEmailAuth
               <Button
                 variant="outline"
                 className="w-full flex items-center gap-2"
-                onClick={() => signIn("github")}
+                onClick={() =>
+                  signIn("github", {
+                    callbackUrl: DEFAULT_POST_LOGIN_REDIRECT,
+                  })
+                }
               >
                 <SiGithub className="w-4 h-4" />
                 {t("sign_modal.github_sign_in")}
@@ -299,7 +308,11 @@ function ProfileForm({ className, mode, setMode, showEmailAuth, setShowEmailAuth
               <Button
                 variant="outline"
                 className="w-full flex items-center gap-2"
-                onClick={() => signIn("apple")}
+                onClick={() =>
+                  signIn("apple", {
+                    callbackUrl: DEFAULT_POST_LOGIN_REDIRECT,
+                  })
+                }
               >
                 <SiApple className="w-4 h-4" />
                 {t("sign_modal.apple_sign_in")}

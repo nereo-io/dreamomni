@@ -8,6 +8,7 @@ import { signIn } from 'next-auth/react';
 import { useAppContext } from '@/contexts/app';
 import { useTranslations } from 'next-intl';
 import { SiVk } from 'react-icons/si';
+import { DEFAULT_POST_LOGIN_REDIRECT } from '@/lib/auth-redirect';
 
 // VK SDK类型声明
 declare global {
@@ -106,7 +107,7 @@ export function VKLoginButton() {
            if (result?.ok && !result?.error) {
              toast.success(t('login_successful'));
              setShowSignModal(false); // 关闭登录弹窗
-            //  router.push('/pricing');
+             router.push(DEFAULT_POST_LOGIN_REDIRECT);
              router.refresh();
            } else {
              console.error('[VK Login] NextAuth signIn failed:', result?.error);
@@ -156,7 +157,7 @@ export function VKLoginButton() {
               if (result?.ok && !result?.error) {
                 toast.success(t('login_successful'));
                 setShowSignModal(false); // 关闭登录弹窗
-                // router.push('/pricing');
+                router.push(DEFAULT_POST_LOGIN_REDIRECT);
                 router.refresh();
               } else {
                 console.error('[VK Login] NextAuth signIn failed (Auth.login path):', result?.error);
