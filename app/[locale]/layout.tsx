@@ -18,6 +18,7 @@ import YandexMetrica from "@/components/analytics/yandex-metrica";
 import BingUET from "@/components/analytics/bing-uet";
 import GoogleAnalytics from "@/components/analytics/google-analytics";
 import Plausible from "@/components/analytics/plausible";
+import TikTokPixel from "@/components/analytics/tiktok-pixel";
 import {
   prepareDreamOmniClientMessages,
   sanitizeDreamOmniString,
@@ -157,6 +158,7 @@ export default async function RootLayout({
         <GoogleAnalytics />
         <Plausible />
         <BingUET />
+        <TikTokPixel />
         <NextIntlClientProvider messages={clientMessages}>
           <NextAuthSessionProvider>
             <AppContextProvider>
