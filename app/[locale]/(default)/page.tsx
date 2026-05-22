@@ -13,7 +13,7 @@ import {
   Sparkles,
   Wand2,
 } from 'lucide-react';
-import Hero from '@/components/blocks/hero';
+import OmniVideoHero from '@/components/blocks/omni-video-hero';
 import AuthRedirect from '@/components/auth/auth-redirect';
 import StructuredData from '@/components/seo/structured-data';
 import { Button } from '@/components/ui/button';
@@ -1106,17 +1106,16 @@ export default async function LandingPage({
     src: productUseCaseSources[index],
   }));
 
-  const heroData = {
-    name: 'hero',
-    title: copy.hero.title,
-    highlight_text: 'Gemini Omni',
-    description: copy.hero.description,
-  };
-
   return (
     <>
       <AuthRedirect preserveSearchParams />
-      <Hero hero={heroData} />
+      <OmniVideoHero
+        title={copy.hero.title}
+        highlightText="Gemini Omni"
+        description={copy.hero.description}
+        videoSrc="https://r2.seedance.tv/intro/gemini%20omin/YTDown_YouTube_Introducing-Gemini-Omni-Create-Anything-_Media_KUyRq7szZsM_002_720p.mp4"
+        posterSrc="/imgs/intro/gemini-omni-hero-poster.jpg"
+      />
       <main className="bg-slate-950 text-white">
         <section className="bg-white px-5 py-16 text-slate-950 sm:px-8">
           <div className="mx-auto max-w-7xl">

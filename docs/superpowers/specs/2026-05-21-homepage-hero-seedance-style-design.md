@@ -46,3 +46,13 @@ geminiomni 首页(`app/[locale]/(default)/page.tsx`)顶部当前是浅色内联 
 2. **poster 格式**:`sips` 不支持 webp 输出,poster 改为 `gemini-omni-hero-poster.jpg`(1280×720,~127KB),`HERO_POSTER_SRC` 相应改用 `.jpg`。
 3. **深色遮罩(可读性修复)**:指定视频是 Google 官方介绍片,整体偏亮(大量白底/线描/vlog 画面),白色 hero 文字可读性差。在 `bg.tsx` 的 HeroBg 内、视频之上加了一层自上而下的深色渐变遮罩 `bg-gradient-to-b from-black/40 via-black/45 to-black/65`。seedance 原组件无此遮罩(其背景视频偏暗,白字本就清晰)。
 4. **待用户确认**:该介绍片内容较杂、调性偏生活化,与 "cinematic AI video" 的定位有差距。若不满意可更换为更暗/更具电影感的背景视频(只需改 `HERO_VIDEO_SRC` 并重抽 poster)。
+
+## v2 调整(改为卡片式视频 hero,2026-05-22)
+
+全屏背景视频版上线后,确认指定的 Google 介绍片偏亮且内容偏生活化,即便加遮罩,全屏背景观感仍不理想。用户决定改成 seedance `AIModelsHero` 式的**居中清晰视频卡片**(而非模糊全屏背景):
+
+- **新增** `components/blocks/omni-video-hero/index.tsx`(client 组件):深色 section(`bg-slate-950`)+ 标题(Gemini Omni 高亮,沿用 seedance Hero 的 `split + 渐变 span` 逻辑)+ 描述 + 两个 RainbowButton(Image/Text to Video)+ 16:9 圆角视频卡片(借用 `AIModelsHero` 的 `useInViewport` 进视口自动播放 + `controls`)。图标改用 lucide(`ImageIcon`/`Type`)避免依赖 Icon 组件的图标注册。
+- **`page.tsx`**:`<Hero hero={heroData}>` → `<OmniVideoHero .../>`,删除 `heroData`。
+- **`bg.tsx`**:首页不再用全屏背景 Hero 组件,`git checkout db76d2dc^` 还原为 seedance 原版。
+- 视频源仍用指定的 Gemini Omni 介绍片(卡片内清晰展示,不再压暗/裁切),poster 沿用抽帧太空帧。可选:换成 seedance `cover-video.mp4`(眼睛特写)做更纯粹的电影感卡片。
+- 注:`db76d2dc` 之后仓库新增 `305b7f7d`(首页 SEO 板块本地化,page.tsx 扩到 ~1407 行),本次改动基于该状态。

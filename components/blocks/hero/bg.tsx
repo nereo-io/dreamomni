@@ -4,9 +4,8 @@ import { useHasInteracted } from "@/hooks/useHasInteracted";
 import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
 
-const HERO_POSTER_SRC = "/imgs/intro/gemini-omni-hero-poster.jpg";
-const HERO_VIDEO_SRC =
-  "https://r2.seedance.tv/intro/gemini%20omin/YTDown_YouTube_Introducing-Gemini-Omni-Create-Anything-_Media_KUyRq7szZsM_002_720p.mp4";
+const HERO_POSTER_SRC = "/imgs/intro/veo-cover-202508-poster.webp";
+const HERO_VIDEO_SRC = "https://r2.seedance.tv/intro/seedance2-documentary.mp4";
 
 export default function HeroBg() {
   const hasInteracted = useHasInteracted();
@@ -112,7 +111,6 @@ export default function HeroBg() {
         ) : null}
         Your browser does not support video playback.
       </video>
-      <div className="absolute inset-0 bg-gradient-to-b from-black/40 via-black/45 to-black/65" />
     </div>
   );
 }
