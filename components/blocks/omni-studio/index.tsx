@@ -583,7 +583,7 @@ export function OmniStudio() {
         refreshTrigger={refreshTrigger}
         selectedModel={selectedModel}
         mode={hasReferenceInput ? "image-to-video" : "text-to-video"}
-        introVideoUrl="https://tempfile.aiquickdraw.com/v/80c8c19b439e9e11c99b79516605df37_1779335619.mp4"
+        introVideoUrl="https://r2.seedance.tv/intro/gemini%20omin/YTDown_YouTube_Introducing-Gemini-Omni-Create-Anything-_Media_KUyRq7szZsM_002_720p.mp4"
       />
 
       <CaptchaModal

@@ -3,7 +3,7 @@
 import { RainbowButton } from "@/components/ui/rainbow-button";
 import { useInViewport } from "@/hooks/useInViewport";
 import Link from "next/link";
-import { ImageIcon, Type } from "lucide-react";
+import { Sparkles } from "lucide-react";
 import { useEffect, useRef } from "react";
 
 interface OmniVideoHeroProps {
@@ -71,17 +71,11 @@ export default function OmniVideoHero({
           {description}
         </p>
 
-        <div className="mb-12 flex flex-col items-center justify-center gap-6 sm:flex-row">
-          <Link href="/image-to-video" className="inline-block">
+        <div className="mb-12 flex items-center justify-center">
+          <Link href="/omni-studio" className="inline-block">
             <RainbowButton>
-              <ImageIcon className="mr-2 h-5 w-5" />
-              Image to Video
-            </RainbowButton>
-          </Link>
-          <Link href="/text-to-video" className="inline-block">
-            <RainbowButton>
-              <Type className="mr-2 h-5 w-5" />
-              Text to Video
+              <Sparkles className="mr-2 h-5 w-5" />
+              Free Gemini Omni
             </RainbowButton>
           </Link>
         </div>
