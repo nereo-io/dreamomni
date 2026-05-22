@@ -2,6 +2,7 @@ import { existsSync } from 'node:fs';
 import { readFileSync } from 'node:fs';
 import path from 'node:path';
 import sitemap from '@/app/sitemap';
+import { buildDreamOmniFooter } from '@/config/dreamomni-footer';
 import { getPostsByLocale } from '@/models/post';
 
 jest.mock('@/models/post', () => ({
@@ -49,13 +50,13 @@ describe('affiliate route', () => {
     );
 
     expect(pageSource).toContain(
-      'Earn Up to 30% Commission with Seedance affiliate program'
+      'Earn Up to 30% Commission with DreamOmni affiliate program'
     );
     expect(pageSource).toContain(
       'Unlock the earning potential of your channel by promoting an innovative and powerful AI video generator!'
     );
     expect(pageSource).toContain('Sign Up Now');
-    expect(pageSource).toContain('https://seedance.firstpromoter.com/');
+    expect(pageSource).toContain('https://dreamomni.firstpromoter.com');
     expect(pageSource).toContain(
       'target="_blank" rel="noopener noreferrer"'
     );
@@ -66,7 +67,9 @@ describe('affiliate route', () => {
     expect(pageSource).toContain('flex flex-col items-center');
     expect(pageSource).toContain('fixed inset-0 -z-10');
     expect(pageSource).toContain('pb-20 pt-20');
-    expect(pageSource).not.toContain('Seedance AI Partner Program');
+    expect(pageSource).not.toContain('Seedance');
+    expect(pageSource).not.toContain('seedance');
+    expect(pageSource).not.toContain('DreamOmni Partner Program');
     expect(pageSource).not.toContain('/og-image.png');
     expect(pageSource).not.toContain('md:grid-cols-[1.05fr_0.95fr]');
   });
@@ -194,6 +197,29 @@ describe('affiliate route', () => {
           changeFrequency: 'monthly',
           priority: 0.6,
         }),
+      ])
+    );
+  });
+
+  it('includes affiliate in the generated footer resources section', () => {
+    const footer = buildDreamOmniFooter(
+      {
+        name: 'footer',
+        brand: { title: 'DreamOmni' },
+        nav: { items: [] },
+      },
+      'en'
+    );
+    const resourcesSection = footer.nav?.items?.find((item) =>
+      item.children?.some((child) => child.url === '/blog')
+    );
+
+    expect(resourcesSection?.children).toEqual(
+      expect.arrayContaining([
+        {
+          title: 'Affiliate Program',
+          url: '/affiliate',
+        },
       ])
     );
   });

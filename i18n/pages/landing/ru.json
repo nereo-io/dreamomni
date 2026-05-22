@@ -396,6 +396,11 @@
               "target": "_self"
             },
             {
+              "title": "Affiliate Program",
+              "url": "/affiliate",
+              "target": "_self"
+            },
+            {
               "title": "Блог",
               "url": "/blog",
               "target": "_self"

@@ -25,7 +25,6 @@ import {
 
 import { Header as HeaderType } from "@/types/blocks/header";
 import Icon from "@/components/icon";
-import InviteButton from "@/components/invite/invite-button";
 import Link from "next/link";
 import LocaleToggle from "@/components/locale/toggle";
 import { Menu } from "lucide-react";
@@ -158,7 +157,6 @@ export default function Header({ header }: { header: HeaderType }) {
             <div className="shrink-0 flex gap-3 items-center">
             {header.show_locale && <LocaleToggle />}
             {header.show_theme && <ThemeToggle />}
-            <InviteButton />
 
             {header.buttons?.map((item, i) => {
               const isLastButton = i === (header.buttons?.length || 0) - 1;
@@ -297,8 +295,6 @@ export default function Header({ header }: { header: HeaderType }) {
                 <div className="flex-1"></div>
                 <div className="border-t pt-4">
                   <div className="mt-2 flex flex-col gap-3">
-                    <InviteButton />
-                    
                     {header.buttons?.map((item, i) => {
                       const isLastButton = i === (header.buttons?.length || 0) - 1;
                       return (
