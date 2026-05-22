@@ -22,7 +22,9 @@ export default async function DefaultLayout({
 
   return (
     <>
-      {page.header && <Header header={buildDreamOmniHeader(page.header)} />}
+      {page.header && (
+        <Header header={buildDreamOmniHeader(page.header, locale)} />
+      )}
       <main className="overflow-x-hidden">{children}</main>
       {page.footer && <Footer footer={page.footer} />}
     </>

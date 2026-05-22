@@ -10,7 +10,12 @@ const geminiOmniLogo = {
 
 const isVideoEffectsLink = (url?: string) => url === '/video-effects';
 
-export function buildDreamOmniHeader(header: Header): Header {
+const isVideoNavChild = (url?: string) =>
+  url === '/image-to-video' || url === '/text-to-video';
+
+export function buildDreamOmniHeader(header: Header, locale = defaultLocale): Header {
+  const copy = getFooterCopy(locale);
+
   return {
     ...header,
     brand: header.brand
@@ -26,12 +31,36 @@ export function buildDreamOmniHeader(header: Header): Header {
           ...header.nav,
           items: header.nav.items
             ?.filter((item) => !isVideoEffectsLink(item.url))
-            .map((item) => ({
-              ...item,
-              children: item.children?.filter(
+            .map((item) => {
+              const children = item.children?.filter(
                 (child) => !isVideoEffectsLink(child.url)
-              ),
-            })),
+              );
+
+              const isVideoGroup = children?.some((child) =>
+                isVideoNavChild(child.url)
+              );
+
+              if (!isVideoGroup) {
+                return { ...item, children };
+              }
+
+              return {
+                ...item,
+                children: [
+                  {
+                    title: copy.omniStudio,
+                    description: copy.omniStudioDesc,
+                    url: '/omni-studio',
+                  },
+                  ...(children ?? []),
+                  {
+                    title: copy.referenceToVideo,
+                    description: copy.referenceToVideoDesc,
+                    url: '/reference-to-video',
+                  },
+                ],
+              };
+            }),
         }
       : header.nav,
   };
@@ -48,6 +77,9 @@ const footerCopy = {
     textToVideo: 'Text to Video',
     imageToVideo: 'Image to Video',
     referenceToVideo: 'Reference to Video',
+    referenceToVideoDesc: 'Generate videos from reference subjects',
+    omniStudio: 'Omni Studio',
+    omniStudioDesc: 'Compose multi-modal AI videos with the Gemini Omni model',
     textToImage: 'Text to Image',
     imageToImage: 'Image to Image',
     aiVideoGenerator: 'AI Video Generator',
@@ -64,6 +96,9 @@ const footerCopy = {
     textToVideo: '文字转视频',
     imageToVideo: '图片转视频',
     referenceToVideo: '参考视频生成',
+    referenceToVideoDesc: '从参考主体生成视频',
+    omniStudio: 'Omni Studio',
+    omniStudioDesc: '用 Gemini Omni 模型创作多模态 AI 视频',
     textToImage: '文字转图像',
     imageToImage: '图像转图像',
     aiVideoGenerator: 'AI 视频生成器',
@@ -80,6 +115,9 @@ const footerCopy = {
     textToVideo: 'テキストから動画',
     imageToVideo: '画像から動画',
     referenceToVideo: '参照から動画',
+    referenceToVideoDesc: '参照素材から動画を生成',
+    omniStudio: 'Omni Studio',
+    omniStudioDesc: 'Gemini Omni モデルでマルチモーダル AI 動画を作成',
     textToImage: 'テキストから画像',
     imageToImage: '画像から画像',
     aiVideoGenerator: 'AI 動画生成ツール',
@@ -96,6 +134,9 @@ const footerCopy = {
     textToVideo: '텍스트로 비디오 만들기',
     imageToVideo: '이미지로 비디오 만들기',
     referenceToVideo: '참조로 비디오 만들기',
+    referenceToVideoDesc: '참조 소재로 비디오 생성',
+    omniStudio: 'Omni Studio',
+    omniStudioDesc: 'Gemini Omni 모델로 멀티모달 AI 비디오 제작',
     textToImage: '텍스트로 이미지 만들기',
     imageToImage: '이미지로 이미지 만들기',
     aiVideoGenerator: 'AI 비디오 생성기',
@@ -112,6 +153,9 @@ const footerCopy = {
     textToVideo: 'Text zu Video',
     imageToVideo: 'Bild zu Video',
     referenceToVideo: 'Referenz zu Video',
+    referenceToVideoDesc: 'Videos aus Referenzmotiven generieren',
+    omniStudio: 'Omni Studio',
+    omniStudioDesc: 'Erstelle multimodale KI-Videos mit dem Gemini-Omni-Modell',
     textToImage: 'Text zu Bild',
     imageToImage: 'Bild zu Bild',
     aiVideoGenerator: 'KI-Videogenerator',
@@ -128,6 +172,9 @@ const footerCopy = {
     textToVideo: 'Texte vers vidéo',
     imageToVideo: 'Image vers vidéo',
     referenceToVideo: 'Référence vers vidéo',
+    referenceToVideoDesc: 'Générez des vidéos à partir de références',
+    omniStudio: 'Omni Studio',
+    omniStudioDesc: 'Composez des vidéos IA multimodales avec le modèle Gemini Omni',
     textToImage: 'Texte vers image',
     imageToImage: 'Image vers image',
     aiVideoGenerator: 'Générateur vidéo IA',
@@ -144,6 +191,9 @@ const footerCopy = {
     textToVideo: 'Texto a video',
     imageToVideo: 'Imagen a video',
     referenceToVideo: 'Referencia a video',
+    referenceToVideoDesc: 'Genera videos a partir de referencias',
+    omniStudio: 'Omni Studio',
+    omniStudioDesc: 'Crea videos IA multimodales con el modelo Gemini Omni',
     textToImage: 'Texto a imagen',
     imageToImage: 'Imagen a imagen',
     aiVideoGenerator: 'Generador de video IA',
@@ -160,6 +210,9 @@ const footerCopy = {
     textToVideo: 'Texto para vídeo',
     imageToVideo: 'Imagem para vídeo',
     referenceToVideo: 'Referência para vídeo',
+    referenceToVideoDesc: 'Gere vídeos a partir de referências',
+    omniStudio: 'Omni Studio',
+    omniStudioDesc: 'Crie vídeos IA multimodais com o modelo Gemini Omni',
     textToImage: 'Texto para imagem',
     imageToImage: 'Imagem para imagem',
     aiVideoGenerator: 'Gerador de vídeo IA',
@@ -176,6 +229,9 @@ const footerCopy = {
     textToVideo: 'Текст в видео',
     imageToVideo: 'Изображение в видео',
     referenceToVideo: 'Референс в видео',
+    referenceToVideoDesc: 'Генерация видео по референсам',
+    omniStudio: 'Omni Studio',
+    omniStudioDesc: 'Создавайте мультимодальные ИИ-видео с моделью Gemini Omni',
     textToImage: 'Текст в изображение',
     imageToImage: 'Изображение в изображение',
     aiVideoGenerator: 'ИИ-видеогенератор',
@@ -209,6 +265,7 @@ export function buildDreamOmniFooter(footer: Footer, locale = defaultLocale): Fo
         {
           title: copy.videoTools,
           children: [
+            { title: copy.omniStudio, url: '/omni-studio' },
             { title: copy.textToVideo, url: '/text-to-video' },
             { title: copy.imageToVideo, url: '/image-to-video' },
             { title: copy.referenceToVideo, url: '/reference-to-video' },
