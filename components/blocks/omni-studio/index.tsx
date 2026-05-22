@@ -2,15 +2,13 @@
 
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import type React from "react";
+import { ImageIcon, Film, Info, Play, Trash2, Upload, X } from "lucide-react";
 import {
-  ImageIcon,
-  Film,
-  Link2,
-  Music,
-  Play,
-  Trash2,
-  Upload,
-} from "lucide-react";
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -29,35 +27,48 @@ import { uploadMediaToR2 } from "@/lib/upload-utils";
 type OmniMediaKind = "image" | "video";
 
 interface OmniMediaItem {
+  id: string;
   url: string;
   kind: OmniMediaKind;
   name: string;
+  uploading?: boolean;
 }
 
 const TEXT_MODEL_ID = "kie-gemini-omni-video-text-to-video";
 const REFERENCE_MODEL_ID = "kie-gemini-omni-video-image-to-video";
 const MAX_UNITS = 7;
-const MAX_AUDIO_IDS = 1;
+const MAX_PROMPT = 5000;
 const RESOLUTION_OPTIONS = [
   { value: "720p", label: "720p" },
   { value: "1080p", label: "1080p" },
   { value: "4k", label: "4K" },
 ];
 
-function getKindFromUrl(url: string): OmniMediaKind {
-  const pathname = url.split("?")[0].toLowerCase();
-  if (
-    pathname.endsWith(".mp4") ||
-    pathname.endsWith(".mov") ||
-    pathname.endsWith(".webm")
-  ) {
-    return "video";
-  }
-  return "image";
-}
+// KIE Gemini Omni accepts jpeg/png/webp/jpg images (<=10MB each).
+const ACCEPTED_IMAGE_TYPES = [
+  "image/jpeg",
+  "image/jpg",
+  "image/png",
+  "image/webp",
+];
+const ACCEPTED_VIDEO_TYPES = ["video/mp4", "video/quicktime", "video/webm"];
+const MAX_IMAGE_BYTES = 10 * 1024 * 1024; // 10MB, per KIE docs
+// KIE docs don't state a video size cap; pick a conservative limit (adjust if KIE rejects).
+const MAX_VIDEO_BYTES = 100 * 1024 * 1024; // 100MB (assumption)
 
-function isSupportedFile(file: File) {
-  return file.type.startsWith("image/") || file.type.startsWith("video/");
+function validateFile(file: File): string | null {
+  const isImage = ACCEPTED_IMAGE_TYPES.includes(file.type);
+  const isVideo = ACCEPTED_VIDEO_TYPES.includes(file.type);
+  if (!isImage && !isVideo) {
+    return `${file.name}: unsupported file type. Use JPEG/PNG/WebP images or MP4/MOV/WebM video.`;
+  }
+  if (isImage && file.size > MAX_IMAGE_BYTES) {
+    return `${file.name}: image exceeds the 10MB limit.`;
+  }
+  if (isVideo && file.size > MAX_VIDEO_BYTES) {
+    return `${file.name}: video exceeds the 100MB limit.`;
+  }
+  return null;
 }
 
 export function OmniStudio() {
@@ -68,14 +79,12 @@ export function OmniStudio() {
 
   const [prompt, setPrompt] = useState("");
   const [mediaItems, setMediaItems] = useState<OmniMediaItem[]>([]);
-  const [externalUrl, setExternalUrl] = useState("");
-  const [audioIdInput, setAudioIdInput] = useState("");
-  const [audioIds, setAudioIds] = useState<string[]>([]);
   const [duration, setDuration] = useState("8");
   const [aspectRatio, setAspectRatio] = useState("16:9");
   const [resolution, setResolution] = useState("720p");
   const [videoStart, setVideoStart] = useState("0");
   const [videoEnd, setVideoEnd] = useState("");
+  const [showReferencesHint, setShowReferencesHint] = useState(true);
   const [isUploading, setIsUploading] = useState(false);
   const [isGenerating, setIsGenerating] = useState(false);
   const [showCaptchaModal, setShowCaptchaModal] = useState(false);
@@ -93,10 +102,24 @@ export function OmniStudio() {
   );
   const usedUnits = imageItems.length + videoItems.length * 2;
   const hasReferenceInput = imageItems.length > 0 || videoItems.length > 0;
+  const hasVideo = videoItems.length > 0;
   const selectedModel = hasReferenceInput ? REFERENCE_MODEL_ID : TEXT_MODEL_ID;
+  // With a source video, output duration is decided by the model (the duration
+  // selector does not take effect), so estimate billing from the trim range instead.
+  const billedDuration = useMemo(() => {
+    if (!hasVideo) {
+      return Number.parseInt(duration, 10);
+    }
+    const start = Number.parseFloat(videoStart);
+    const end = Number.parseFloat(videoEnd);
+    const range =
+      (Number.isFinite(end) ? end : Number.parseInt(duration, 10)) -
+      (Number.isFinite(start) ? start : 0);
+    return Math.max(1, Math.round(range));
+  }, [hasVideo, duration, videoStart, videoEnd]);
   const estimatedCredits = calculateCredits(
     selectedModel,
-    Number.parseInt(duration, 10),
+    billedDuration,
     false,
     resolution
   );
@@ -114,33 +137,40 @@ export function OmniStudio() {
     }
   }, [updateLeftCredits, user?.uuid]);
 
-  const addMediaItem = useCallback(
-    (item: OmniMediaItem) => {
-      setMediaItems((current) => {
-        const nextVideoCount =
-          item.kind === "video"
-            ? current.filter((media) => media.kind === "video").length + 1
-            : current.filter((media) => media.kind === "video").length;
-        if (nextVideoCount > 1) {
-          toast.error("Gemini Omni supports one source video per request.");
-          return current;
-        }
+  const getMediaLimitError = useCallback(
+    (current: OmniMediaItem[], kind: OmniMediaKind) => {
+      const currentVideos = current.filter(
+        (media) => media.kind === "video"
+      ).length;
+      if (kind === "video" && currentVideos >= 1) {
+        return "Gemini Omni supports one source video per request.";
+      }
 
-        const nextUnits =
-          current.filter((media) => media.kind === "image").length +
-          current.filter((media) => media.kind === "video").length * 2 +
-          (item.kind === "video" ? 2 : 1);
+      const currentUnits =
+        current.filter((media) => media.kind === "image").length +
+        currentVideos * 2;
+      const nextUnits = currentUnits + (kind === "video" ? 2 : 1);
+      if (nextUnits > MAX_UNITS) {
+        return "Reference limit exceeded. Gemini Omni allows 7 slots.";
+      }
 
-        if (nextUnits > MAX_UNITS) {
-          toast.error("Reference limit exceeded. Gemini Omni allows 7 units.");
-          return current;
-        }
-
-        return [...current, item];
-      });
+      return null;
     },
     []
   );
+
+  const updateMediaItem = useCallback(
+    (id: string, patch: Partial<OmniMediaItem>) => {
+      setMediaItems((current) =>
+        current.map((item) => (item.id === id ? { ...item, ...patch } : item))
+      );
+    },
+    []
+  );
+
+  const removeMediaById = useCallback((id: string) => {
+    setMediaItems((current) => current.filter((item) => item.id !== id));
+  }, []);
 
   const handleFileUpload = useCallback(
     async (files: File[]) => {
@@ -150,8 +180,9 @@ export function OmniStudio() {
       }
 
       const validFiles = files.filter((file) => {
-        if (!isSupportedFile(file)) {
-          toast.error(`${file.name} is not a supported image or video file.`);
+        const error = validateFile(file);
+        if (error) {
+          toast.error(error);
           return false;
         }
         return true;
@@ -163,21 +194,58 @@ export function OmniStudio() {
 
       setIsUploading(true);
       try {
+        let plannedItems = mediaItems;
+
         for (const file of validFiles) {
-          const url = await uploadMediaToR2(file);
-          addMediaItem({
-            url,
-            kind: file.type.startsWith("video/") ? "video" : "image",
+          const id = `${Date.now()}-${Math.random().toString(36).slice(2)}`;
+          const kind: OmniMediaKind = file.type.startsWith("video/")
+            ? "video"
+            : "image";
+          const limitError = getMediaLimitError(plannedItems, kind);
+          if (limitError) {
+            toast.error(limitError);
+            continue;
+          }
+
+          const previewUrl = URL.createObjectURL(file);
+          const previewItem: OmniMediaItem = {
+            id,
+            url: previewUrl,
+            kind,
             name: file.name,
-          });
+            uploading: true,
+          };
+
+          // Show a local preview immediately, marked as uploading.
+          plannedItems = [...plannedItems, previewItem];
+          setMediaItems((current) => [...current, previewItem]);
+
+          try {
+            const url = await uploadMediaToR2(file);
+            // Swap the local preview for the uploaded URL.
+            updateMediaItem(id, { url, uploading: false });
+            URL.revokeObjectURL(previewUrl);
+          } catch (error) {
+            plannedItems = plannedItems.filter((item) => item.id !== id);
+            removeMediaById(id);
+            URL.revokeObjectURL(previewUrl);
+            toast.error(
+              error instanceof Error ? error.message : "Upload failed"
+            );
+          }
         }
-      } catch (error) {
-        toast.error(error instanceof Error ? error.message : "Upload failed");
       } finally {
         setIsUploading(false);
       }
     },
-    [addMediaItem, setShowSignModal, user?.uuid]
+    [
+      getMediaLimitError,
+      mediaItems,
+      removeMediaById,
+      setShowSignModal,
+      updateMediaItem,
+      user?.uuid,
+    ]
   );
 
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -186,50 +254,6 @@ export function OmniStudio() {
       handleFileUpload(files);
     }
     event.target.value = "";
-  };
-
-  const handleAddExternalUrl = () => {
-    const trimmedUrl = externalUrl.trim();
-    if (!trimmedUrl) {
-      return;
-    }
-    if (!/^https?:\/\//i.test(trimmedUrl)) {
-      toast.error("Please enter a public http(s) URL.");
-      return;
-    }
-    addMediaItem({
-      url: trimmedUrl,
-      kind: getKindFromUrl(trimmedUrl),
-      name: trimmedUrl.split("/").pop()?.split("?")[0] || "External URL",
-    });
-    setExternalUrl("");
-  };
-
-  const handleAddAudioId = () => {
-    const nextAudioId = audioIdInput.trim();
-    if (!nextAudioId) {
-      return;
-    }
-    if (audioIds.includes(nextAudioId)) {
-      setAudioIdInput("");
-      return;
-    }
-    if (audioIds.length >= MAX_AUDIO_IDS) {
-      toast.error("Gemini Omni supports one audio reference ID per request.");
-      return;
-    }
-    setAudioIds((current) => [...current, nextAudioId]);
-    setAudioIdInput("");
-  };
-
-  const removeMedia = (index: number) => {
-    setMediaItems((current) =>
-      current.filter((_, itemIndex) => itemIndex !== index)
-    );
-  };
-
-  const removeAudioId = (id: string) => {
-    setAudioIds((current) => current.filter((audioId) => audioId !== id));
   };
 
   const buildParams = (): VideoGenerationParams => {
@@ -244,20 +268,19 @@ export function OmniStudio() {
       duration,
       aspect_ratio: aspectRatio,
       resolution,
-      generate_audio: audioIds.length > 0,
+      generate_audio: false,
       enable_prompt_enhancement: false,
       image_url: imageUrls[0],
       image_urls: imageUrls.length > 0 ? imageUrls : undefined,
       media_urls: mediaItems.map((item) => item.url),
-      audio_ids: audioIds.length > 0 ? audioIds : undefined,
       video_list: sourceVideo
         ? [
             {
               url: sourceVideo.url,
               start: Number.isFinite(parsedStart) ? parsedStart : 0,
-              ends: Number.isFinite(parsedEnd)
-                ? parsedEnd
-                : Number.parseInt(duration, 10),
+              // Omit `ends` when the user didn't set a trim end; the model decides
+              // the output duration for video inputs.
+              ...(Number.isFinite(parsedEnd) ? { ends: parsedEnd } : {}),
             },
           ]
         : undefined,
@@ -319,7 +342,7 @@ export function OmniStudio() {
 
   return (
     <div className="mb-8 flex w-full flex-col gap-3 lg:h-[calc(100vh-120px)] lg:flex-row">
-      <section className="video-generator-container flex w-full flex-shrink-0 flex-col rounded-xl bg-gray-900 shadow-lg lg:h-[calc(100vh-90px)] lg:max-h-[calc(100vh-90px)] lg:w-[520px] lg:overflow-hidden">
+      <section className="video-generator-container flex w-full flex-shrink-0 flex-col rounded-xl bg-gray-900 shadow-lg lg:h-[calc(100vh-90px)] lg:max-h-[calc(100vh-90px)] lg:w-[420px] lg:overflow-hidden">
         <div className="lg:flex-1 lg:overflow-y-auto lg:dark-scrollbar">
           <div className="space-y-4 px-4 py-4 md:space-y-5 md:px-6 md:py-5">
             <div className="border-b border-gray-700 pb-3">
@@ -332,7 +355,7 @@ export function OmniStudio() {
               <div className="mb-4 flex flex-wrap items-center justify-between gap-x-4 gap-y-2">
                 <div className="text-lg font-semibold text-white">Prompt</div>
                 <div className="text-xs text-gray-500">
-                  {promptLength}/2000
+                  {promptLength}/{MAX_PROMPT}
                 </div>
               </div>
               <Textarea
@@ -340,88 +363,64 @@ export function OmniStudio() {
                 onChange={(event) => setPrompt(event.target.value)}
                 placeholder="Describe the scene, edits, timing, camera movement, and what each reference should control."
                 className="mt-0 min-h-[150px] resize-none overflow-y-auto border-gray-600 bg-gray-800 text-gray-100 placeholder:text-gray-400"
-                maxLength={2000}
+                maxLength={MAX_PROMPT}
                 disabled={isGenerating}
               />
             </div>
 
           <div>
-            <div className="mb-4 flex items-center justify-between gap-3">
-              <div className="text-lg font-semibold text-white">References</div>
+            <div className="mb-1 flex items-center justify-between gap-3">
+              <div className="flex items-center gap-1.5">
+                <div className="text-lg font-semibold text-white">
+                  References
+                </div>
+                <TooltipProvider delayDuration={200}>
+                  <Tooltip>
+                    <TooltipTrigger asChild>
+                      <button
+                        type="button"
+                        className="flex-shrink-0 text-gray-500 transition-colors hover:text-gray-300"
+                        aria-label="References info"
+                      >
+                        <Info className="h-3.5 w-3.5" />
+                      </button>
+                    </TooltipTrigger>
+                    <TooltipContent
+                      side="right"
+                      className="max-w-[240px] p-3 text-xs leading-relaxed"
+                    >
+                      Each image uses 1 slot, a video uses 2 slots. Up to{" "}
+                      {MAX_UNITS} slots and one source video per generation.
+                    </TooltipContent>
+                  </Tooltip>
+                </TooltipProvider>
+              </div>
               <span className="text-xs text-gray-500">
-                {usedUnits}/{MAX_UNITS} units
+                {usedUnits}/{MAX_UNITS} slots
               </span>
             </div>
-
-            <div className="rounded-lg border border-gray-800 bg-gray-950/50 p-4">
-              <div className="grid gap-2 sm:grid-cols-[1fr_auto]">
-                <Input
-                  value={externalUrl}
-                  onChange={(event) => setExternalUrl(event.target.value)}
-                  placeholder="Paste public image or video URL"
-                  className="border-gray-700 bg-gray-800 text-gray-100 placeholder:text-gray-500"
-                  disabled={isGenerating || !canAddMedia}
-                />
-                <Button
+            {showReferencesHint && (
+              <div className="mb-4 flex items-start gap-2 rounded-md border border-gray-700 bg-gray-800/60 px-3 py-2">
+                <p className="text-xs text-gray-400">
+                  Each image uses 1 slot, a video uses 2 slots. Up to{" "}
+                  {MAX_UNITS} slots and one source video per generation.
+                </p>
+                <button
                   type="button"
-                  variant="secondary"
-                  onClick={handleAddExternalUrl}
-                  disabled={isGenerating || !canAddMedia}
-                  className="min-h-[40px]"
+                  onClick={() => setShowReferencesHint(false)}
+                  className="ml-auto flex-shrink-0 rounded p-0.5 text-gray-500 transition-colors hover:bg-white/10 hover:text-gray-200"
+                  aria-label="Dismiss"
                 >
-                  <Link2 className="mr-2 h-4 w-4" />
-                  Add URL
-                </Button>
+                  <X className="h-3.5 w-3.5" />
+                </button>
               </div>
+            )}
 
-              <div className="mt-3 grid gap-2 sm:grid-cols-[1fr_auto]">
-                <Input
-                  value={audioIdInput}
-                  onChange={(event) => setAudioIdInput(event.target.value)}
-                  placeholder="Paste KIE audio ID"
-                  className="border-gray-700 bg-gray-800 text-gray-100 placeholder:text-gray-500"
-                  disabled={isGenerating || audioIds.length >= MAX_AUDIO_IDS}
-                  onKeyDown={(event) => {
-                    if (event.key === "Enter") {
-                      event.preventDefault();
-                      handleAddAudioId();
-                    }
-                  }}
-                />
-                <Button
-                  type="button"
-                  variant="secondary"
-                  onClick={handleAddAudioId}
-                  disabled={isGenerating || audioIds.length >= MAX_AUDIO_IDS}
-                  className="min-h-[40px]"
-                >
-                  <Music className="mr-2 h-4 w-4" />
-                  Add Audio
-                </Button>
-              </div>
-
-              {audioIds.length > 0 && (
-                <div className="mt-3 flex flex-wrap gap-2">
-                  {audioIds.map((id) => (
-                    <button
-                      key={id}
-                      type="button"
-                      onClick={() => removeAudioId(id)}
-                      className="inline-flex max-w-full items-center gap-1.5 rounded-md border border-gray-700 bg-gray-800 px-2 py-1 text-xs text-gray-200 transition-colors hover:border-gray-500"
-                    >
-                      <Music className="h-3.5 w-3.5 flex-shrink-0 text-green-400" />
-                      <span className="truncate">{id}</span>
-                      <Trash2 className="h-3.5 w-3.5 flex-shrink-0 text-gray-500" />
-                    </button>
-                  ))}
-                </div>
-              )}
-
-              <button
+            <button
                 type="button"
                 onClick={() => fileInputRef.current?.click()}
                 disabled={isGenerating || isUploading || !canAddMedia}
-                className="mt-3 flex min-h-[78px] w-full items-center justify-center gap-3 rounded-lg border border-dashed border-gray-700 bg-gray-900/70 px-4 py-4 text-left transition-colors hover:border-gray-500 disabled:cursor-not-allowed disabled:opacity-60"
+                className="flex min-h-[78px] w-full items-center justify-center gap-3 rounded-lg border border-dashed border-gray-700 bg-gray-900/70 px-4 py-4 text-left transition-colors hover:border-gray-500 disabled:cursor-not-allowed disabled:opacity-60"
               >
                 <Upload className="h-5 w-5 text-gray-400" />
                 <span className="text-sm text-gray-300">
@@ -433,7 +432,7 @@ export function OmniStudio() {
               <input
                 ref={fileInputRef}
                 type="file"
-                accept="image/jpeg,image/jpg,image/png,image/webp,video/mp4,video/quicktime"
+                accept="image/jpeg,image/jpg,image/png,image/webp,video/mp4,video/quicktime,video/webm"
                 multiple
                 onChange={handleFileChange}
                 className="hidden"
@@ -441,9 +440,9 @@ export function OmniStudio() {
 
               {mediaItems.length > 0 && (
                 <div className="mt-3 grid grid-cols-2 gap-2">
-                  {mediaItems.map((item, index) => (
+                  {mediaItems.map((item) => (
                     <div
-                      key={`${item.url}-${index}`}
+                      key={item.id}
                       className="group relative overflow-hidden rounded-lg border border-gray-800 bg-gray-900"
                     >
                       {item.kind === "image" ? (
@@ -453,10 +452,47 @@ export function OmniStudio() {
                           className="h-24 w-full object-cover"
                         />
                       ) : (
-                        <div className="flex h-24 flex-col items-center justify-center gap-2 text-gray-300">
-                          <Film className="h-6 w-6 text-blue-300" />
-                          <span className="max-w-full truncate px-3 text-xs">
-                            {item.name}
+                        <video
+                          src={`${item.url}#t=0.1`}
+                          title={item.name}
+                          className="h-24 w-full bg-black object-cover"
+                          muted
+                          playsInline
+                          preload="metadata"
+                          onMouseEnter={(event) => {
+                            if (item.uploading) return;
+                            void event.currentTarget.play().catch(() => {});
+                          }}
+                          onMouseLeave={(event) => {
+                            const video = event.currentTarget;
+                            video.pause();
+                            video.currentTime = 0.1;
+                          }}
+                        />
+                      )}
+                      {item.uploading && (
+                        <div className="absolute inset-0 flex flex-col items-center justify-center gap-1.5 bg-black/55">
+                          <svg
+                            className="h-8 w-8 animate-spin text-white"
+                            viewBox="0 0 36 36"
+                            fill="none"
+                          >
+                            <circle
+                              cx="18"
+                              cy="18"
+                              r="16"
+                              stroke="rgba(255,255,255,0.25)"
+                              strokeWidth="3"
+                            />
+                            <path
+                              d="M18 2 a16 16 0 0 1 16 16"
+                              stroke="#fff"
+                              strokeWidth="3"
+                              strokeLinecap="round"
+                            />
+                          </svg>
+                          <span className="text-[10px] font-medium text-white">
+                            Uploading…
                           </span>
                         </div>
                       )}
@@ -467,11 +503,11 @@ export function OmniStudio() {
                           ) : (
                             <Film className="h-3 w-3" />
                           )}
-                          {item.kind === "image" ? "1 unit" : "2 units"}
+                          {item.kind === "image" ? "1 slot" : "2 slots"}
                         </span>
                         <button
                           type="button"
-                          onClick={() => removeMedia(index)}
+                          onClick={() => removeMediaById(item.id)}
                           className="rounded p-0.5 text-gray-400 transition-colors hover:bg-white/10 hover:text-white"
                           aria-label="Remove reference"
                         >
@@ -506,7 +542,6 @@ export function OmniStudio() {
                   </label>
                 </div>
               )}
-            </div>
           </div>
 
           <div>
@@ -526,17 +561,50 @@ export function OmniStudio() {
               disabled={isGenerating}
             />
 
-            <RadioOptionGroup
-              label="Duration"
-              name="omni-duration"
-              value={duration}
-              options={["4", "6", "8", "10"].map((value) => ({
-                value,
-                label: `${value}s`,
-              }))}
-              onChange={setDuration}
-              disabled={isGenerating}
-            />
+            {hasVideo ? (
+              <div className="mb-4">
+                <div className="mb-2 flex items-center gap-1.5">
+                  <label className="block text-sm text-gray-300">
+                    Duration
+                  </label>
+                  <TooltipProvider delayDuration={200}>
+                    <Tooltip>
+                      <TooltipTrigger asChild>
+                        <button
+                          type="button"
+                          className="flex-shrink-0 text-gray-500 transition-colors hover:text-gray-300"
+                          aria-label="Duration info"
+                        >
+                          <Info className="h-3.5 w-3.5" />
+                        </button>
+                      </TooltipTrigger>
+                      <TooltipContent
+                        side="right"
+                        className="max-w-[240px] p-3 text-xs leading-relaxed"
+                      >
+                        Duration follows the source video trim range and is
+                        decided by the model.
+                      </TooltipContent>
+                    </Tooltip>
+                  </TooltipProvider>
+                </div>
+                <div className="text-sm font-medium text-gray-200">
+                  {billedDuration}s
+                </div>
+              </div>
+            ) : (
+              <RadioOptionGroup
+                label="Duration"
+                name="omni-duration"
+                value={duration}
+                options={["4", "6", "8", "10"].map((value) => ({
+                  value,
+                  label: `${value}s`,
+                }))}
+                onChange={setDuration}
+                disabled={isGenerating}
+              />
+            )}
 
             <RadioOptionGroup
               label="Resolution"
