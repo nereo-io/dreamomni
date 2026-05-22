@@ -22,14 +22,14 @@
       "features_title": "Enthalten",
       "features": [
         "200 monatliche Credits",
-        "~20 Seedance Videos oder ~25 Veo3 Videos",
+        "~40 Seedance Videos oder ~50 Veo3 Videos",
         "Bis zu 10 Sekunden pro Video",
         "1080p Auflösungsausgabe"
       ],
       "interval": "month",
-      "amount": 2000,
+      "amount": 3900,
       "currency": "USD",
-      "price": "$20.00",
+      "price": "$39.00",
       "original_price": "",
       "unit": "/Monat",
       "is_featured": false,
@@ -41,7 +41,7 @@
       },
       "product_id": "mini-monthly",
       "product_name": "Seedance AI Mini",
-      "credits": 200,
+      "credits": 400,
       "valid_months": 1,
       "group": "monthly"
     },
@@ -51,19 +51,19 @@
       "features_title": "Enthalten",
       "features": [
         "2400 jährliche Credits (200/Monat)",
-        "~240 Seedance Videos oder ~300 Veo3 Videos",
+        "~480 Seedance Videos oder ~600 Veo3 Videos",
         "Bis zu 10 Sekunden pro Video",
         "1080p Auflösungsausgabe"
       ],
       "interval": "year",
-      "amount": 14400,
+      "amount": 27600,
       "currency": "USD",
-      "price": "$12.00",
-      "original_price": "$20.00",
+      "price": "$23.00",
+      "original_price": "$39.00",
       "unit": "/Monat",
       "is_featured": false,
       "discount_label": "40% RABATT",
-      "tip": "Jährlich $144.00 abgerechnet",
+      "tip": "Jährlich $276.00 abgerechnet",
       "button": {
         "title": "Auf Mini upgraden",
         "url": "/#pricing",
@@ -71,7 +71,7 @@
       },
       "product_id": "mini-yearly",
       "product_name": "Seedance AI Mini Jährlich",
-      "credits": 2400,
+      "credits": 4800,
       "valid_months": 12,
       "group": "yearly"
     },
@@ -81,14 +81,14 @@
       "features_title": "Enthalten",
       "features": [
         "1000 monatliche Credits",
-        "~100 Seedance Videos oder ~125 Veo3 Videos",
+        "~160 Seedance Videos oder ~200 Veo3 Videos",
         "Bis zu 10 Sekunden pro Video",
         "1080p Auflösungsausgabe"
       ],
       "interval": "month",
-      "amount": 5000,
+      "amount": 8000,
       "currency": "USD",
-      "price": "$50.00",
+      "price": "$80.00",
       "original_price": "",
       "unit": "/Monat",
       "is_featured": true,
@@ -100,7 +100,7 @@
       },
       "product_id": "standard-monthly",
       "product_name": "Seedance AI Standard",
-      "credits": 1000,
+      "credits": 1600,
       "valid_months": 1,
       "group": "monthly"
     },
@@ -110,19 +110,19 @@
       "features_title": "Enthalten",
       "features": [
         "12000 jährliche Credits (1000/Monat)",
-        "~1200 Seedance Videos oder ~1500 Veo3 Videos",
+        "~1920 Seedance Videos oder ~2400 Veo3 Videos",
         "Bis zu 10 Sekunden pro Video",
         "1080p Auflösungsausgabe"
       ],
       "interval": "year",
-      "amount": 36000,
+      "amount": 57600,
       "currency": "USD",
-      "price": "$30.00",
-      "original_price": "$50.00",
+      "price": "$48.00",
+      "original_price": "$80.00",
       "unit": "/Monat",
       "is_featured": true,
       "discount_label": "40% RABATT",
-      "tip": "Jährlich $360.00 abgerechnet",
+      "tip": "Jährlich $576.00 abgerechnet",
       "button": {
         "title": "Auf Standard upgraden",
         "url": "/#pricing",
@@ -130,7 +130,7 @@
       },
       "product_id": "standard-yearly",
       "product_name": "Seedance AI Standard Jährlich",
-      "credits": 12000,
+      "credits": 19200,
       "valid_months": 12,
       "group": "yearly"
     },
@@ -140,14 +140,14 @@
       "features_title": "Enthalten",
       "features": [
         "3000 monatliche Credits",
-        "~300 Seedance Videos oder ~375 Veo3 Videos",
+        "~480 Seedance Videos oder ~600 Veo3 Videos",
         "Bis zu 10 Sekunden pro Video",
         "1080p Auflösungsausgabe"
       ],
       "interval": "month",
-      "amount": 9900,
+      "amount": 16000,
       "currency": "USD",
-      "price": "$99.00",
+      "price": "$160.00",
       "original_price": "",
       "unit": "/Monat",
       "is_featured": false,
@@ -159,7 +159,7 @@
       },
       "product_id": "plus-monthly",
       "product_name": "Seedance AI Plus",
-      "credits": 3000,
+      "credits": 4800,
       "valid_months": 1,
       "group": "monthly"
     },
@@ -169,19 +169,19 @@
       "features_title": "Enthalten",
       "features": [
         "36000 jährliche Credits (3000/Monat)",
-        "~3600 Seedance Videos oder ~4500 Veo3 Videos",
+        "~5760 Seedance Videos oder ~7200 Veo3 Videos",
         "Bis zu 10 Sekunden pro Video",
         "1080p Auflösungsausgabe"
       ],
       "interval": "year",
-      "amount": 72000,
+      "amount": 115200,
       "currency": "USD",
-      "price": "$60.00",
-      "original_price": "$99.00",
+      "price": "$96.00",
+      "original_price": "$160.00",
       "unit": "/Monat",
       "is_featured": false,
       "discount_label": "40% RABATT",
-      "tip": "Jährlich $720.00 abgerechnet",
+      "tip": "Jährlich $1152.00 abgerechnet",
       "button": {
         "title": "Auf Plus upgraden",
         "url": "/#pricing",
@@ -189,76 +189,7 @@
       },
       "product_id": "plus-yearly",
       "product_name": "Seedance AI Plus Jährlich",
-      "credits": 36000,
-      "valid_months": 12,
-      "group": "yearly"
-    },
-    {
-      "title": "Max-Plan",
-      "label": "BESTER WERT",
-      "description": "Für Agenturen, Teams und Vielnutzer",
-      "features_title": "Enthält",
-      "features": [
-        "<highlight>12.000</highlight> monatliche Credits",
-        "Bis zu <highlight>1.500</highlight> Veo3-Videos (8s 1080p)",
-        "Bis zu <highlight>6.000</highlight> NanoBanana Pro Bilder",
-        "4K-Auflösung",
-        "Kommerzielle Nutzungsrechte",
-        "Höchste Prioritätswarteschlange",
-        "Persönlicher Account Manager",
-        "Enterprise-Konto (bis zu 20 Plätze)"
-      ],
-      "interval": "month",
-      "amount": 36000,
-      "currency": "USD",
-      "price": "$360.00",
-      "original_price": "",
-      "unit": "/month",
-      "is_featured": false,
-      "discount_label": "",
-      "button": {
-        "title": "Max abonnieren",
-        "url": "/#pricing",
-        "icon": "RiVipCrownLine"
-      },
-      "product_id": "max-monthly",
-      "product_name": "Seedance AI Max",
-      "credits": 12000,
-      "valid_months": 1,
-      "group": "monthly"
-    },
-    {
-      "title": "Max-Plan",
-      "label": "BESTER WERT",
-      "description": "Für Agenturen, Teams und Vielnutzer",
-      "features_title": "Enthält",
-      "features": [
-        "<highlight>12.000</highlight> monatliche Credits",
-        "Bis zu <highlight>1.500</highlight> Veo3-Videos (8s 1080p)",
-        "Bis zu <highlight>6.000</highlight> NanoBanana Pro Bilder",
-        "4K-Auflösung",
-        "Kommerzielle Nutzungsrechte",
-        "Höchste Prioritätswarteschlange",
-        "Persönlicher Account Manager",
-        "Enterprise-Konto (bis zu 20 Plätze)"
-      ],
-      "interval": "year",
-      "amount": 259200,
-      "currency": "USD",
-      "price": "$216.00",
-      "original_price": "$360.00",
-      "unit": "/month",
-      "is_featured": false,
-      "discount_label": "40% RABATT",
-      "tip": "Jahresabonnement für $2592.00",
-      "button": {
-        "title": "Max abonnieren",
-        "url": "/#pricing",
-        "icon": "RiVipCrownLine"
-      },
-      "product_id": "max-yearly",
-      "product_name": "Seedance AI Max Yearly",
-      "credits": 144000,
+      "credits": 57600,
       "valid_months": 12,
       "group": "yearly"
     }
@@ -270,7 +201,7 @@
     "items": [
       {
         "title": "Was sind Credits und wie funktionieren sie?",
-        "description": "Credits werden für alle KI-Generierungen verwendet. Ein Veo3-Video mit 8 Sekunden in 1080p kostet 8 Credits, ein Nano Banana Pro Bild in 1K kostet 3 Credits. Mit den 200 Credits des Mini-Plans können Sie etwa 25 Veo3-Videos oder 66 Bilder pro Monat erstellen."
+        "description": "Credits werden für alle KI-Generierungen verwendet. Ein Veo3-Video mit 8 Sekunden in 1080p kostet 8 Credits, ein Nano Banana Pro Bild in 1K kostet 3 Credits. Mit den 400 Credits des Mini-Plans können Sie etwa 50 Veo3-Videos oder 133 Bilder pro Monat erstellen."
       },
       {
         "title": "Was passiert mit ungenutzten Credits am Monatsende?",

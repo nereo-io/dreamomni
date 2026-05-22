@@ -11,7 +11,6 @@ const TIER_PRIORITY: Record<SubscriptionTier, number> = {
   mini: 1,
   standard: 2,
   plus: 3,
-  max: 4,
 };
 
 /**

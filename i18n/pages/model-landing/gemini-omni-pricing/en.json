@@ -110,7 +110,7 @@
       },
       {
         "title": "Current Subscription Ladder in This Product",
-        "description": "The active product configuration includes Mini, Standard, Plus, and Max subscription tiers. The exact checkout price and availability can vary by payment provider and region, so use the live pricing modal as the final source before purchase.",
+        "description": "The active product configuration includes Mini, Standard, and Plus subscription tiers. The exact checkout price and availability can vary by payment provider and region, so use the live pricing modal as the final source before purchase.",
         "type": "table",
         "data": {
           "headers": [
@@ -133,7 +133,7 @@
                 },
                 {
                   "type": "text",
-                  "content": "200 credits"
+                  "content": "400 credits"
                 },
                 {
                   "type": "text",
@@ -149,7 +149,7 @@
                 },
                 {
                   "type": "text",
-                  "content": "1,000 credits"
+                  "content": "1,600 credits"
                 },
                 {
                   "type": "text",
@@ -165,27 +165,11 @@
                 },
                 {
                   "type": "text",
-                  "content": "3,000 credits"
+                  "content": "4,800 credits"
                 },
                 {
                   "type": "text",
                   "content": "Frequent campaigns and multi-format iteration"
-                }
-              ]
-            },
-            {
-              "cells": [
-                {
-                  "type": "text",
-                  "content": "Max"
-                },
-                {
-                  "type": "text",
-                  "content": "12,000 credits"
-                },
-                {
-                  "type": "text",
-                  "content": "High-volume teams and launch windows"
                 }
               ]
             }

@@ -43,7 +43,7 @@ interface EnhancedPricingProps {
 
 function resolveBonusPlanLabels(items?: PricingItem[]) {
   const findLabel = (
-    prefix: "mini" | "standard" | "plus" | "max",
+    prefix: "mini" | "standard" | "plus",
     fallback: string,
   ) =>
     items?.find((item) => item.product_id?.startsWith(`${prefix}-`) && item.title)
@@ -53,7 +53,6 @@ function resolveBonusPlanLabels(items?: PricingItem[]) {
     mini: findLabel("mini", "Mini Plan"),
     standard: findLabel("standard", "Standard Plan"),
     plus: findLabel("plus", "Plus Plan"),
-    max: findLabel("max", "Max Plan"),
   };
 }
 

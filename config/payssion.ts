@@ -29,48 +29,36 @@ export interface PayssionConfig {
 // 订阅产品配置映射（基于金额，单位：美分）
 // 必须与 config/products.ts 中的 PRODUCT_CONFIGS 保持一致
 export const PAYSSION_PRODUCT_CONFIG: Record<string, PayssionProductConfig> = {
-  "2000": {
+  "3900": {
     product_id: "mini-monthly",
-    credits: 200,
+    credits: 400,
     membershipType: "monthly",
-  }, // $20
-  "14400": {
+  }, // $39
+  "27600": {
     product_id: "mini-yearly",
-    credits: 2400,
+    credits: 4800,
     membershipType: "yearly",
-  }, // $144
-  "5000": {
+  }, // $276
+  "8000": {
     product_id: "standard-monthly",
-    credits: 1000,
+    credits: 1600,
     membershipType: "monthly",
-  }, // $50
-  "36000": {
+  }, // $80
+  "57600": {
     product_id: "standard-yearly",
-    credits: 12000,
+    credits: 19200,
     membershipType: "yearly",
-  }, // $360
-  "9900": {
+  }, // $576
+  "16000": {
     product_id: "plus-monthly",
-    credits: 3000,
+    credits: 4800,
     membershipType: "monthly",
-  }, // $99
-  "72000": {
+  }, // $160
+  "115200": {
     product_id: "plus-yearly",
-    credits: 36000,
+    credits: 57600,
     membershipType: "yearly",
-  }, // $720
-  // max-monthly shares the same cents amount as standard-yearly, so this
-  // suffixed key keeps product_id lookups unambiguous.
-  "36000_max_monthly": {
-    product_id: "max-monthly",
-    credits: 12000,
-    membershipType: "monthly",
-  }, // $360/month
-  "259200": {
-    product_id: "max-yearly",
-    credits: 144000,
-    membershipType: "yearly",
-  }, // $2592
+  }, // $1152
 };
 
 // Bundle 产品配置（一次性购买积分包）
@@ -80,12 +68,12 @@ export interface PayssionBundleConfig {
 }
 
 export const PAYSSION_BUNDLE_CONFIG: Record<string, PayssionBundleConfig> = {
-  "2000": { product_id: "bundle-20", credits: 200 }, // $20
-  "4000": { product_id: "bundle-40", credits: 400 }, // $40
-  "10000": { product_id: "bundle-100", credits: 1000 }, // $100
-  "20000": { product_id: "bundle-200", credits: 2000 }, // $200
-  "50000": { product_id: "bundle-500", credits: 5000 }, // $500
-  "100000": { product_id: "bundle-1000", credits: 10000 }, // $1000
+  "3900": { product_id: "bundle-20", credits: 400 }, // $39
+  "8000": { product_id: "bundle-40", credits: 800 }, // $80
+  "16000": { product_id: "bundle-100", credits: 1600 }, // $160
+  "32000": { product_id: "bundle-200", credits: 3200 }, // $320
+  "64000": { product_id: "bundle-500", credits: 6400 }, // $640
+  "128000": { product_id: "bundle-1000", credits: 12800 }, // $1280
 };
 
 // 支付方式映射（前端 -> Payssion V2 API）

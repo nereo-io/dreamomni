@@ -27,9 +27,9 @@ export const PRODUCT_CONFIGS: ProductConfig[] = [
   {
     product_id: "mini-monthly",
     product_name: "DreamOmni Mini",
-    amount: 2000,
+    amount: 3900,
     currency: "USD",
-    credits: 200,
+    credits: 400,
     interval: "month",
     valid_months: 1,
     membershipType: "monthly",
@@ -38,9 +38,9 @@ export const PRODUCT_CONFIGS: ProductConfig[] = [
   {
     product_id: "mini-yearly",
     product_name: "DreamOmni Mini Yearly",
-    amount: 14400,
+    amount: 27600,
     currency: "USD",
-    credits: 2400,
+    credits: 4800,
     interval: "year",
     valid_months: 12,
     membershipType: "yearly",
@@ -49,9 +49,9 @@ export const PRODUCT_CONFIGS: ProductConfig[] = [
   {
     product_id: "standard-monthly",
     product_name: "DreamOmni Standard",
-    amount: 5000,
+    amount: 8000,
     currency: "USD",
-    credits: 1000,
+    credits: 1600,
     interval: "month",
     valid_months: 1,
     membershipType: "monthly",
@@ -60,9 +60,9 @@ export const PRODUCT_CONFIGS: ProductConfig[] = [
   {
     product_id: "standard-yearly",
     product_name: "DreamOmni Standard Yearly",
-    amount: 36000,
+    amount: 57600,
     currency: "USD",
-    credits: 12000,
+    credits: 19200,
     interval: "year",
     valid_months: 12,
     membershipType: "yearly",
@@ -71,9 +71,9 @@ export const PRODUCT_CONFIGS: ProductConfig[] = [
   {
     product_id: "plus-monthly",
     product_name: "DreamOmni Plus",
-    amount: 9900,
+    amount: 16000,
     currency: "USD",
-    credits: 3000,
+    credits: 4800,
     interval: "month",
     valid_months: 1,
     membershipType: "monthly",
@@ -82,35 +82,13 @@ export const PRODUCT_CONFIGS: ProductConfig[] = [
   {
     product_id: "plus-yearly",
     product_name: "DreamOmni Plus Yearly",
-    amount: 72000,
+    amount: 115200,
     currency: "USD",
-    credits: 36000,
+    credits: 57600,
     interval: "year",
     valid_months: 12,
     membershipType: "yearly",
     creem_product_id: "prod_5siauowmaPRU4A0lKPseNC",
-  },
-  {
-    product_id: "max-monthly",
-    product_name: "DreamOmni Max",
-    amount: 36000,
-    currency: "USD",
-    credits: 12000,
-    interval: "month",
-    valid_months: 1,
-    membershipType: "monthly",
-    creem_product_id: "prod_10kRKBhnXiLIKCXKcS5IZ8",
-  },
-  {
-    product_id: "max-yearly",
-    product_name: "DreamOmni Max Yearly",
-    amount: 259200,
-    currency: "USD",
-    credits: 144000,
-    interval: "year",
-    valid_months: 12,
-    membershipType: "yearly",
-    creem_product_id: "prod_66X7TZMnXlj5tznQbJrGBa",
   },
 ];
 
@@ -192,60 +170,60 @@ export interface BundleProductConfig {
 export const BUNDLE_CONFIGS: BundleProductConfig[] = [
   {
     product_id: "bundle-20",
-    product_name: "DreamOmni 200 Credits Pack",
-    amount: 2000, // $20
+    product_name: "DreamOmni 400 Credits Pack",
+    amount: 3900, // $39
     currency: "USD",
-    credits: 200,
+    credits: 400,
     interval: "one-time",
     valid_months: 1,
     creem_product_id: "prod_51ucODXluyiolcCSmwT8K9",
   },
   {
     product_id: "bundle-40",
-    product_name: "DreamOmni 400 Credits Pack",
-    amount: 4000, // $40
+    product_name: "DreamOmni 800 Credits Pack",
+    amount: 8000, // $80
     currency: "USD",
-    credits: 400,
+    credits: 800,
     interval: "one-time",
     valid_months: 1,
     creem_product_id: "prod_4EVxqIeK6j9OCuwrPg3jI0",
   },
   {
     product_id: "bundle-100",
-    product_name: "DreamOmni 1000 Credits Pack",
-    amount: 10000, // $100
+    product_name: "DreamOmni 1600 Credits Pack",
+    amount: 16000, // $160
     currency: "USD",
-    credits: 1000,
+    credits: 1600,
     interval: "one-time",
     valid_months: 1,
     creem_product_id: "prod_6daDvaiC7cDnnd0meBwECE",
   },
   {
     product_id: "bundle-200",
-    product_name: "DreamOmni 2000 Credits Pack",
-    amount: 20000, // $200
+    product_name: "DreamOmni 3200 Credits Pack",
+    amount: 32000, // $320
     currency: "USD",
-    credits: 2000,
+    credits: 3200,
     interval: "one-time",
     valid_months: 1,
     creem_product_id: "prod_23MINso2fWo2TbWwZtP9Ln",
   },
   {
     product_id: "bundle-500",
-    product_name: "DreamOmni 5000 Credits Pack",
-    amount: 50000, // $500
+    product_name: "DreamOmni 6400 Credits Pack",
+    amount: 64000, // $640
     currency: "USD",
-    credits: 5000,
+    credits: 6400,
     interval: "one-time",
     valid_months: 1,
     creem_product_id: "prod_19tk9NXTFGQMNPGHeEAovS",
   },
   {
     product_id: "bundle-1000",
-    product_name: "DreamOmni 10000 Credits Pack",
-    amount: 100000, // $1000
+    product_name: "DreamOmni 12800 Credits Pack",
+    amount: 128000, // $1280
     currency: "USD",
-    credits: 10000,
+    credits: 12800,
     interval: "one-time",
     valid_months: 1,
     creem_product_id: "prod_6L0UaSlyGSjFxdHamfL7fF",
@@ -282,17 +260,15 @@ export function getAnyProductConfig(
  * 用于判断升级/降级
  */
 export const SUBSCRIPTION_TIER_RANK: Record<string, number> = {
-  "mini-monthly": 1, // $20/month
-  "mini-yearly": 2, // $144/year
-  "standard-monthly": 3, // $50/month
-  "standard-yearly": 4, // $360/year
-  "plus-monthly": 5, // $99/month
-  "plus-yearly": 6, // $720/year
-  "max-monthly": 7, // $360/month
-  "max-yearly": 8, // $2592/year
+  "mini-monthly": 1, // $39/month
+  "mini-yearly": 2, // $276/year
+  "standard-monthly": 3, // $80/month
+  "standard-yearly": 4, // $576/year
+  "plus-monthly": 5, // $160/month
+  "plus-yearly": 6, // $1152/year
 };
 
-export type SubscriptionTier = "mini" | "standard" | "plus" | "max" | "none";
+export type SubscriptionTier = "mini" | "standard" | "plus" | "none";
 
 type BundleBonusByTier = Record<Exclude<SubscriptionTier, "none">, number>;
 
@@ -300,38 +276,32 @@ export const BUNDLE_BONUS_BY_PRODUCT_ID: Record<string, BundleBonusByTier> = {
   "bundle-20": {
     mini: 0,
     standard: 0,
-    plus: 200,
-    max: 200,
+    plus: 400,
   },
   "bundle-40": {
     mini: 0,
-    standard: 100,
-    plus: 300,
-    max: 300,
+    standard: 200,
+    plus: 600,
   },
   "bundle-100": {
     mini: 0,
-    standard: 300,
-    plus: 1000,
-    max: 1000,
+    standard: 500,
+    plus: 1600,
   },
   "bundle-200": {
     mini: 0,
-    standard: 600,
-    plus: 2000,
-    max: 2000,
+    standard: 1000,
+    plus: 3200,
   },
   "bundle-500": {
     mini: 0,
-    standard: 1600,
-    plus: 5000,
-    max: 5000,
+    standard: 2000,
+    plus: 6400,
   },
   "bundle-1000": {
     mini: 0,
-    standard: 3300,
-    plus: 20000,
-    max: 20000,
+    standard: 4200,
+    plus: 25600,
   },
 };
 
@@ -352,10 +322,6 @@ export function getSubscriptionTierByProductId(
 ): SubscriptionTier {
   if (!productId) {
     return "none";
-  }
-
-  if (productId.startsWith("max-")) {
-    return "max";
   }
 
   if (productId.startsWith("plus-")) {

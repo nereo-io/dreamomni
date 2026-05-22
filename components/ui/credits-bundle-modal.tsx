@@ -7,7 +7,7 @@ import { Button } from "@/components/ui/button";
 import { useTranslations } from "next-intl";
 import { getBundleBonusCreditsForTier } from "@/config/products";
 
-type BonusTier = "mini" | "standard" | "plus" | "max";
+type BonusTier = "mini" | "standard" | "plus";
 type BonusRow = {
   id: string;
   tiers: BonusTier[];
@@ -32,7 +32,6 @@ interface CreditsBundleModalProps {
     mini?: string;
     standard?: string;
     plus?: string;
-    max?: string;
   };
 }
 
@@ -40,59 +39,46 @@ export const BUNDLE_OPTIONS: BundleItem[] = [
   {
     id: "bundle-20",
     name: "DreamOmni Credits Pack",
-    credits: 200,
-    price: "$20",
-    amount: 2000,
+    credits: 400,
+    price: "$39",
+    amount: 3900,
   },
   {
     id: "bundle-40",
     name: "DreamOmni Credits Pack",
-    credits: 400,
-    price: "$40",
-    amount: 4000,
+    credits: 800,
+    price: "$80",
+    amount: 8000,
   },
   {
     id: "bundle-100",
     name: "DreamOmni Credits Pack",
-    credits: 1000,
-    price: "$100",
-    amount: 10000,
+    credits: 1600,
+    price: "$160",
+    amount: 16000,
   },
   {
     id: "bundle-200",
     name: "DreamOmni Credits Pack",
-    credits: 2000,
-    price: "$200",
-    amount: 20000,
+    credits: 3200,
+    price: "$320",
+    amount: 32000,
   },
   {
     id: "bundle-500",
     name: "DreamOmni Credits Pack",
-    credits: 5000,
-    price: "$500",
-    amount: 50000,
+    credits: 6400,
+    price: "$640",
+    amount: 64000,
   },
   {
     id: "bundle-1000",
     name: "DreamOmni Credits Pack",
-    credits: 10000,
-    price: "$1000",
-    amount: 100000,
+    credits: 12800,
+    price: "$1280",
+    amount: 128000,
   },
 ];
-
-function combinePlanLabels(firstLabel: string, secondLabel: string) {
-  const suffixMatch = firstLabel.match(/\s+Plan$/i);
-
-  if (!suffixMatch || !secondLabel.match(/\s+Plan$/i)) {
-    return `${firstLabel} & ${secondLabel}`;
-  }
-
-  const firstName = firstLabel.replace(/\s+Plan$/i, "").trim();
-  const secondName = secondLabel.replace(/\s+Plan$/i, "").trim();
-
-  return `${firstName} & ${secondName} Plan`;
-}
 
 export default function CreditsBundleModal({
   isOpen,
@@ -108,9 +94,6 @@ export default function CreditsBundleModal({
   const t = useTranslations("creditsBundle");
   const standardLabel = bonusPlanLabels?.standard || "Standard Plan";
   const plusLabel = bonusPlanLabels?.plus || "Plus Plan";
-  const maxLabel = bonusPlanLabels?.max || "Max Plan";
-  const plusCredits = getBundleBonusCreditsForTier(selectedBundle.id, "plus");
-  const maxCredits = getBundleBonusCreditsForTier(selectedBundle.id, "max");
   const bonusRows: BonusRow[] = [
     {
       id: "standard",
@@ -118,25 +101,12 @@ export default function CreditsBundleModal({
       label: standardLabel,
       credits: getBundleBonusCreditsForTier(selectedBundle.id, "standard"),
     },
-    ...(plusCredits === maxCredits
-      ? [
-          {
-            id: "plus-max",
-            tiers: ["plus", "max"] as BonusTier[],
-            label: combinePlanLabels(plusLabel, maxLabel),
-            credits: plusCredits,
-          },
-        ]
-      : [
-          { id: "plus", tiers: ["plus"] as BonusTier[], label: plusLabel },
-          { id: "max", tiers: ["max"] as BonusTier[], label: maxLabel },
-        ].map((item) => ({
-          ...item,
-          credits: getBundleBonusCreditsForTier(
-            selectedBundle.id,
-            item.tiers[0],
-          ),
-        }))),
+    {
+      id: "plus",
+      tiers: ["plus"] as BonusTier[],
+      label: plusLabel,
+      credits: getBundleBonusCreditsForTier(selectedBundle.id, "plus"),
+    },
   ].filter((item) => item.credits > 0);
 
   const miniCredits = getBundleBonusCreditsForTier(selectedBundle.id, "mini");
