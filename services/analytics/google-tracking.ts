@@ -1,6 +1,11 @@
 'use client';
 
 import { sendGAEvent } from '@next/third-parties/google';
+import {
+  trackTikTokBeginCheckout,
+  trackTikTokFirstGeneration,
+  trackTikTokPurchase,
+} from '@/services/analytics/tiktok-tracking';
 
 const GOOGLE_ADS_SIGN_UP_SEND_TO = 'AW-18089132023/KzuXCOTHr58cEPf_yLFD';
 const GOOGLE_ADS_GENERATE_VIDEO_SEND_TO =
@@ -111,6 +116,7 @@ export function trackGABeginCheckout(item: GAItem) {
     return;
   }
 
+  trackTikTokBeginCheckout(item);
   sendGAEvent('event', 'begin_checkout', {
     currency: normalizeCurrency(item.currency),
     value: toCurrencyValue(item.amountCents),
@@ -144,6 +150,7 @@ export function trackGAPurchase(info: GAPurchaseInfo) {
 
   sendGAEvent('event', 'purchase', payload);
   sendGAEvent('event', 'payment_success', payload);
+  trackTikTokPurchase(info);
   trackGoogleAdsConversion(GOOGLE_ADS_PURCHASE_SEND_TO, {
     value: payload.value,
     currency: payload.currency,
@@ -156,6 +163,12 @@ export function trackGAGenerateVideo(info: GAGenerationInfo) {
     return;
   }
 
+  trackTikTokFirstGeneration({
+    contentType: 'video',
+    model: info.model,
+    stage: info.stage || 'started',
+    generationType: info.generationType,
+  });
   sendGAEvent('event', 'generate_video', {
     model: info.model,
     stage: info.stage || 'started',
@@ -170,6 +183,13 @@ export function trackGAGenerateImage(info: GAGenerationInfo) {
     return;
   }
 
+  trackTikTokFirstGeneration({
+    contentType: 'image',
+    model: info.model,
+    stage: info.stage || 'started',
+    generationType: info.mode,
+    provider: info.provider,
+  });
   sendGAEvent('event', 'generate_image', {
     model: info.model,
     stage: info.stage || 'started',

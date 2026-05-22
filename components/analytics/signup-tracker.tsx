@@ -5,6 +5,7 @@ import { useSession } from "next-auth/react";
 import { useYandexTracking } from "@/hooks/useYandexTracking";
 import { trackUetEvent } from "@/lib/bing-uet";
 import { trackGASignUp } from "@/services/analytics/google-tracking";
+import { trackTikTokSignUp } from "@/services/analytics/tiktok-tracking";
 
 export function SignupTracker() {
   const { data: session } = useSession();
@@ -22,6 +23,7 @@ export function SignupTracker() {
       if (provider === "google") {
         trackGASignUp(provider, userId);
       }
+      trackTikTokSignUp(provider, userId);
       trackUetEvent(
         "register_success",
         {
