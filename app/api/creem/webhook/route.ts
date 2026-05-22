@@ -1,6 +1,6 @@
 import { NextRequest } from "next/server";
 import { respData, respErr } from "@/lib/resp";
-import { findOrderByOrderNo } from "@/models/order";
+import { findOrderByOrderNo, recordOrderPaymentFailure } from "@/models/order";
 import { findUserByUuid } from "@/models/user";
 import { getProductConfig, getBundleConfig, getAnyProductConfig } from "@/config/products";
 import { getCreemConfig } from "@/config/creem";
@@ -10,6 +10,7 @@ import {
   findCreemSubscriptionByCreemId,
   updateCreemSubscriptionStatus,
 } from "@/models/creem-subscription";
+import { trackFirstPromoterCancellation } from "@/services/analytics/first-promoter";
 import { offlineConversionService } from "@/services/analytics/yandex-offline-conversion";
 import { PaymentProcessingService } from "@/services/payment/PaymentProcessingService";
 import { SubscriptionManagementService } from "@/services/payment/SubscriptionManagementService";
@@ -27,6 +28,10 @@ function logError(message: string, data?: any) {
     `[CREEM-WEBHOOK] ${message}`,
     data ? JSON.stringify(data, null, 2) : ""
   );
+}
+
+function respWebhookErr(message: string, status: number = 500) {
+  return Response.json({ code: -1, message }, { status });
 }
 
 function resolveCheckoutPaymentId(checkoutObject: any): {
@@ -122,6 +127,15 @@ export async function POST(req: NextRequest) {
       case "subscription.paid":
         await handleSubscriptionPaid(body);
         break;
+      case "subscription.canceled":
+      case "subscription.cancelled":
+        await handleSubscriptionCanceled(body);
+        break;
+      case "payment.failed":
+      case "subscription.payment_failed":
+      case "checkout.failed":
+        await handlePaymentFailed(body);
+        break;
       default:
         logInfo("ℹ️ Unhandled event type", { eventType: body.eventType });
     }
@@ -129,7 +143,99 @@ export async function POST(req: NextRequest) {
     return respData({ received: true });
   } catch (error: any) {
     logError("🚨 Webhook processing error", error.message);
-    return respErr("Webhook processing failed: " + error.message);
+    return respWebhookErr("Webhook processing failed: " + error.message);
+  }
+}
+
+async function handlePaymentFailed(webhookData: any) {
+  const paymentObject = webhookData.object || {};
+  const metadata = paymentObject.metadata || {};
+  const orderNo =
+    metadata.order_no ||
+    paymentObject.order?.metadata?.order_no ||
+    paymentObject.checkout?.metadata?.order_no;
+
+  if (!orderNo) {
+    throw new Error("Missing order_no in Creem payment failure payload");
+  }
+
+  const subscriptionId =
+    paymentObject.subscription?.id ||
+    paymentObject.subscription ||
+    paymentObject.subscription_id;
+  const failureCode =
+    paymentObject.failure_code ||
+    paymentObject.error?.code ||
+    paymentObject.status ||
+    "payment_failed";
+  const failureMessage =
+    paymentObject.failure_message ||
+    paymentObject.error?.message ||
+    paymentObject.status_message ||
+    "Payment failed";
+
+  if (subscriptionId) {
+    try {
+      await updateCreemSubscriptionStatus(subscriptionId, "past_due");
+    } catch (error: any) {
+      logError("⚠️ Failed to update Creem subscription after failure", {
+        subscriptionId,
+        error: error.message,
+      });
+    }
+  }
+
+  await recordOrderPaymentFailure(orderNo, {
+    code: failureCode,
+    message: failureMessage,
+    rawMessage: paymentObject.failure_message || paymentObject.error?.message,
+    provider: "creem",
+    failureAt: paymentObject.created_at || webhookData.created_at,
+    eventId: webhookData.id,
+  });
+
+  logInfo("✅ Creem payment failure recorded", {
+    orderNo,
+    failureCode,
+    eventId: webhookData.id,
+  });
+}
+
+async function handleSubscriptionCanceled(webhookData: any) {
+  try {
+    const subscriptionObject = webhookData.object;
+    const subscriptionId =
+      subscriptionObject?.id || webhookData.subscription_id || webhookData.id;
+
+    if (!subscriptionId) {
+      logError("❌ Missing subscription ID in cancellation payload", {
+        webhookData,
+      });
+      return;
+    }
+
+    const subscription = await findCreemSubscriptionByCreemId(subscriptionId);
+    if (!subscription) {
+      logError("⚠️ Creem subscription not found for cancellation", {
+        subscriptionId,
+      });
+      return;
+    }
+
+    if (subscription.status !== "canceled") {
+      await updateCreemSubscriptionStatus(subscriptionId, "canceled");
+      await trackFirstPromoterCancellation({
+        paymentProvider: "creem",
+        subscriptionId,
+        userUuid: subscription.user_uuid,
+      });
+    }
+
+    logInfo("✅ Creem subscription cancellation handled", {
+      subscriptionId,
+    });
+  } catch (error: any) {
+    logError("❌ Error processing subscription cancellation", error.message);
   }
 }
 
@@ -158,7 +264,7 @@ async function handleCheckoutCompleted(webhookData: any) {
         hasOrder: !!order,
         webhookData,
       });
-      return;
+      throw new Error("Missing payment identifier in checkout payload");
     }
 
     logInfo("🛒 Processing first-time checkout", {
@@ -181,14 +287,14 @@ async function handleCheckoutCompleted(webhookData: any) {
         orderNo,
         metadata,
       });
-      return;
+      throw new Error("Missing required metadata in checkout payload");
     }
 
     // 获取产品配置（支持订阅和 Bundle）
     const productConfig = getAnyProductConfig(productId);
     if (!productConfig) {
       logError("❌ Product configuration not found", { productId });
-      return;
+      throw new Error(`Product configuration not found: ${productId}`);
     }
 
     const isBundle = productConfig.interval === "one-time";
@@ -197,7 +303,7 @@ async function handleCheckoutCompleted(webhookData: any) {
     const user = await findUserByUuid(userUuid);
     if (!user) {
       logError("❌ User not found", { userUuid });
-      return;
+      throw new Error(`User not found: ${userUuid}`);
     }
 
     let shouldProcessPayment = true;
@@ -252,6 +358,7 @@ async function handleCheckoutCompleted(webhookData: any) {
       userUuid,
       amount: productConfig.amount.toString(),
       userEmail: userEmail || customer?.email || "",
+      paymentProvider: "creem",
       metadata: {
         credits: productConfig.credits,
         product_id: productId,
@@ -272,7 +379,7 @@ async function handleCheckoutCompleted(webhookData: any) {
           orderNo,
           error: processingResult.error,
         });
-        return;
+        throw new Error(processingResult.error || "Payment processing failed");
       }
 
       logInfo("✅ Payment processed successfully", {
@@ -282,6 +389,7 @@ async function handleCheckoutCompleted(webhookData: any) {
         creditsAwarded: processingResult.creditsAwarded,
         membershipUpdated: processingResult.membershipUpdated,
       });
+
     }
 
     // 创建或更新 Creem 订阅记录 - 仅订阅，Bundle 不创建订阅记录
@@ -399,6 +507,7 @@ async function handleCheckoutCompleted(webhookData: any) {
     }
   } catch (error: any) {
     logError("❌ Error processing checkout completed", error.message);
+    throw error;
   }
 }
 
@@ -419,7 +528,7 @@ async function handleSubscriptionPaid(webhookData: any) {
 
     if (!transactionId) {
       logError("❌ Missing transaction ID", { webhookData });
-      return;
+      throw new Error("Missing transaction ID in subscription.paid payload");
     }
 
     logInfo("🔄 Processing subscription renewal", {
@@ -440,21 +549,21 @@ async function handleSubscriptionPaid(webhookData: any) {
         productId,
         metadata,
       });
-      return;
+      throw new Error("Missing required metadata in subscription.paid payload");
     }
 
     // 获取产品配置
     const productConfig = getProductConfig(productId);
     if (!productConfig) {
       logError("❌ Product configuration not found", { productId });
-      return;
+      throw new Error(`Product configuration not found: ${productId}`);
     }
 
     // 检查用户是否存在
     const user = await findUserByUuid(userUuid);
     if (!user) {
       logError("❌ User not found", { userUuid });
-      return;
+      throw new Error(`User not found: ${userUuid}`);
     }
 
     // 检查订阅记录是否已存在（用于区分首次订阅和续费）
@@ -469,7 +578,7 @@ async function handleSubscriptionPaid(webhookData: any) {
           transactionId,
           metadata,
         });
-        return;
+        throw new Error("Missing original order_no in subscription.paid metadata");
       }
 
       const alreadyCredited = await hasOrderPayCredit(originalOrderNo);
@@ -544,6 +653,7 @@ async function handleSubscriptionPaid(webhookData: any) {
         userUuid,
         amount: productConfig.amount.toString(),
         userEmail: userEmail || customer?.email || "",
+        paymentProvider: "creem",
         metadata: {
           credits: productConfig.credits,
           product_id: productId,
@@ -560,7 +670,9 @@ async function handleSubscriptionPaid(webhookData: any) {
           originalOrderNo,
           error: processingResult.error,
         });
-        return;
+        throw new Error(
+          processingResult.error || "First payment processing failed"
+        );
       }
 
       logInfo("✅ First payment processed via subscription.paid", {
@@ -723,6 +835,9 @@ async function handleSubscriptionPaid(webhookData: any) {
         last_touch: originalLastTouch,
         paid_at: new Date().toISOString(),
         created_at: new Date().toISOString(),
+        is_monthly_distribution:
+          productConfig.interval === "year" &&
+          existingSubscription?.plan_type === "yearly",
       });
 
       logInfo("✅ Renewal order created", {
@@ -743,6 +858,7 @@ async function handleSubscriptionPaid(webhookData: any) {
       userUuid,
       amount: productConfig.amount.toString(),
       userEmail: userEmail || customer?.email || "",
+      paymentProvider: "creem",
       metadata: {
         credits: productConfig.credits,
         product_id: productId,
@@ -759,7 +875,9 @@ async function handleSubscriptionPaid(webhookData: any) {
         renewalOrderNo,
         error: processingResult.error,
       });
-      return;
+      throw new Error(
+        processingResult.error || "Subscription renewal payment processing failed"
+      );
     }
 
     logInfo("✅ Subscription renewal processed successfully", {
@@ -832,5 +950,6 @@ async function handleSubscriptionPaid(webhookData: any) {
     }
   } catch (error: any) {
     logError("❌ Error processing subscription paid", error.message);
+    throw error;
   }
 }

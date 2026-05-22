@@ -7,6 +7,8 @@ import {
   SubscriptionResponse,
   SubscriptionWebhookResult,
   PaymentError,
+  RefundRequest,
+  RefundResult,
 } from "./types";
 import {
   getAnyProductConfig,
@@ -154,5 +156,121 @@ export class StripeProvider extends BasePaymentProvider {
       "Stripe webhooks are handled by /api/stripe/webhook directly",
       this.name
     );
+  }
+
+  async cancelSubscription(subscriptionId: string): Promise<boolean> {
+    try {
+      const stripe = this.getStripe();
+
+      await stripe.subscriptions.update(subscriptionId, {
+        cancel_at_period_end: true,
+      });
+
+      return true;
+    } catch (error: any) {
+      console.error("Stripe subscription cancellation failed:", error);
+      throw new PaymentError(
+        "SUBSCRIPTION_CANCEL_FAILED",
+        error.message || "Failed to cancel Stripe subscription",
+        this.name,
+        error
+      );
+    }
+  }
+
+  async refundPayment(request: RefundRequest): Promise<RefundResult> {
+    if (!process.env.STRIPE_PRIVATE_KEY) {
+      return {
+        success: false,
+        paymentProvider: this.name,
+        errorCode: "CONFIG_ERROR",
+        errorMessage: "STRIPE_PRIVATE_KEY is not configured",
+      };
+    }
+
+    try {
+      const stripe = this.getStripe();
+      const refundParams: Stripe.RefundCreateParams = {
+        amount: Math.round(request.amount * 100),
+        metadata: {
+          ...(request.orderNo ? { order_no: request.orderNo } : {}),
+          ...(request.reason ? { reason: request.reason } : {}),
+          ...request.metadata,
+        },
+      };
+      const transactionId = request.transactionId;
+
+      if (transactionId.startsWith("pi_")) {
+        refundParams.payment_intent = transactionId;
+      } else if (transactionId.startsWith("ch_")) {
+        refundParams.charge = transactionId;
+      } else if (transactionId.startsWith("cs_")) {
+        const session = await stripe.checkout.sessions.retrieve(transactionId);
+        const paymentIntentId =
+          typeof session.payment_intent === "string"
+            ? session.payment_intent
+            : session.payment_intent?.id;
+
+        if (!paymentIntentId) {
+          throw new PaymentError(
+            "MISSING_PAYMENT_INTENT",
+            `Stripe checkout session ${transactionId} has no payment_intent`,
+            this.name
+          );
+        }
+
+        refundParams.payment_intent = paymentIntentId;
+      } else if (transactionId.startsWith("in_")) {
+        const invoice = (await stripe.invoices.retrieve(transactionId, {
+          expand: ["payment_intent", "charge"],
+        })) as any;
+        const paymentIntentId =
+          typeof invoice.payment_intent === "string"
+            ? invoice.payment_intent
+            : invoice.payment_intent?.id;
+        const chargeId =
+          typeof invoice.charge === "string" ? invoice.charge : invoice.charge?.id;
+
+        if (paymentIntentId) {
+          refundParams.payment_intent = paymentIntentId;
+        } else if (chargeId) {
+          refundParams.charge = chargeId;
+        } else {
+          throw new PaymentError(
+            "MISSING_PAYMENT_TARGET",
+            `Stripe invoice ${transactionId} has no refundable payment target`,
+            this.name
+          );
+        }
+      } else {
+        throw new PaymentError(
+          "UNSUPPORTED_TRANSACTION_ID",
+          `Unsupported Stripe transaction id: ${transactionId}`,
+          this.name
+        );
+      }
+
+      const refund = await stripe.refunds.create(
+        refundParams,
+        request.orderNo
+          ? { idempotencyKey: `refund_${request.orderNo}` }
+          : undefined
+      );
+
+      return {
+        success: true,
+        refundId: refund.id,
+        paymentProvider: this.name,
+        raw: refund,
+      };
+    } catch (error: any) {
+      console.error("Stripe refund failed:", error);
+      return {
+        success: false,
+        paymentProvider: this.name,
+        errorCode: error?.code || error?.name || "STRIPE_REFUND_FAILED",
+        errorMessage: error?.message || "Failed to refund Stripe payment",
+      };
+    }
   }
 }

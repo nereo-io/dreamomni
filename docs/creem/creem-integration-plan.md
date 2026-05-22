@@ -55,9 +55,10 @@ class CreemProvider implements PaymentProvider {
 // PaymentRouter 更新
 class PaymentRouter {
   private getDefaultProvider(location?: LocationInfo): string {
-    // 优先级: Creem > Stripe > Payssion
-    if (this.providers.has("creem")) return "creem";
+    // 优先级: Payssion（俄罗斯）> Stripe（非俄罗斯默认）> Creem（备用/可选）
     if (shouldUsePayssion(location?.countryCode)) return "payssion";
+    if (this.providers.has("stripe")) return "stripe";
+    if (this.providers.has("creem")) return "creem";
     return "stripe";
   }
   

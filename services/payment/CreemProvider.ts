@@ -7,6 +7,8 @@ import {
   SubscriptionStatus,
   SubscriptionWebhookResult,
   PaymentError,
+  RefundRequest,
+  RefundResult,
 } from "./types";
 import { getProviderProductId } from "@/config/products";
 import { parseCreemWebhookSecrets } from "@/lib/creem-webhook";
@@ -288,6 +290,39 @@ export class CreemProvider implements PaymentProvider {
         "creem",
         error
       );
+    }
+  }
+
+  async refundPayment(request: RefundRequest): Promise<RefundResult> {
+    try {
+      const response = await this.apiRequest("/v1/refunds", {
+        method: "POST",
+        body: JSON.stringify({
+          transaction_id: request.transactionId,
+          amount: Math.round(request.amount * 100),
+          currency: (request.currency || "USD").toUpperCase(),
+          reason: request.reason,
+          metadata: {
+            order_no: request.orderNo,
+            ...request.metadata,
+          },
+        }),
+      });
+
+      return {
+        success: true,
+        refundId: response.id,
+        paymentProvider: this.name,
+        raw: response,
+      };
+    } catch (error: any) {
+      console.error("❌ Creem refund failed:", error);
+      return {
+        success: false,
+        paymentProvider: this.name,
+        errorCode: error?.code || "CREEM_REFUND_FAILED",
+        errorMessage: error?.message || "Failed to refund Creem payment",
+      };
     }
   }
 

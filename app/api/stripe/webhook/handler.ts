@@ -1,6 +1,13 @@
 import Stripe from "stripe";
 import { respOk } from "@/lib/resp";
-import { handleInvoicePayment, handleOrderSession } from "@/services/order";
+import {
+  handleStripeCheckoutSessionExpired,
+  handleStripeCheckoutSessionFailure,
+  handleInvoicePayment,
+  handleOrderSession,
+  handleStripeInvoicePaymentFailed,
+  handleStripeSubscriptionCanceled,
+} from "@/services/order";
 import { getTrimmedEnv } from "@/lib/env";
 
 export async function handleStripeWebhook(req: Request) {
@@ -46,6 +53,41 @@ export async function handleStripeWebhook(req: Request) {
             invoice.id,
             invoice.billing_reason
           );
+        }
+        break;
+      }
+
+      case "invoice.payment_failed": {
+        const invoice = event.data.object;
+        await handleStripeInvoicePaymentFailed(invoice);
+        break;
+      }
+
+      case "checkout.session.expired": {
+        const session = event.data.object;
+        await handleStripeCheckoutSessionExpired(session);
+        break;
+      }
+
+      case "checkout.session.async_payment_failed": {
+        const session = event.data.object;
+        await handleStripeCheckoutSessionFailure(session, {
+          code: "checkout_async_payment_failed",
+          message: "Stripe checkout asynchronous payment failed",
+        });
+        break;
+      }
+
+      case "customer.subscription.deleted": {
+        const subscription = event.data.object;
+        await handleStripeSubscriptionCanceled(subscription);
+        break;
+      }
+
+      case "customer.subscription.updated": {
+        const subscription = event.data.object;
+        if (subscription.status === "canceled") {
+          await handleStripeSubscriptionCanceled(subscription);
         }
         break;
       }

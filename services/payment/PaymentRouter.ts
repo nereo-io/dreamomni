@@ -13,13 +13,15 @@ import {
   SubscriptionResponse,
   MandateRequest,
   MandateResponse,
+  RefundRequest,
+  RefundResult,
 } from "./types";
 
 export class PaymentRouter {
   private providers: Map<string, PaymentProvider> = new Map();
 
   constructor() {
-    // 优先初始化 Creem 提供商
+    // 初始化 Creem 提供商（当前非俄罗斯默认走 Stripe，Creem 作为备用渠道）
     try {
       this.providers.set("creem", new CreemProvider());
     } catch (error) {
@@ -46,7 +48,7 @@ export class PaymentRouter {
     const countryCode = location?.countryCode || "US";
     const isRussianRegion = shouldUsePayssion(countryCode);
 
-    // 优先级：俄罗斯地区用Payssion，其他地区优先用Creem，回退到Stripe
+    // 优先级：俄罗斯地区用 Payssion，其他地区默认用 Stripe，Creem 作为备用渠道
     if (isRussianRegion && this.providers.has("payssion")) {
       return this.getPayssionMethods();
     }
@@ -290,6 +292,33 @@ export class PaymentRouter {
     }
 
     return await provider.querySubscription(subscriptionId);
+  }
+
+  /**
+   * 发起退款
+   */
+  async refundPayment(
+    providerName: string,
+    request: RefundRequest
+  ): Promise<RefundResult> {
+    const provider = this.providers.get(providerName);
+    if (!provider) {
+      throw new PaymentError(
+        "PROVIDER_NOT_FOUND",
+        `Payment provider ${providerName} not found`,
+        "router"
+      );
+    }
+
+    if (!provider.refundPayment) {
+      throw new PaymentError(
+        "REFUND_NOT_SUPPORTED",
+        `Provider ${providerName} does not support refunds`,
+        providerName
+      );
+    }
+
+    return await provider.refundPayment(request);
   }
 
 }

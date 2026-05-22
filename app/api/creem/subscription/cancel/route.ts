@@ -6,6 +6,7 @@ import {
   updateCreemSubscriptionStatus 
 } from "@/models/creem-subscription";
 import { getPaymentRouter } from "@/services/payment";
+import { trackFirstPromoterCancellation } from "@/services/analytics/first-promoter";
 
 // 日志函数
 function logInfo(message: string, data?: any) {
@@ -73,17 +74,15 @@ export async function POST(req: NextRequest) {
       return respErr("Can only cancel active or trialing subscriptions");
     }
 
-    let creemApiSuccess = false;
-    
     try {
       // 通过 PaymentRouter 调用 Creem API 取消订阅
       const paymentRouter = getPaymentRouter();
-      const cancelResult = await paymentRouter.cancelSubscription("creem", subscription_id);
-      creemApiSuccess = !!cancelResult;
+      await paymentRouter.cancelSubscription("creem", subscription_id);
     } catch (apiError: any) {
       // 如果是 404 错误，订阅可能已经在 Creem 端取消，继续更新本地状态
       if (!apiError.message?.includes("404")) {
         logError("❌ Creem API 错误", apiError.message);
+        return respErr("Failed to cancel subscription in Creem");
       }
     }
 
@@ -94,6 +93,12 @@ export async function POST(req: NextRequest) {
     );
 
     logInfo("✅ 订阅取消成功", { subscriptionId: subscription_id });
+
+    await trackFirstPromoterCancellation({
+      paymentProvider: "creem",
+      subscriptionId: subscription_id,
+      userUuid: subscription.user_uuid,
+    });
 
     return respData({
       message: "Subscription canceled successfully",

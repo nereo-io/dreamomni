@@ -18,6 +18,7 @@ export interface PaymentData {
   subscriptionId?: string;
   userEmail?: string;
   paymentMethod?: string;
+  paymentProvider?: string;
   metadata?: {
     // Payment metadata from provider
     credits?: number;
@@ -73,6 +74,9 @@ export class PaymentProcessingService {
       console.log(
         `✅ Payment processed: ${data.paymentId} → ${creditsAwarded} credits awarded`
       );
+
+      await this.trackAffiliateSale(data, order);
+
       return {
         success: true,
         creditsAwarded,
@@ -134,7 +138,8 @@ export class PaymentProcessingService {
           orderNo: orderId,
           userUuid: data.userUuid,
           subscriptionId: data.subscriptionId,
-          paymentProvider: data.paymentMethod, // 传入支付提供商
+          paymentProvider:
+            data.paymentProvider || order.payment_provider || data.paymentMethod,
           totalCredits: credits,
           monthlyCredits: creditsToAward,
         });
@@ -219,6 +224,46 @@ export class PaymentProcessingService {
 
     console.log(`📝 Order status updated to paid: ${orderId}`);
     return creditsAwarded;
+  }
+
+  private static async trackAffiliateSale(data: PaymentData, order: any) {
+    const paymentProvider =
+      data.paymentProvider || order.payment_provider || data.paymentMethod;
+
+    if (!paymentProvider) {
+      return;
+    }
+
+    try {
+      const { trackFirstPromoterSale } = await import(
+        "@/services/analytics/first-promoter"
+      );
+      const orderId = data.orderId || data.paymentId;
+      const amount = Number(order.amount);
+
+      if (!Number.isFinite(amount) || amount <= 0) {
+        console.error("⚠️ FirstPromoter sale tracking skipped: invalid amount", {
+          orderId,
+          amount: order.amount,
+        });
+        return;
+      }
+
+      await trackFirstPromoterSale({
+        orderNo: orderId,
+        paymentProvider,
+        paymentId: data.paymentId,
+        userUuid: order.user_uuid || data.userUuid,
+        email: order.user_email || data.userEmail || "",
+        amount,
+        currency: order.currency || "usd",
+      });
+    } catch (error: any) {
+      console.error(
+        "⚠️ FirstPromoter sale tracking failed:",
+        error.message || error
+      );
+    }
   }
 
   /**
