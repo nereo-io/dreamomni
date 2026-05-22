@@ -144,7 +144,7 @@ var FPROM = (function () {
       o = "",
       r = "";
     (t &&
-      ((i = new Date()).setTime(i.getTime() + 60 * t * 1e3),
+      ((i = new Date()).setTime(i.getTime() + 30 * t * 1e3),
       (o = "; expires=" + i.toGMTString())),
       c.domain && (r = "; domain=." + c.domain),
       (document.cookie = n + "=" + escape(e) + o + r + "; path=/"));

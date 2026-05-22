@@ -11,10 +11,10 @@ function checkoutDeprecatedResponse() {
   );
 }
 
-export async function POST(_req?: Request) {
+export async function POST(_req: Request) {
   return checkoutDeprecatedResponse();
 }
 
-export async function GET(_req?: Request) {
+export async function GET(_req: Request) {
   return checkoutDeprecatedResponse();
 }
