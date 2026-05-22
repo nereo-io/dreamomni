@@ -882,9 +882,6 @@ export default function PricingModal({
                                 return;
                               }
                               if (itemIsDowngrade) {
-                                toast.error(
-                                  "Downgrade is not allowed. Please contact support if you need to change your plan.",
-                                );
                                 return;
                               }
 
@@ -920,10 +917,10 @@ export default function PricingModal({
                                 {itemIsCurrentPlan
                                   ? "Current Plan"
                                   : itemIsDowngrade
-                                    ? "Downgrade Not Allowed"
+                                    ? `Subscription to ${item.title}`
                                     : itemCanUpgrade &&
                                         subscriptionState?.hasActiveSubscription
-                                      ? "Upgrade"
+                                      ? `Upgrade to ${item.title}`
                                       : item.button.title}
                               </span>
                             )}
