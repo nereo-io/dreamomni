@@ -4,10 +4,10 @@ interface StructuredDataProps {
 }
 
 const site = {
-  name: 'GeminiOmni',
-  url: 'https://geminiomni.tv',
-  logo: 'https://geminiomni.tv/logo.png',
-  supportEmail: 'support@geminiomni.tv',
+  name: 'DreamOmni',
+  url: 'https://dreamomni.ai',
+  logo: 'https://dreamomni.ai/logo.png',
+  supportEmail: 'support@dreamomni.ai',
 };
 
 export default function StructuredData({ type, data }: StructuredDataProps) {
@@ -21,7 +21,7 @@ export default function StructuredData({ type, data }: StructuredDataProps) {
         name: site.name,
         url: site.url,
         logo: site.logo,
-        description: data.description || "GeminiOmni is an independent AI video generator for creating cinematic videos from prompts and images.",
+        description: data.description || "DreamOmni is an independent AI video generator for creating cinematic videos from prompts and images.",
         foundingDate: "2024",
         contactPoint: {
           "@type": "ContactPoint",
@@ -48,7 +48,7 @@ export default function StructuredData({ type, data }: StructuredDataProps) {
       structuredData = {
         "@context": "https://schema.org",
         "@type": "SoftwareApplication",
-        name: "GeminiOmni AI Video Generator",
+        name: "DreamOmni AI Video Generator",
         applicationCategory: "MultimediaApplication",
         operatingSystem: "Web Browser",
         url: site.url,

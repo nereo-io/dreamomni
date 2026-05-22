@@ -20,12 +20,12 @@ export function AIVideoHeader() {
         >
           <img
             src="/logo.png"
-            alt="GeminiOmni"
+            alt="DreamOmni"
             className="h-8 w-8 object-contain"
             width={32}
             height={32}
           />
-          <span>GeminiOmni</span>
+          <span>DreamOmni</span>
         </Link>
         <div className="flex items-center gap-2 sm:gap-4">
           <LocaleToggle />

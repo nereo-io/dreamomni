@@ -11,22 +11,22 @@
       {
         "id": "best-image-to-video-generator",
         "question": "What is the best image to video AI generator?",
-        "answer": "GeminiOmni gives creators one place to animate images into cinematic videos with fast online AI video tools."
+        "answer": "DreamOmni gives creators one place to animate images into cinematic videos with fast online AI video tools."
       },
       {
         "id": "what-makes-us-stand-out",
-        "question": "What makes GeminiOmni's image to video generator stand out?",
-        "answer": "GeminiOmni pairs practical image-to-video generation with Gemini Omni-style prompt guidance, reference control, and creator-friendly video workflows."
+        "question": "What makes DreamOmni's image to video generator stand out?",
+        "answer": "DreamOmni pairs practical image-to-video generation with Gemini Omni-style prompt guidance, reference control, and creator-friendly video workflows."
       },
       {
         "id": "what-images-can-work-with",
-        "question": "What types of images work best with GeminiOmni?",
-        "answer": "GeminiOmni works with common image formats including JPG, PNG, and WEBP. For best results, use high-quality images with clear subjects and good lighting."
+        "question": "What types of images work best with DreamOmni?",
+        "answer": "DreamOmni works with common image formats including JPG, PNG, and WEBP. For best results, use high-quality images with clear subjects and good lighting."
       },
       {
         "id": "is-image-to-video-free",
-        "question": "Is GeminiOmni's image to video generator free?",
-        "answer": "GeminiOmni offers free trial credits and paid options for supported AI video generation models."
+        "question": "Is DreamOmni's image to video generator free?",
+        "answer": "DreamOmni offers free trial credits and paid options for supported AI video generation models."
       }
     ]
   },
@@ -37,7 +37,7 @@
   },
   "aiModelsHero": {
     "title": "All-in-One AI Image to Video Generator",
-    "description": "GeminiOmni is an all-in-one AI image to video generator. Animate images with cinematic motion, prompt control, and creator-friendly AI video workflows.",
+    "description": "DreamOmni is an all-in-one AI image to video generator. Animate images with cinematic motion, prompt control, and creator-friendly AI video workflows.",
     "models": [
       {
         "id": "sora2",
@@ -64,7 +64,7 @@
   },
   "imageToVideoShowcase": {
     "title": "Animate Your Images with Our Image to Video AI Generator",
-    "description": "Turn any static image into a vivid story with GeminiOmni. Generate creative videos from uploaded photos using supported AI video models.",
+    "description": "Turn any static image into a vivid story with DreamOmni. Generate creative videos from uploaded photos using supported AI video models.",
     "labels": {
       "originalImage": "Original image",
       "prompt": "Prompt",

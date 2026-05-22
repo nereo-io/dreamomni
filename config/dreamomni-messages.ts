@@ -8,23 +8,23 @@ const HIDDEN_MODEL_MESSAGE_KEYS = new Set<string>([
 
 function sanitizeString(value: string): string {
   return value
-    .replaceAll('www.seedance.tv', 'www.geminiomni.tv')
-    .replaceAll('seedance.tv', 'geminiomni.tv')
+    .replaceAll('www.seedance.tv', 'www.dreamomni.ai')
+    .replaceAll('seedance.tv', 'dreamomni.ai')
     .replaceAll('/imgs/intro/seedance.png', '/logo.png')
     .replace(/(?<![/-])seedance(?![-/])/gi, (match) => {
       if (match === 'SEEDANCE') {
-        return 'GEMINIOMNI';
+        return 'DREAMOMNI';
       }
 
       if (match === 'seedance') {
-        return 'geminiomni';
+        return 'dreamomni';
       }
 
-      return 'GeminiOmni';
+      return 'DreamOmni';
     });
 }
 
-export function sanitizeGeminiOmniString(value: string): string {
+export function sanitizeDreamOmniString(value: string): string {
   return sanitizeString(value);
 }
 
@@ -48,11 +48,11 @@ function sanitizeValue(value: unknown, hiddenKeys = new Set<string>()): unknown 
   return value;
 }
 
-export function sanitizeGeminiOmniContent<T>(value: T): T {
+export function sanitizeDreamOmniContent<T>(value: T): T {
   return sanitizeValue(value) as T;
 }
 
-export function prepareGeminiOmniClientMessages(
+export function prepareDreamOmniClientMessages(
   messages: AbstractIntlMessages
 ) {
   return sanitizeValue(messages, HIDDEN_MODEL_MESSAGE_KEYS) as AbstractIntlMessages;

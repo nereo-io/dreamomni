@@ -24,13 +24,13 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project Overview
 
-**GeminiOmni.tv** is an AI media generation platform built on Next.js 14 (App Router). It generates **video, image, music, and effects**, plus an agentic multi-modal composition UI ("Omni Studio") built around the flagship **Gemini Omni** video model (served via Kie.ai). Multiple providers back each media type, with location-based payment processing and 9-locale i18n.
+**DreamOmni.ai** is an AI media generation platform built on Next.js 14 (App Router). It generates **video, image, music, and effects**, plus an agentic multi-modal composition UI ("Omni Studio") built around the flagship **Gemini Omni** video model (served via Kie.ai). Multiple providers back each media type, with location-based payment processing and 9-locale i18n.
 
 **Rebrand lineage** (important — naming is inconsistent across layers): `Veo3 AI` → `Seedance` → `Gemini Omni`. As a result:
 - Git repo / remote name is still `veo3`; the README still says "Veo3 AI" (stale).
 - Supabase project is named `Seedance`; some env/config still references `seedance`.
-- `config/geminiomni-messages.ts` actively sanitizes leftover `seedance`/old-URL strings → `geminiomni` at runtime.
-- When adding user-facing copy, use "Gemini Omni" / "GeminiOmni.tv". Don't "fix" internal `veo3`/`seedance` identifiers unless that's the task.
+- `config/dreamomni-messages.ts` actively sanitizes leftover `seedance`/old-URL strings → `dreamomni` at runtime.
+- When adding user-facing copy, use "Gemini Omni" / "DreamOmni.ai". Don't "fix" internal `veo3`/`seedance` identifiers unless that's the task.
 
 **Credits** are pool-based (not a flat USD rate). New users get **6 credits** (`CreditsAmount.NewUserGet`, `services/credit.ts`). Cost is computed per-model — see [Credits & Pricing](#credits--pricing).
 
@@ -124,7 +124,7 @@ Each media type has its own submit route + service + status mechanism. Status is
 - `video-models.ts` — `VIDEO_MODELS` registry + `calculateCredits()`; the source of truth for video pricing/capabilities.
 - `image-models.ts`, `music-models.ts`, `effect-models.ts` — registries for the other media types.
 - `model-landing-pages.ts`, `video-effect-pages.ts`, `image-effect-pages.ts` — slugs/content for SEO landing & effect-template pages.
-- `geminiomni-landing.ts`, `geminiomni-footer.ts`, `geminiomni-messages.ts` — homepage copy + rebrand string sanitization.
+- `dreamomni-landing.ts`, `dreamomni-footer.ts`, `dreamomni-messages.ts` — homepage copy + rebrand string sanitization.
 - `products.ts` — subscription tiers (mini/standard/plus/max, monthly/yearly). `aiProviders.ts`, `creem.ts`, `payssion.ts`.
 
 ### Services (`services/`)
@@ -146,7 +146,7 @@ Each media type has its own submit route + service + status mechanism. Status is
 - Deduction is atomic and pool-based via the `deduct_credits_v2` Supabase RPC (tracks per-pool expiry for refunds). Failed generations auto-refund.
 
 ### Omni Studio
-Multi-modal composition UI (`components/blocks/omni-studio/`, route `(home)/omni-studio`) for the Gemini Omni video model. Accepts text + image refs + video clips + audio refs + character refs. Inputs are counted as "units" (image = 1, video = 2, capped); supports 720p/1080p/4K with resolution-based pricing and an audio toggle. Backed by `KieAiGeminiOmniProvider` + `agentImageService`.
+Multi-modal composition UI (`components/blocks/omni-studio/`, route `(home)/omni-studio`) for the Gemini Omni video model. Accepts text + image refs + video clips + audio refs + character refs. Inputs are counted as "units" (image = 1, video = 2, capped); supports 720p/1080p/4K with resolution-based pricing and an audio toggle. Backed by `KieAiDreamOmniProvider` + `agentImageService`.
 
 ### Security
 - RLS on all Supabase tables; webhook HMAC-SHA256 verification; Zod schemas for API validation.

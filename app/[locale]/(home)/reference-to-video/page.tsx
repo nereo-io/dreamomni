@@ -5,7 +5,7 @@ import ModelUsageGuide from "@/components/blocks/model-landing-page/model-usage-
 import { FAQSection } from "@/components/blocks/faq-section";
 import CTA from "@/components/blocks/cta";
 import { getReferenceToVideoPage } from "@/services/page";
-import { sanitizeGeminiOmniString } from "@/config/geminiomni-messages";
+import { sanitizeDreamOmniString } from "@/config/dreamomni-messages";
 import { getTranslations } from "next-intl/server";
 import { auth } from "@/auth";
 
@@ -23,9 +23,9 @@ export async function generateMetadata({
   }
 
   return {
-    title: sanitizeGeminiOmniString(t("pages.referenceToVideo.title")),
-    description: sanitizeGeminiOmniString(t("pages.referenceToVideo.description")),
-    keywords: sanitizeGeminiOmniString(t("pages.referenceToVideo.keywords")),
+    title: sanitizeDreamOmniString(t("pages.referenceToVideo.title")),
+    description: sanitizeDreamOmniString(t("pages.referenceToVideo.description")),
+    keywords: sanitizeDreamOmniString(t("pages.referenceToVideo.keywords")),
     alternates: {
       canonical: canonicalUrl,
     },

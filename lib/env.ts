@@ -4,5 +4,5 @@ export function getTrimmedEnv(name: string): string | undefined {
 }
 
 export function getPublicWebUrl(): string {
-  return getTrimmedEnv('NEXT_PUBLIC_WEB_URL') || 'https://geminiomni.tv';
+  return getTrimmedEnv('NEXT_PUBLIC_WEB_URL') || 'https://dreamomni.ai';
 }

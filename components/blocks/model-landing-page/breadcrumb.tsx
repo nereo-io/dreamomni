@@ -10,7 +10,7 @@ interface BreadcrumbProps {
 
 export default function Breadcrumb({ section }: BreadcrumbProps) {
   const { items } = section;
-  const baseUrl = process.env.NEXT_PUBLIC_WEB_URL || "https://geminiomni.tv";
+  const baseUrl = process.env.NEXT_PUBLIC_WEB_URL || "https://dreamomni.ai";
 
   // JSON-LD structured data for breadcrumb
   const jsonLd = {

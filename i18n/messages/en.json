@@ -1,7 +1,7 @@
 {
   "metadata": {
     "title": "Free Gemini Omni AI Video Generator",
-    "description": "Create cinematic AI videos online with GeminiOmni. Turn text prompts and images into videos with a free Gemini Omni-style AI video generator.",
+    "description": "Create cinematic AI videos online with DreamOmni. Turn text prompts and images into videos with a free Gemini Omni-style AI video generator.",
     "keywords": "Gemini Omni, Gemini Omni AI video generator, free AI video generator, Google Gemini Omni, text to video AI, image to video AI"
   },
   "wan-2-5": {
@@ -697,7 +697,7 @@
   },
   "pages": {
     "home": {
-      "title": "Welcome to GeminiOmni",
+      "title": "Welcome to DreamOmni",
       "description": "Create Gemini Omni-style AI videos with supported text-to-video and image-to-video tools."
     },
     "videoEffects": {
@@ -708,27 +708,27 @@
       "useThisEffect": "Use This Effect"
     },
     "textToVideo": {
-      "title": "GeminiOmni Text to Video AI Generator",
-      "description": "Create AI videos from text prompts with GeminiOmni's fast online text-to-video generator.",
-      "keywords": "Gemini Omni, GeminiOmni, AI video generator, text to video, free video generator, Gemini Omni video"
+      "title": "DreamOmni Text to Video AI Generator",
+      "description": "Create AI videos from text prompts with DreamOmni's fast online text-to-video generator.",
+      "keywords": "Gemini Omni, DreamOmni, AI video generator, text to video, free video generator, Gemini Omni video"
     },
     "textToImage": {
-      "title": "Free AI Text to Image Generator | GeminiOmni",
-      "description": "Transform prompts into images with GeminiOmni's AI image generation tools.",
-      "keywords": "AI text to image, text to image generator, free AI image creator, GeminiOmni, AI art from text"
+      "title": "Free AI Text to Image Generator | DreamOmni",
+      "description": "Transform prompts into images with DreamOmni's AI image generation tools.",
+      "keywords": "AI text to image, text to image generator, free AI image creator, DreamOmni, AI art from text"
     },
     "imageToImage": {
-      "title": "Free AI Image to Image Editor | GeminiOmni",
-      "description": "Edit and transform images with GeminiOmni's AI image-to-image tools.",
-      "keywords": "AI image editor, image to image AI, photo transformation, AI image editing, GeminiOmni"
+      "title": "Free AI Image to Image Editor | DreamOmni",
+      "description": "Edit and transform images with DreamOmni's AI image-to-image tools.",
+      "keywords": "AI image editor, image to image AI, photo transformation, AI image editing, DreamOmni"
     },
     "imageToVideo": {
-      "title": "GeminiOmni Image to Video AI Generator",
-      "description": "Animate photos into videos with GeminiOmni's fast online image-to-video generator.",
-      "keywords": "Gemini Omni, GeminiOmni, image to video AI, photo to video converter, AI video from image"
+      "title": "DreamOmni Image to Video AI Generator",
+      "description": "Animate photos into videos with DreamOmni's fast online image-to-video generator.",
+      "keywords": "Gemini Omni, DreamOmni, image to video AI, photo to video converter, AI video from image"
     },
     "referenceToVideo": {
-      "title": "Reference to Video AI Generator | GeminiOmni",
+      "title": "Reference to Video AI Generator | DreamOmni",
       "description": "Upload 1-3 reference images and generate 8s videos with Veo 3.1. Preserve character appearance across scenes with native audio. Extend to 148s.",
       "keywords": "Veo3 reference to video, consistent character, identity lock, Veo 3.1, character consistency"
     },
@@ -738,9 +738,9 @@
       "keywords": "Kling Motion Control, Kling 3.0, character animation, video to video, reference video animation, AI video generator, Veo3 AI"
     },
     "imageGeneration": {
-      "title": "Free AI Image Generator | GeminiOmni",
-      "description": "Generate images from text prompts with GeminiOmni's AI image generation tools.",
-      "keywords": "AI image generator, text to image, free image generator, GeminiOmni, AI art"
+      "title": "Free AI Image Generator | DreamOmni",
+      "description": "Generate images from text prompts with DreamOmni's AI image generation tools.",
+      "keywords": "AI image generator, text to image, free image generator, DreamOmni, AI art"
     },
     "videoAffects": {
       "heroSection": {
@@ -1312,18 +1312,18 @@
   },
   "gemini-omni-api": {
     "title": "Gemini Omni API Access Guide",
-    "description": "Learn Gemini Omni API access options, when to use GeminiOmni's browser workflow, and how official Google Veo API paths affect cost and setup.",
-    "keywords": "Gemini Omni API, Gemini Omni API access, Gemini Omni developer API, Gemini API video, Veo 3.1 API, AI video API, GeminiOmni API"
+    "description": "Learn Gemini Omni API access options, when to use DreamOmni's browser workflow, and how official Google Veo API paths affect cost and setup.",
+    "keywords": "Gemini Omni API, Gemini Omni API access, Gemini Omni developer API, Gemini API video, Veo 3.1 API, AI video API, DreamOmni API"
   },
   "gemini-omni-pricing": {
     "title": "Gemini Omni Pricing: Free Credits, Plans, and Costs",
-    "description": "Compare Gemini Omni pricing options on GeminiOmni, including free credits, subscriptions, credit packs, and practical AI video generation budgeting.",
-    "keywords": "Gemini Omni pricing, Gemini Omni cost, Gemini Omni plans, Gemini Omni credits, free Gemini Omni, AI video pricing, GeminiOmni pricing"
+    "description": "Compare Gemini Omni pricing options on DreamOmni, including free credits, subscriptions, credit packs, and practical AI video generation budgeting.",
+    "keywords": "Gemini Omni pricing, Gemini Omni cost, Gemini Omni plans, Gemini Omni credits, free Gemini Omni, AI video pricing, DreamOmni pricing"
   },
   "gemini-omni-free": {
     "title": "Gemini Omni Free Access: Try AI Video Generation",
-    "description": "See how to try Gemini Omni-style AI video generation free on GeminiOmni, what free credits cover, and when paid credits make sense.",
-    "keywords": "Gemini Omni free, free Gemini Omni access, Gemini Omni free trial, free AI video generator, GeminiOmni free credits, try Gemini Omni"
+    "description": "See how to try Gemini Omni-style AI video generation free on DreamOmni, what free credits cover, and when paid credits make sense.",
+    "keywords": "Gemini Omni free, free Gemini Omni access, Gemini Omni free trial, free AI video generator, DreamOmni free credits, try Gemini Omni"
   },
   "gemini-omni-alternatives-vs-veo-3-1": {
     "title": "Gemini Omni Alternatives vs Veo 3.1",

@@ -136,12 +136,12 @@ export function Sidebar() {
           >
             <img
               src="/logo.png"
-              alt="GeminiOmni"
+              alt="DreamOmni"
               className="h-8 w-8 object-contain"
               width={32}
               height={32}
             />
-            {!isCollapsed && <span className="text-xl font-bold">GeminiOmni</span>}
+            {!isCollapsed && <span className="text-xl font-bold">DreamOmni</span>}
           </Link>
           {!isCollapsed && (
             <div className="flex items-center space-x-2">

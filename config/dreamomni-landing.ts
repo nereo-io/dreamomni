@@ -50,7 +50,7 @@ type LandingLocaleCopy = {
   };
 };
 
-export type GeminiOmniIntentLink = {
+export type DreamOmniIntentLink = {
   title: string;
   description: string;
   href: string;
@@ -61,14 +61,14 @@ const landingCopy: Record<string, LandingLocaleCopy> = {
     metadata: {
       title: "Free Gemini Omni AI Video Generator",
       description:
-        "Create cinematic AI videos with GeminiOmni. Turn text prompts and images into videos online with a free Gemini Omni-style AI video generator.",
+        "Create cinematic AI videos with DreamOmni. Turn text prompts and images into videos online with a free Gemini Omni-style AI video generator.",
       keywords:
         "Gemini Omni, Gemini Omni AI video generator, free AI video generator, Google Gemini Omni, text to video AI, image to video AI, multimodal video generator",
     },
     hero: {
       title: "Free Gemini Omni AI Video Generator",
       description:
-        "Create cinematic AI videos from text prompts and images. GeminiOmni brings Gemini Omni-style multimodal video creation into a simple online generator for creators, marketers, educators, and storytellers.",
+        "Create cinematic AI videos from text prompts and images. DreamOmni brings Gemini Omni-style multimodal video creation into a simple online generator for creators, marketers, educators, and storytellers.",
       primaryCta: "Generate AI Video Free",
       secondaryCta: "Image to Video",
       highlights: [
@@ -76,7 +76,7 @@ const landingCopy: Record<string, LandingLocaleCopy> = {
         "Use image references to guide subjects, style, and composition",
         "Preview, save, and download finished AI videos when outputs are ready",
       ],
-      imageAlt: "GeminiOmni AI video generator visual",
+      imageAlt: "DreamOmni AI video generator visual",
       preview: [
         {
           label: "Prompt",
@@ -95,13 +95,13 @@ const landingCopy: Record<string, LandingLocaleCopy> = {
     model: {
       title: "What is Gemini Omni for AI video creation?",
       description:
-        "Gemini Omni points toward a multimodal creation model that can understand text, images, video, voice, camera language, and real-world context together. GeminiOmni turns that idea into a practical generator experience for people who want to create videos online now.",
+        "Gemini Omni points toward a multimodal creation model that can understand text, images, video, voice, camera language, and real-world context together. DreamOmni turns that idea into a practical generator experience for people who want to create videos online now.",
     },
     capabilities: [
       {
         title: "Text-to-video creative direction",
         description:
-          "Describe the scene, subject, motion, lens, lighting, style, and mood in natural language, then use GeminiOmni to turn the idea into a video draft.",
+          "Describe the scene, subject, motion, lens, lighting, style, and mood in natural language, then use DreamOmni to turn the idea into a video draft.",
       },
       {
         title: "Image-to-video references",
@@ -145,7 +145,7 @@ const landingCopy: Record<string, LandingLocaleCopy> = {
     useCases: {
       title: "Practical ways to use a Gemini Omni AI video generator.",
       description:
-        "GeminiOmni is built for people who need usable videos, not a passive model news page. Move from an idea, image, product, or storyboard into a polished AI video draft.",
+        "DreamOmni is built for people who need usable videos, not a passive model news page. Move from an idea, image, product, or storyboard into a polished AI video draft.",
       items: [
         "Short-form ads and UGC concepts",
         "Product demos and launch videos",
@@ -158,12 +158,12 @@ const landingCopy: Record<string, LandingLocaleCopy> = {
     faq: {
       title: "Gemini Omni AI video generator questions.",
       independentNotice:
-        "GeminiOmni.tv is an independent product and is not affiliated with Google, Gemini, or Google DeepMind.",
+        "DreamOmni.ai is an independent product and is not affiliated with Google, Gemini, or Google DeepMind.",
       items: [
         {
           question: "What is the Gemini Omni AI Video Generator?",
           answer:
-            "GeminiOmni is an independent online AI video generator inspired by Google Gemini Omni's multimodal video direction. It helps creators turn prompts and images into cinematic videos with a fast, browser-based workflow.",
+            "DreamOmni is an independent online AI video generator inspired by Google Gemini Omni's multimodal video direction. It helps creators turn prompts and images into cinematic videos with a fast, browser-based workflow.",
         },
         {
           question: "What can I create with Gemini Omni-style video tools?",
@@ -173,17 +173,17 @@ const landingCopy: Record<string, LandingLocaleCopy> = {
         {
           question: "Can I start for free?",
           answer:
-            "Yes. GeminiOmni offers a free starting path so you can try AI video generation before choosing a paid plan or larger credit package.",
+            "Yes. DreamOmni offers a free starting path so you can try AI video generation before choosing a paid plan or larger credit package.",
         },
         {
-          question: "Can GeminiOmni create videos from images?",
+          question: "Can DreamOmni create videos from images?",
           answer:
             "Yes. You can start from a text prompt, upload a reference image, or combine both to guide subject identity, composition, style, and motion.",
         },
         {
-          question: "Is GeminiOmni affiliated with Google?",
+          question: "Is DreamOmni affiliated with Google?",
           answer:
-            "No. GeminiOmni.tv is an independent product and is not affiliated with Google, Gemini, or Google DeepMind.",
+            "No. DreamOmni.ai is an independent product and is not affiliated with Google, Gemini, or Google DeepMind.",
         },
       ],
     },
@@ -192,14 +192,14 @@ const landingCopy: Record<string, LandingLocaleCopy> = {
     metadata: {
       title: "免费 Gemini Omni AI 视频生成器",
       description:
-        "使用 GeminiOmni 在线创建电影级 AI 视频。将文字提示词和图片快速转换为 Gemini Omni 风格的视频内容。",
+        "使用 DreamOmni 在线创建电影级 AI 视频。将文字提示词和图片快速转换为 Gemini Omni 风格的视频内容。",
       keywords:
         "Gemini Omni, Gemini Omni AI 视频生成器,免费 AI 视频生成器,文字转视频 AI,图片转视频 AI,多模态视频生成器",
     },
     hero: {
       title: "免费 Gemini Omni AI 视频生成器",
       description:
-        "通过文字提示词和图片创建电影级 AI 视频。GeminiOmni 将 Gemini Omni 风格的多模态创作能力变成适合创作者、营销团队、教育者和故事创作者使用的在线生成器。",
+        "通过文字提示词和图片创建电影级 AI 视频。DreamOmni 将 Gemini Omni 风格的多模态创作能力变成适合创作者、营销团队、教育者和故事创作者使用的在线生成器。",
       primaryCta: "免费生成 AI 视频",
       secondaryCta: "图片转视频",
       highlights: [
@@ -207,7 +207,7 @@ const landingCopy: Record<string, LandingLocaleCopy> = {
         "用图片参考控制主体、构图与风格",
         "视频完成后可查看历史、播放与下载",
       ],
-      imageAlt: "GeminiOmni AI 视频生成器视觉图",
+      imageAlt: "DreamOmni AI 视频生成器视觉图",
       preview: [
         {
           label: "提示词",
@@ -226,7 +226,7 @@ const landingCopy: Record<string, LandingLocaleCopy> = {
     model: {
       title: "面向多模态 AI 视频创作的新模型方向。",
       description:
-        "Google 对 Gemini Omni 的介绍强调，它可以从多种输入类型开始创作，首先聚焦视频。核心能力包括自然语言编辑、图片/文字/音频/视频参考，以及基于世界知识的场景生成。GeminiOmni 将这种方向转化为更容易上手的生成器流程，让用户现在就能开始创作视频。",
+        "Google 对 Gemini Omni 的介绍强调，它可以从多种输入类型开始创作，首先聚焦视频。核心能力包括自然语言编辑、图片/文字/音频/视频参考，以及基于世界知识的场景生成。DreamOmni 将这种方向转化为更容易上手的生成器流程，让用户现在就能开始创作视频。",
     },
     capabilities: [
       {
@@ -276,7 +276,7 @@ const landingCopy: Record<string, LandingLocaleCopy> = {
     useCases: {
       title: "一个生成器覆盖广告、讲解、概念片和社交短视频。",
       description:
-        "使用 GeminiOmni 从想法快速推进到可用的 AI 视频草稿。它不是资讯页，而是为需要产出的创作者打造的工具。",
+        "使用 DreamOmni 从想法快速推进到可用的 AI 视频草稿。它不是资讯页，而是为需要产出的创作者打造的工具。",
       items: [
         "短视频广告和 UGC 创意",
         "产品演示和发布视频",
@@ -289,12 +289,12 @@ const landingCopy: Record<string, LandingLocaleCopy> = {
     faq: {
       title: "Gemini Omni AI 视频生成器常见问题。",
       independentNotice:
-        "GeminiOmni.tv 是独立产品，与 Google、Gemini 或 Google DeepMind 无隶属关系。",
+        "DreamOmni.ai 是独立产品，与 Google、Gemini 或 Google DeepMind 无隶属关系。",
       items: [
         {
           question: "Gemini Omni AI 视频生成器是什么？",
           answer:
-            "GeminiOmni 是一个独立的在线 AI 视频生成器，灵感来自 Google Gemini Omni 的多模态视频方向。它帮助创作者用快速的浏览器流程，把提示词和图片转换为电影级视频。",
+            "DreamOmni 是一个独立的在线 AI 视频生成器，灵感来自 Google Gemini Omni 的多模态视频方向。它帮助创作者用快速的浏览器流程，把提示词和图片转换为电影级视频。",
         },
         {
           question: "我可以用 Gemini Omni 风格的视频工具创作什么？",
@@ -304,12 +304,12 @@ const landingCopy: Record<string, LandingLocaleCopy> = {
         {
           question: "可以免费开始吗？",
           answer:
-            "可以。GeminiOmni 提供免费起步路径，你可以先体验 AI 视频生成，再选择付费套餐或更大的积分包。",
+            "可以。DreamOmni 提供免费起步路径，你可以先体验 AI 视频生成，再选择付费套餐或更大的积分包。",
         },
         {
-          question: "GeminiOmni 与 Google 有关联吗？",
+          question: "DreamOmni 与 Google 有关联吗？",
           answer:
-            "没有。GeminiOmni.tv 是独立产品，与 Google、Gemini 或 Google DeepMind 无隶属关系。",
+            "没有。DreamOmni.ai 是独立产品，与 Google、Gemini 或 Google DeepMind 无隶属关系。",
         },
       ],
     },
@@ -318,14 +318,14 @@ const landingCopy: Record<string, LandingLocaleCopy> = {
     metadata: {
       title: "無料 Gemini Omni AI 動画生成ツール",
       description:
-        "GeminiOmni で映画のような AI 動画をオンライン作成。テキストプロンプトや画像を Gemini Omni 風の動画へ変換できます。",
+        "DreamOmni で映画のような AI 動画をオンライン作成。テキストプロンプトや画像を Gemini Omni 風の動画へ変換できます。",
       keywords:
         "Gemini Omni, Gemini Omni AI 動画生成, 無料 AI 動画生成, テキストから動画, 画像から動画, マルチモーダル動画生成",
     },
     hero: {
       title: "無料 Gemini Omni AI 動画生成ツール",
       description:
-        "テキストプロンプトや画像から映画のような AI 動画を作成。GeminiOmni は Gemini Omni 風のマルチモーダル制作を、クリエイター、マーケター、教育者、ストーリーテラー向けの高速なオンライン生成体験にします。",
+        "テキストプロンプトや画像から映画のような AI 動画を作成。DreamOmni は Gemini Omni 風のマルチモーダル制作を、クリエイター、マーケター、教育者、ストーリーテラー向けの高速なオンライン生成体験にします。",
       primaryCta: "無料で AI 動画を生成",
       secondaryCta: "画像から動画",
       highlights: [
@@ -333,7 +333,7 @@ const landingCopy: Record<string, LandingLocaleCopy> = {
         "画像参照でビジュアルを誘導",
         "完成後は履歴、再生、ダウンロードに対応",
       ],
-      imageAlt: "GeminiOmni AI 動画生成ツールのビジュアル",
+      imageAlt: "DreamOmni AI 動画生成ツールのビジュアル",
       preview: [
         {
           label: "プロンプト",
@@ -352,7 +352,7 @@ const landingCopy: Record<string, LandingLocaleCopy> = {
     model: {
       title: "マルチモーダル AI 動画制作の新しいモデル方向。",
       description:
-        "Google は Gemini Omni を、複数の入力タイプから創作できる動画起点のモデルとして説明しています。主な能力は自然言語編集、画像・テキスト・音声・動画の参照、世界知識に基づくシーン生成です。GeminiOmni はその方向性を、今すぐ動画を作りたい人のための使いやすい生成フローにします。",
+        "Google は Gemini Omni を、複数の入力タイプから創作できる動画起点のモデルとして説明しています。主な能力は自然言語編集、画像・テキスト・音声・動画の参照、世界知識に基づくシーン生成です。DreamOmni はその方向性を、今すぐ動画を作りたい人のための使いやすい生成フローにします。",
     },
     capabilities: [
       {
@@ -402,7 +402,7 @@ const landingCopy: Record<string, LandingLocaleCopy> = {
     useCases: {
       title: "キャンペーン、解説、コンセプト、SNS クリップを一つの生成ツールで。",
       description:
-        "GeminiOmni なら、アイデアから磨かれた AI 動画ドラフトまで素早く進めます。ニュースページではなく、成果物が必要なクリエイターのためのツールです。",
+        "DreamOmni なら、アイデアから磨かれた AI 動画ドラフトまで素早く進めます。ニュースページではなく、成果物が必要なクリエイターのためのツールです。",
       items: [
         "短尺広告と UGC コンセプト",
         "商品デモとローンチ動画",
@@ -415,12 +415,12 @@ const landingCopy: Record<string, LandingLocaleCopy> = {
     faq: {
       title: "Gemini Omni AI 動画生成ツールのよくある質問。",
       independentNotice:
-        "GeminiOmni.tv は独立した製品であり、Google、Gemini、Google DeepMind とは提携していません。",
+        "DreamOmni.ai は独立した製品であり、Google、Gemini、Google DeepMind とは提携していません。",
       items: [
         {
           question: "Gemini Omni AI 動画生成ツールとは何ですか？",
           answer:
-            "GeminiOmni は Google Gemini Omni のマルチモーダル動画の方向性に着想を得た独立系オンライン AI 動画生成ツールです。プロンプトや画像から映画的な動画を素早く作成できます。",
+            "DreamOmni は Google Gemini Omni のマルチモーダル動画の方向性に着想を得た独立系オンライン AI 動画生成ツールです。プロンプトや画像から映画的な動画を素早く作成できます。",
         },
         {
           question: "Gemini Omni 風の動画ツールで何を作れますか？",
@@ -430,12 +430,12 @@ const landingCopy: Record<string, LandingLocaleCopy> = {
         {
           question: "無料で始められますか？",
           answer:
-            "はい。GeminiOmni には無料で始められる導線があり、AI 動画生成を試してから有料プランや大きなクレジットパックを選べます。",
+            "はい。DreamOmni には無料で始められる導線があり、AI 動画生成を試してから有料プランや大きなクレジットパックを選べます。",
         },
         {
-          question: "GeminiOmni は Google と提携していますか？",
+          question: "DreamOmni は Google と提携していますか？",
           answer:
-            "いいえ。GeminiOmni.tv は独立した製品であり、Google、Gemini、Google DeepMind とは提携していません。",
+            "いいえ。DreamOmni.ai は独立した製品であり、Google、Gemini、Google DeepMind とは提携していません。",
         },
       ],
     },
@@ -444,14 +444,14 @@ const landingCopy: Record<string, LandingLocaleCopy> = {
     metadata: {
       title: "무료 Gemini Omni AI 비디오 생성기",
       description:
-        "GeminiOmni로 영화 같은 AI 비디오를 온라인에서 만드세요. 텍스트 프롬프트와 이미지를 Gemini Omni 스타일 영상으로 변환할 수 있습니다.",
+        "DreamOmni로 영화 같은 AI 비디오를 온라인에서 만드세요. 텍스트 프롬프트와 이미지를 Gemini Omni 스타일 영상으로 변환할 수 있습니다.",
       keywords:
         "Gemini Omni, Gemini Omni AI 비디오 생성기, 무료 AI 비디오 생성기, 텍스트 투 비디오, 이미지 투 비디오, 멀티모달 비디오 생성기",
     },
     hero: {
       title: "무료 Gemini Omni AI 비디오 생성기",
       description:
-        "텍스트 프롬프트와 이미지로 영화 같은 AI 비디오를 만드세요. GeminiOmni는 Gemini Omni 스타일의 멀티모달 창작을 크리에이터, 마케터, 교육자, 스토리텔러를 위한 빠른 온라인 생성기로 바꿉니다.",
+        "텍스트 프롬프트와 이미지로 영화 같은 AI 비디오를 만드세요. DreamOmni는 Gemini Omni 스타일의 멀티모달 창작을 크리에이터, 마케터, 교육자, 스토리텔러를 위한 빠른 온라인 생성기로 바꿉니다.",
       primaryCta: "무료 AI 비디오 생성",
       secondaryCta: "이미지로 비디오 만들기",
       highlights: [
@@ -459,7 +459,7 @@ const landingCopy: Record<string, LandingLocaleCopy> = {
         "이미지 참조로 비주얼 방향 제어",
         "완성된 결과는 기록, 재생, 다운로드 지원",
       ],
-      imageAlt: "GeminiOmni AI 비디오 생성기 비주얼",
+      imageAlt: "DreamOmni AI 비디오 생성기 비주얼",
       preview: [
         {
           label: "프롬프트",
@@ -478,7 +478,7 @@ const landingCopy: Record<string, LandingLocaleCopy> = {
     model: {
       title: "멀티모달 AI 비디오 제작을 위한 새로운 모델 방향.",
       description:
-        "Google은 Gemini Omni를 여러 입력 유형에서 창작할 수 있고, 우선 비디오에 초점을 맞춘 모델로 설명합니다. 핵심 기능은 자연어 편집, 이미지·텍스트·오디오·비디오 참조, 세계 지식에 기반한 장면 생성입니다. GeminiOmni는 이 방향을 지금 비디오를 만들고 싶은 사람들을 위한 쉬운 생성 흐름으로 제공합니다.",
+        "Google은 Gemini Omni를 여러 입력 유형에서 창작할 수 있고, 우선 비디오에 초점을 맞춘 모델로 설명합니다. 핵심 기능은 자연어 편집, 이미지·텍스트·오디오·비디오 참조, 세계 지식에 기반한 장면 생성입니다. DreamOmni는 이 방향을 지금 비디오를 만들고 싶은 사람들을 위한 쉬운 생성 흐름으로 제공합니다.",
     },
     capabilities: [
       {
@@ -528,7 +528,7 @@ const landingCopy: Record<string, LandingLocaleCopy> = {
     useCases: {
       title: "캠페인, 설명 영상, 콘셉트, 소셜 클립을 위한 하나의 생성기.",
       description:
-        "GeminiOmni로 아이디어에서 완성도 있는 AI 비디오 초안까지 빠르게 이동하세요. 단순 뉴스 페이지가 아니라 결과물이 필요한 크리에이터를 위한 도구입니다.",
+        "DreamOmni로 아이디어에서 완성도 있는 AI 비디오 초안까지 빠르게 이동하세요. 단순 뉴스 페이지가 아니라 결과물이 필요한 크리에이터를 위한 도구입니다.",
       items: [
         "숏폼 광고와 UGC 콘셉트",
         "제품 데모와 출시 영상",
@@ -541,12 +541,12 @@ const landingCopy: Record<string, LandingLocaleCopy> = {
     faq: {
       title: "Gemini Omni AI 비디오 생성기 질문.",
       independentNotice:
-        "GeminiOmni.tv는 독립 제품이며 Google, Gemini 또는 Google DeepMind와 제휴되어 있지 않습니다.",
+        "DreamOmni.ai는 독립 제품이며 Google, Gemini 또는 Google DeepMind와 제휴되어 있지 않습니다.",
       items: [
         {
           question: "Gemini Omni AI 비디오 생성기는 무엇인가요?",
           answer:
-            "GeminiOmni는 Google Gemini Omni의 멀티모달 비디오 방향에서 영감을 받은 독립 온라인 AI 비디오 생성기입니다. 프롬프트와 이미지를 빠른 브라우저 기반 흐름으로 영화 같은 영상으로 바꿔줍니다.",
+            "DreamOmni는 Google Gemini Omni의 멀티모달 비디오 방향에서 영감을 받은 독립 온라인 AI 비디오 생성기입니다. 프롬프트와 이미지를 빠른 브라우저 기반 흐름으로 영화 같은 영상으로 바꿔줍니다.",
         },
         {
           question: "Gemini Omni 스타일 비디오 도구로 무엇을 만들 수 있나요?",
@@ -556,12 +556,12 @@ const landingCopy: Record<string, LandingLocaleCopy> = {
         {
           question: "무료로 시작할 수 있나요?",
           answer:
-            "네. GeminiOmni는 무료 시작 경로를 제공하므로 유료 플랜이나 더 큰 크레딧 패키지를 선택하기 전에 AI 비디오 생성을 체험할 수 있습니다.",
+            "네. DreamOmni는 무료 시작 경로를 제공하므로 유료 플랜이나 더 큰 크레딧 패키지를 선택하기 전에 AI 비디오 생성을 체험할 수 있습니다.",
         },
         {
-          question: "GeminiOmni는 Google과 관련이 있나요?",
+          question: "DreamOmni는 Google과 관련이 있나요?",
           answer:
-            "아니요. GeminiOmni.tv는 독립 제품이며 Google, Gemini 또는 Google DeepMind와 제휴되어 있지 않습니다.",
+            "아니요. DreamOmni.ai는 독립 제품이며 Google, Gemini 또는 Google DeepMind와 제휴되어 있지 않습니다.",
         },
       ],
     },
@@ -570,14 +570,14 @@ const landingCopy: Record<string, LandingLocaleCopy> = {
     metadata: {
       title: "Kostenloser Gemini Omni KI-Videogenerator",
       description:
-        "Erstelle mit GeminiOmni filmische KI-Videos online. Verwandle Text-Prompts und Bilder in Videos im Gemini-Omni-Stil.",
+        "Erstelle mit DreamOmni filmische KI-Videos online. Verwandle Text-Prompts und Bilder in Videos im Gemini-Omni-Stil.",
       keywords:
         "Gemini Omni, Gemini Omni KI Videogenerator, kostenloser KI Videogenerator, Text zu Video KI, Bild zu Video KI, multimodaler Videogenerator",
     },
     hero: {
       title: "Kostenloser Gemini Omni KI-Videogenerator",
       description:
-        "Erstelle filmische KI-Videos aus Text-Prompts und Bildern. GeminiOmni macht multimodale Erstellung im Gemini-Omni-Stil zu einem schnellen Online-Generator für Creator, Marketingteams, Lehrende und Storyteller.",
+        "Erstelle filmische KI-Videos aus Text-Prompts und Bildern. DreamOmni macht multimodale Erstellung im Gemini-Omni-Stil zu einem schnellen Online-Generator für Creator, Marketingteams, Lehrende und Storyteller.",
       primaryCta: "KI-Video kostenlos erstellen",
       secondaryCta: "Bild zu Video",
       highlights: [
@@ -585,7 +585,7 @@ const landingCopy: Record<string, LandingLocaleCopy> = {
         "Bild-zu-Video für visuelle Referenzen",
         "Verlauf, Wiedergabe und Download nach Fertigstellung",
       ],
-      imageAlt: "GeminiOmni KI-Videogenerator Visual",
+      imageAlt: "DreamOmni KI-Videogenerator Visual",
       preview: [
         {
           label: "Prompt",
@@ -604,7 +604,7 @@ const landingCopy: Record<string, LandingLocaleCopy> = {
     model: {
       title: "Eine neue Modellrichtung für multimodale KI-Videoproduktion.",
       description:
-        "Google beschreibt Gemini Omni als Modell, das aus vielen Eingabetypen erstellen kann, zunächst mit Fokus auf Video. Zu den Kernfähigkeiten zählen Bearbeitung per natürlicher Sprache, Referenzen aus Bild, Text, Audio und Video sowie szenische Generierung mit Weltwissen. GeminiOmni macht diese Richtung zu einem zugänglichen Generator-Workflow für alle, die jetzt Videos erstellen möchten.",
+        "Google beschreibt Gemini Omni als Modell, das aus vielen Eingabetypen erstellen kann, zunächst mit Fokus auf Video. Zu den Kernfähigkeiten zählen Bearbeitung per natürlicher Sprache, Referenzen aus Bild, Text, Audio und Video sowie szenische Generierung mit Weltwissen. DreamOmni macht diese Richtung zu einem zugänglichen Generator-Workflow für alle, die jetzt Videos erstellen möchten.",
     },
     capabilities: [
       {
@@ -654,7 +654,7 @@ const landingCopy: Record<string, LandingLocaleCopy> = {
     useCases: {
       title: "Ein Generator für Kampagnen, Erklärvideos, Konzepte und Social Clips.",
       description:
-        "Mit GeminiOmni kommst du schnell von der Idee zu einem polierten KI-Videoentwurf. Es ist für Creator gebaut, die Output brauchen, nicht nur Nachrichten.",
+        "Mit DreamOmni kommst du schnell von der Idee zu einem polierten KI-Videoentwurf. Es ist für Creator gebaut, die Output brauchen, nicht nur Nachrichten.",
       items: [
         "Short-Form-Ads und UGC-Konzepte",
         "Produktdemos und Launch-Videos",
@@ -667,12 +667,12 @@ const landingCopy: Record<string, LandingLocaleCopy> = {
     faq: {
       title: "Fragen zum Gemini Omni KI-Videogenerator.",
       independentNotice:
-        "GeminiOmni.tv ist ein unabhängiges Produkt und nicht mit Google, Gemini oder Google DeepMind verbunden.",
+        "DreamOmni.ai ist ein unabhängiges Produkt und nicht mit Google, Gemini oder Google DeepMind verbunden.",
       items: [
         {
           question: "Was ist der Gemini Omni KI-Videogenerator?",
           answer:
-            "GeminiOmni ist ein unabhängiger Online-KI-Videogenerator, inspiriert von Google Gemini Omnis multimodaler Videorichtung. Er hilft, Prompts und Bilder in einem schnellen Browser-Workflow in filmische Videos zu verwandeln.",
+            "DreamOmni ist ein unabhängiger Online-KI-Videogenerator, inspiriert von Google Gemini Omnis multimodaler Videorichtung. Er hilft, Prompts und Bilder in einem schnellen Browser-Workflow in filmische Videos zu verwandeln.",
         },
         {
           question: "Was kann ich mit Gemini-Omni-ähnlichen Videotools erstellen?",
@@ -682,12 +682,12 @@ const landingCopy: Record<string, LandingLocaleCopy> = {
         {
           question: "Kann ich kostenlos starten?",
           answer:
-            "Ja. GeminiOmni bietet einen kostenlosen Einstieg, damit du KI-Videogenerierung testen kannst, bevor du einen Plan oder ein größeres Credit-Paket wählst.",
+            "Ja. DreamOmni bietet einen kostenlosen Einstieg, damit du KI-Videogenerierung testen kannst, bevor du einen Plan oder ein größeres Credit-Paket wählst.",
         },
         {
-          question: "Ist GeminiOmni mit Google verbunden?",
+          question: "Ist DreamOmni mit Google verbunden?",
           answer:
-            "Nein. GeminiOmni.tv ist ein unabhängiges Produkt und nicht mit Google, Gemini oder Google DeepMind verbunden.",
+            "Nein. DreamOmni.ai ist ein unabhängiges Produkt und nicht mit Google, Gemini oder Google DeepMind verbunden.",
         },
       ],
     },
@@ -696,14 +696,14 @@ const landingCopy: Record<string, LandingLocaleCopy> = {
     metadata: {
       title: "Générateur vidéo IA Gemini Omni gratuit",
       description:
-        "Créez des vidéos IA cinématographiques avec GeminiOmni. Transformez des prompts texte et des images en vidéos de style Gemini Omni.",
+        "Créez des vidéos IA cinématographiques avec DreamOmni. Transformez des prompts texte et des images en vidéos de style Gemini Omni.",
       keywords:
         "Gemini Omni, générateur vidéo IA Gemini Omni, générateur vidéo IA gratuit, texte en vidéo IA, image en vidéo IA, générateur vidéo multimodal",
     },
     hero: {
       title: "Générateur vidéo IA Gemini Omni gratuit",
       description:
-        "Créez des vidéos IA cinématographiques à partir de prompts texte et d'images. GeminiOmni transforme la création multimodale de style Gemini Omni en générateur en ligne rapide pour créateurs, marketers, enseignants et storytellers.",
+        "Créez des vidéos IA cinématographiques à partir de prompts texte et d'images. DreamOmni transforme la création multimodale de style Gemini Omni en générateur en ligne rapide pour créateurs, marketers, enseignants et storytellers.",
       primaryCta: "Générer une vidéo IA gratuite",
       secondaryCta: "Image vers vidéo",
       highlights: [
@@ -711,7 +711,7 @@ const landingCopy: Record<string, LandingLocaleCopy> = {
         "Image vers vidéo pour guider les références visuelles",
         "Historique, lecture et téléchargement des résultats",
       ],
-      imageAlt: "Visuel du générateur vidéo IA GeminiOmni",
+      imageAlt: "Visuel du générateur vidéo IA DreamOmni",
       preview: [
         {
           label: "Prompt",
@@ -730,7 +730,7 @@ const landingCopy: Record<string, LandingLocaleCopy> = {
     model: {
       title: "Une nouvelle direction de modèle pour la vidéo IA multimodale.",
       description:
-        "Google décrit Gemini Omni comme un modèle capable de créer à partir de nombreux types d'entrées, en commençant par la vidéo. Ses capacités clés incluent l'édition en langage naturel, les références image, texte, audio et vidéo, et la génération de scènes ancrée dans la connaissance du monde. GeminiOmni transforme cette direction en workflow accessible pour créer des vidéos maintenant.",
+        "Google décrit Gemini Omni comme un modèle capable de créer à partir de nombreux types d'entrées, en commençant par la vidéo. Ses capacités clés incluent l'édition en langage naturel, les références image, texte, audio et vidéo, et la génération de scènes ancrée dans la connaissance du monde. DreamOmni transforme cette direction en workflow accessible pour créer des vidéos maintenant.",
     },
     capabilities: [
       {
@@ -780,7 +780,7 @@ const landingCopy: Record<string, LandingLocaleCopy> = {
     useCases: {
       title: "Un générateur pour campagnes, explicatifs, concepts et clips sociaux.",
       description:
-        "Avec GeminiOmni, passez rapidement d'une idée à un brouillon vidéo IA soigné. C'est un outil pour créer, pas une page d'actualité passive.",
+        "Avec DreamOmni, passez rapidement d'une idée à un brouillon vidéo IA soigné. C'est un outil pour créer, pas une page d'actualité passive.",
       items: [
         "Publicités courtes et concepts UGC",
         "Démos produit et vidéos de lancement",
@@ -793,12 +793,12 @@ const landingCopy: Record<string, LandingLocaleCopy> = {
     faq: {
       title: "Questions sur le générateur vidéo IA Gemini Omni.",
       independentNotice:
-        "GeminiOmni.tv est un produit indépendant et n'est pas affilié à Google, Gemini ou Google DeepMind.",
+        "DreamOmni.ai est un produit indépendant et n'est pas affilié à Google, Gemini ou Google DeepMind.",
       items: [
         {
           question: "Qu'est-ce que le générateur vidéo IA Gemini Omni ?",
           answer:
-            "GeminiOmni est un générateur vidéo IA en ligne indépendant, inspiré de la direction multimodale vidéo de Google Gemini Omni. Il aide à transformer prompts et images en vidéos cinématographiques dans le navigateur.",
+            "DreamOmni est un générateur vidéo IA en ligne indépendant, inspiré de la direction multimodale vidéo de Google Gemini Omni. Il aide à transformer prompts et images en vidéos cinématographiques dans le navigateur.",
         },
         {
           question: "Que puis-je créer avec des outils vidéo de style Gemini Omni ?",
@@ -808,12 +808,12 @@ const landingCopy: Record<string, LandingLocaleCopy> = {
         {
           question: "Puis-je commencer gratuitement ?",
           answer:
-            "Oui. GeminiOmni propose un accès de départ gratuit pour tester la génération vidéo IA avant de choisir un plan ou un pack de crédits.",
+            "Oui. DreamOmni propose un accès de départ gratuit pour tester la génération vidéo IA avant de choisir un plan ou un pack de crédits.",
         },
         {
-          question: "GeminiOmni est-il affilié à Google ?",
+          question: "DreamOmni est-il affilié à Google ?",
           answer:
-            "Non. GeminiOmni.tv est un produit indépendant et n'est pas affilié à Google, Gemini ou Google DeepMind.",
+            "Non. DreamOmni.ai est un produit indépendant et n'est pas affilié à Google, Gemini ou Google DeepMind.",
         },
       ],
     },
@@ -822,14 +822,14 @@ const landingCopy: Record<string, LandingLocaleCopy> = {
     metadata: {
       title: "Generador de video IA Gemini Omni gratis",
       description:
-        "Crea videos IA cinematográficos con GeminiOmni. Convierte prompts de texto e imágenes en videos estilo Gemini Omni.",
+        "Crea videos IA cinematográficos con DreamOmni. Convierte prompts de texto e imágenes en videos estilo Gemini Omni.",
       keywords:
         "Gemini Omni, generador de video IA Gemini Omni, generador de video IA gratis, texto a video IA, imagen a video IA, generador de video multimodal",
     },
     hero: {
       title: "Generador de video IA Gemini Omni gratis",
       description:
-        "Crea videos IA cinematográficos desde prompts de texto e imágenes. GeminiOmni convierte la creación multimodal estilo Gemini Omni en un generador online rápido para creadores, marketers, educadores y narradores.",
+        "Crea videos IA cinematográficos desde prompts de texto e imágenes. DreamOmni convierte la creación multimodal estilo Gemini Omni en un generador online rápido para creadores, marketers, educadores y narradores.",
       primaryCta: "Generar video IA gratis",
       secondaryCta: "Imagen a video",
       highlights: [
@@ -837,7 +837,7 @@ const landingCopy: Record<string, LandingLocaleCopy> = {
         "Imagen a video para referencias visuales",
         "Historial, reproducción y descarga cuando el resultado está listo",
       ],
-      imageAlt: "Visual del generador de video IA GeminiOmni",
+      imageAlt: "Visual del generador de video IA DreamOmni",
       preview: [
         {
           label: "Prompt",
@@ -856,7 +856,7 @@ const landingCopy: Record<string, LandingLocaleCopy> = {
     model: {
       title: "Una nueva dirección de modelo para creación de video IA multimodal.",
       description:
-        "Google describe Gemini Omni como un modelo que puede crear desde muchos tipos de entrada, empezando por video. Sus capacidades principales son edición en lenguaje natural, referencias de imagen, texto, audio y video, y generación de escenas basada en conocimiento del mundo. GeminiOmni convierte esa dirección en un flujo accesible para crear videos ahora.",
+        "Google describe Gemini Omni como un modelo que puede crear desde muchos tipos de entrada, empezando por video. Sus capacidades principales son edición en lenguaje natural, referencias de imagen, texto, audio y video, y generación de escenas basada en conocimiento del mundo. DreamOmni convierte esa dirección en un flujo accesible para crear videos ahora.",
     },
     capabilities: [
       {
@@ -906,7 +906,7 @@ const landingCopy: Record<string, LandingLocaleCopy> = {
     useCases: {
       title: "Un generador para campañas, explicadores, conceptos y clips sociales.",
       description:
-        "Usa GeminiOmni para pasar rápido de una idea a un borrador de video IA pulido. Está hecho para creadores que necesitan resultados.",
+        "Usa DreamOmni para pasar rápido de una idea a un borrador de video IA pulido. Está hecho para creadores que necesitan resultados.",
       items: [
         "Anuncios cortos y conceptos UGC",
         "Demos de producto y videos de lanzamiento",
@@ -919,12 +919,12 @@ const landingCopy: Record<string, LandingLocaleCopy> = {
     faq: {
       title: "Preguntas sobre el generador de video IA Gemini Omni.",
       independentNotice:
-        "GeminiOmni.tv es un producto independiente y no está afiliado a Google, Gemini ni Google DeepMind.",
+        "DreamOmni.ai es un producto independiente y no está afiliado a Google, Gemini ni Google DeepMind.",
       items: [
         {
           question: "¿Qué es el generador de video IA Gemini Omni?",
           answer:
-            "GeminiOmni es un generador de video IA online independiente inspirado en la dirección multimodal de Google Gemini Omni. Ayuda a convertir prompts e imágenes en videos cinematográficos con un flujo rápido en el navegador.",
+            "DreamOmni es un generador de video IA online independiente inspirado en la dirección multimodal de Google Gemini Omni. Ayuda a convertir prompts e imágenes en videos cinematográficos con un flujo rápido en el navegador.",
         },
         {
           question: "¿Qué puedo crear con herramientas de video estilo Gemini Omni?",
@@ -934,12 +934,12 @@ const landingCopy: Record<string, LandingLocaleCopy> = {
         {
           question: "¿Puedo empezar gratis?",
           answer:
-            "Sí. GeminiOmni ofrece una ruta inicial gratuita para probar la generación de video IA antes de elegir un plan o paquete de créditos.",
+            "Sí. DreamOmni ofrece una ruta inicial gratuita para probar la generación de video IA antes de elegir un plan o paquete de créditos.",
         },
         {
-          question: "¿GeminiOmni está afiliado a Google?",
+          question: "¿DreamOmni está afiliado a Google?",
           answer:
-            "No. GeminiOmni.tv es un producto independiente y no está afiliado a Google, Gemini ni Google DeepMind.",
+            "No. DreamOmni.ai es un producto independiente y no está afiliado a Google, Gemini ni Google DeepMind.",
         },
       ],
     },
@@ -948,14 +948,14 @@ const landingCopy: Record<string, LandingLocaleCopy> = {
     metadata: {
       title: "Gerador de vídeo IA Gemini Omni gratuito",
       description:
-        "Crie vídeos IA cinematográficos com GeminiOmni. Transforme prompts de texto e imagens em vídeos no estilo Gemini Omni.",
+        "Crie vídeos IA cinematográficos com DreamOmni. Transforme prompts de texto e imagens em vídeos no estilo Gemini Omni.",
       keywords:
         "Gemini Omni, gerador de vídeo IA Gemini Omni, gerador de vídeo IA grátis, texto para vídeo IA, imagem para vídeo IA, gerador de vídeo multimodal",
     },
     hero: {
       title: "Gerador de vídeo IA Gemini Omni gratuito",
       description:
-        "Crie vídeos IA cinematográficos a partir de prompts de texto e imagens. GeminiOmni transforma criação multimodal no estilo Gemini Omni em um gerador online rápido para criadores, equipes de marketing, educadores e narradores.",
+        "Crie vídeos IA cinematográficos a partir de prompts de texto e imagens. DreamOmni transforma criação multimodal no estilo Gemini Omni em um gerador online rápido para criadores, equipes de marketing, educadores e narradores.",
       primaryCta: "Gerar vídeo IA grátis",
       secondaryCta: "Imagem para vídeo",
       highlights: [
@@ -963,7 +963,7 @@ const landingCopy: Record<string, LandingLocaleCopy> = {
         "Imagem para vídeo com referências visuais",
         "Histórico, reprodução e download quando o resultado fica pronto",
       ],
-      imageAlt: "Visual do gerador de vídeo IA GeminiOmni",
+      imageAlt: "Visual do gerador de vídeo IA DreamOmni",
       preview: [
         {
           label: "Prompt",
@@ -982,7 +982,7 @@ const landingCopy: Record<string, LandingLocaleCopy> = {
     model: {
       title: "Uma nova direção de modelo para criação de vídeo IA multimodal.",
       description:
-        "O Google descreve Gemini Omni como um modelo capaz de criar a partir de muitos tipos de entrada, começando por vídeo. As capacidades principais incluem edição em linguagem natural, referências de imagem, texto, áudio e vídeo, e geração de cenas baseada em conhecimento de mundo. GeminiOmni transforma essa direção em um fluxo acessível para criar vídeos agora.",
+        "O Google descreve Gemini Omni como um modelo capaz de criar a partir de muitos tipos de entrada, começando por vídeo. As capacidades principais incluem edição em linguagem natural, referências de imagem, texto, áudio e vídeo, e geração de cenas baseada em conhecimento de mundo. DreamOmni transforma essa direção em um fluxo acessível para criar vídeos agora.",
     },
     capabilities: [
       {
@@ -1032,7 +1032,7 @@ const landingCopy: Record<string, LandingLocaleCopy> = {
     useCases: {
       title: "Um gerador para campanhas, explicativos, conceitos e clipes sociais.",
       description:
-        "Use GeminiOmni para ir rapidamente de uma ideia a um rascunho de vídeo IA polido. É feito para criadores que precisam de resultado.",
+        "Use DreamOmni para ir rapidamente de uma ideia a um rascunho de vídeo IA polido. É feito para criadores que precisam de resultado.",
       items: [
         "Anúncios curtos e conceitos UGC",
         "Demonstrações de produto e vídeos de lançamento",
@@ -1045,12 +1045,12 @@ const landingCopy: Record<string, LandingLocaleCopy> = {
     faq: {
       title: "Perguntas sobre o gerador de vídeo IA Gemini Omni.",
       independentNotice:
-        "GeminiOmni.tv é um produto independente e não é afiliado ao Google, Gemini ou Google DeepMind.",
+        "DreamOmni.ai é um produto independente e não é afiliado ao Google, Gemini ou Google DeepMind.",
       items: [
         {
           question: "O que é o Gerador de Vídeo IA Gemini Omni?",
           answer:
-            "GeminiOmni é um gerador de vídeo IA online independente inspirado na direção multimodal de vídeo do Google Gemini Omni. Ele ajuda a transformar prompts e imagens em vídeos cinematográficos em um fluxo rápido no navegador.",
+            "DreamOmni é um gerador de vídeo IA online independente inspirado na direção multimodal de vídeo do Google Gemini Omni. Ele ajuda a transformar prompts e imagens em vídeos cinematográficos em um fluxo rápido no navegador.",
         },
         {
           question: "O que posso criar com ferramentas de vídeo estilo Gemini Omni?",
@@ -1060,12 +1060,12 @@ const landingCopy: Record<string, LandingLocaleCopy> = {
         {
           question: "Posso começar gratuitamente?",
           answer:
-            "Sim. GeminiOmni oferece um caminho gratuito para testar geração de vídeo IA antes de escolher um plano pago ou pacote maior de créditos.",
+            "Sim. DreamOmni oferece um caminho gratuito para testar geração de vídeo IA antes de escolher um plano pago ou pacote maior de créditos.",
         },
         {
-          question: "GeminiOmni é afiliado ao Google?",
+          question: "DreamOmni é afiliado ao Google?",
           answer:
-            "Não. GeminiOmni.tv é um produto independente e não é afiliado ao Google, Gemini ou Google DeepMind.",
+            "Não. DreamOmni.ai é um produto independente e não é afiliado ao Google, Gemini ou Google DeepMind.",
         },
       ],
     },
@@ -1074,14 +1074,14 @@ const landingCopy: Record<string, LandingLocaleCopy> = {
     metadata: {
       title: "Бесплатный ИИ-видеогенератор Gemini Omni",
       description:
-        "Создавайте кинематографичные ИИ-видео с GeminiOmni. Превращайте текстовые промпты и изображения в видео в стиле Gemini Omni.",
+        "Создавайте кинематографичные ИИ-видео с DreamOmni. Превращайте текстовые промпты и изображения в видео в стиле Gemini Omni.",
       keywords:
         "Gemini Omni, ИИ видеогенератор Gemini Omni, бесплатный ИИ видеогенератор, текст в видео ИИ, изображение в видео ИИ, мультимодальный видеогенератор",
     },
     hero: {
       title: "Бесплатный ИИ-видеогенератор Gemini Omni",
       description:
-        "Создавайте кинематографичные ИИ-видео из текстовых промптов и изображений. GeminiOmni превращает мультимодальное создание в стиле Gemini Omni в быстрый онлайн-генератор для авторов, маркетологов, преподавателей и рассказчиков.",
+        "Создавайте кинематографичные ИИ-видео из текстовых промптов и изображений. DreamOmni превращает мультимодальное создание в стиле Gemini Omni в быстрый онлайн-генератор для авторов, маркетологов, преподавателей и рассказчиков.",
       primaryCta: "Создать ИИ-видео бесплатно",
       secondaryCta: "Изображение в видео",
       highlights: [
@@ -1089,7 +1089,7 @@ const landingCopy: Record<string, LandingLocaleCopy> = {
         "Изображение в видео для визуальных референсов",
         "История, воспроизведение и скачивание готовых результатов",
       ],
-      imageAlt: "Визуал ИИ-видеогенератора GeminiOmni",
+      imageAlt: "Визуал ИИ-видеогенератора DreamOmni",
       preview: [
         {
           label: "Промпт",
@@ -1108,7 +1108,7 @@ const landingCopy: Record<string, LandingLocaleCopy> = {
     model: {
       title: "Новое направление моделей для мультимодального ИИ-видео.",
       description:
-        "Google описывает Gemini Omni как модель, которая может создавать из разных типов входных данных, начиная с видео. Главные возможности: редактирование на естественном языке, референсы из изображений, текста, аудио и видео, а также генерация сцен с учетом знаний о мире. GeminiOmni превращает это направление в понятный workflow для тех, кто хочет создавать видео уже сейчас.",
+        "Google описывает Gemini Omni как модель, которая может создавать из разных типов входных данных, начиная с видео. Главные возможности: редактирование на естественном языке, референсы из изображений, текста, аудио и видео, а также генерация сцен с учетом знаний о мире. DreamOmni превращает это направление в понятный workflow для тех, кто хочет создавать видео уже сейчас.",
     },
     capabilities: [
       {
@@ -1158,7 +1158,7 @@ const landingCopy: Record<string, LandingLocaleCopy> = {
     useCases: {
       title: "Один генератор для кампаний, объясняющих роликов, концептов и соцсетей.",
       description:
-        "GeminiOmni помогает быстро перейти от идеи к готовому черновику ИИ-видео. Это инструмент для авторов, которым нужен результат, а не пассивная новостная страница.",
+        "DreamOmni помогает быстро перейти от идеи к готовому черновику ИИ-видео. Это инструмент для авторов, которым нужен результат, а не пассивная новостная страница.",
       items: [
         "Короткая реклама и UGC-концепты",
         "Демо продуктов и launch-видео",
@@ -1171,12 +1171,12 @@ const landingCopy: Record<string, LandingLocaleCopy> = {
     faq: {
       title: "Вопросы об ИИ-видеогенераторе Gemini Omni.",
       independentNotice:
-        "GeminiOmni.tv — независимый продукт и не связан с Google, Gemini или Google DeepMind.",
+        "DreamOmni.ai — независимый продукт и не связан с Google, Gemini или Google DeepMind.",
       items: [
         {
           question: "Что такое ИИ-видеогенератор Gemini Omni?",
           answer:
-            "GeminiOmni — независимый онлайн ИИ-видеогенератор, вдохновленный мультимодальным видео-направлением Google Gemini Omni. Он помогает превращать промпты и изображения в кинематографичные видео через быстрый браузерный workflow.",
+            "DreamOmni — независимый онлайн ИИ-видеогенератор, вдохновленный мультимодальным видео-направлением Google Gemini Omni. Он помогает превращать промпты и изображения в кинематографичные видео через быстрый браузерный workflow.",
         },
         {
           question: "Что можно создать с видео-инструментами в стиле Gemini Omni?",
@@ -1186,23 +1186,23 @@ const landingCopy: Record<string, LandingLocaleCopy> = {
         {
           question: "Можно начать бесплатно?",
           answer:
-            "Да. GeminiOmni предлагает бесплатный старт, чтобы вы могли попробовать ИИ-видеогенерацию перед выбором платного плана или пакета кредитов.",
+            "Да. DreamOmni предлагает бесплатный старт, чтобы вы могли попробовать ИИ-видеогенерацию перед выбором платного плана или пакета кредитов.",
         },
         {
-          question: "GeminiOmni связан с Google?",
+          question: "DreamOmni связан с Google?",
           answer:
-            "Нет. GeminiOmni.tv — независимый продукт и не связан с Google, Gemini или Google DeepMind.",
+            "Нет. DreamOmni.ai — независимый продукт и не связан с Google, Gemini или Google DeepMind.",
         },
       ],
     },
   },
 };
 
-const intentLinksCopy: Record<string, GeminiOmniIntentLink[]> = {
+const intentLinksCopy: Record<string, DreamOmniIntentLink[]> = {
   en: [
     {
       title: "Gemini Omni API Access",
-      description: "Understand API options, official Veo endpoints, and browser-based generation on GeminiOmni.",
+      description: "Understand API options, official Veo endpoints, and browser-based generation on DreamOmni.",
       href: "/gemini-omni-api",
     },
     {
@@ -1224,7 +1224,7 @@ const intentLinksCopy: Record<string, GeminiOmniIntentLink[]> = {
   zh: [
     {
       title: "Gemini Omni API 访问",
-      description: "了解 API 选择、官方 Veo 端点，以及 GeminiOmni 的浏览器生成流程。",
+      description: "了解 API 选择、官方 Veo 端点，以及 DreamOmni 的浏览器生成流程。",
       href: "/gemini-omni-api",
     },
     {
@@ -1246,7 +1246,7 @@ const intentLinksCopy: Record<string, GeminiOmniIntentLink[]> = {
   ja: [
     {
       title: "Gemini Omni API アクセス",
-      description: "API 選択肢、公式 Veo エンドポイント、GeminiOmni のブラウザ生成を確認できます。",
+      description: "API 選択肢、公式 Veo エンドポイント、DreamOmni のブラウザ生成を確認できます。",
       href: "/gemini-omni-api",
     },
     {
@@ -1268,7 +1268,7 @@ const intentLinksCopy: Record<string, GeminiOmniIntentLink[]> = {
   ko: [
     {
       title: "Gemini Omni API 액세스",
-      description: "API 옵션, 공식 Veo 엔드포인트, GeminiOmni 브라우저 생성을 확인하세요.",
+      description: "API 옵션, 공식 Veo 엔드포인트, DreamOmni 브라우저 생성을 확인하세요.",
       href: "/gemini-omni-api",
     },
     {
@@ -1290,7 +1290,7 @@ const intentLinksCopy: Record<string, GeminiOmniIntentLink[]> = {
   de: [
     {
       title: "Gemini Omni API-Zugang",
-      description: "API-Optionen, offizielle Veo-Endpunkte und browserbasierte Generierung mit GeminiOmni.",
+      description: "API-Optionen, offizielle Veo-Endpunkte und browserbasierte Generierung mit DreamOmni.",
       href: "/gemini-omni-api",
     },
     {
@@ -1312,7 +1312,7 @@ const intentLinksCopy: Record<string, GeminiOmniIntentLink[]> = {
   fr: [
     {
       title: "Acces API Gemini Omni",
-      description: "Comparez les options API, les points d'acces Veo officiels et la generation dans GeminiOmni.",
+      description: "Comparez les options API, les points d'acces Veo officiels et la generation dans DreamOmni.",
       href: "/gemini-omni-api",
     },
     {
@@ -1334,7 +1334,7 @@ const intentLinksCopy: Record<string, GeminiOmniIntentLink[]> = {
   es: [
     {
       title: "Acceso API Gemini Omni",
-      description: "Revisa opciones API, endpoints oficiales de Veo y generacion en navegador con GeminiOmni.",
+      description: "Revisa opciones API, endpoints oficiales de Veo y generacion en navegador con DreamOmni.",
       href: "/gemini-omni-api",
     },
     {
@@ -1356,7 +1356,7 @@ const intentLinksCopy: Record<string, GeminiOmniIntentLink[]> = {
   pt: [
     {
       title: "Acesso API Gemini Omni",
-      description: "Entenda opcoes de API, endpoints oficiais do Veo e geracao no navegador com GeminiOmni.",
+      description: "Entenda opcoes de API, endpoints oficiais do Veo e geracao no navegador com DreamOmni.",
       href: "/gemini-omni-api",
     },
     {
@@ -1378,7 +1378,7 @@ const intentLinksCopy: Record<string, GeminiOmniIntentLink[]> = {
   ru: [
     {
       title: "Доступ к Gemini Omni API",
-      description: "Разберите API-варианты, официальные Veo endpoints и генерацию в браузере GeminiOmni.",
+      description: "Разберите API-варианты, официальные Veo endpoints и генерацию в браузере DreamOmni.",
       href: "/gemini-omni-api",
     },
     {
@@ -1399,12 +1399,12 @@ const intentLinksCopy: Record<string, GeminiOmniIntentLink[]> = {
   ],
 };
 
-export function getGeminiOmniLandingCopy(locale: string): LandingLocaleCopy {
+export function getDreamOmniLandingCopy(locale: string): LandingLocaleCopy {
   return landingCopy[locale] || landingCopy[defaultLocale];
 }
 
-export function getGeminiOmniIntentLinks(
+export function getDreamOmniIntentLinks(
   locale: string
-): GeminiOmniIntentLink[] {
+): DreamOmniIntentLink[] {
   return intentLinksCopy[locale] || intentLinksCopy[defaultLocale];
 }

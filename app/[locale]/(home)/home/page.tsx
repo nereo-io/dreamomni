@@ -5,7 +5,7 @@ export async function generateMetadata({
 }: {
   params: { locale: string };
 }) {
-  const baseUrl = process.env.NEXT_PUBLIC_WEB_URL || "https://geminiomni.tv";
+  const baseUrl = process.env.NEXT_PUBLIC_WEB_URL || "https://dreamomni.ai";
   const canonicalUrl = locale === "en" ? baseUrl : `${baseUrl}/${locale}`;
 
   return {

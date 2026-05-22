@@ -78,7 +78,7 @@ export async function generateMetadata({
       title,
       description,
       url: canonicalUrl,
-      siteName: "GeminiOmni",
+      siteName: "DreamOmni",
       type: "website",
     },
     twitter: {

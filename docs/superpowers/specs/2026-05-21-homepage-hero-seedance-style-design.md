@@ -4,18 +4,18 @@
 
 ## 背景与目标
 
-geminiomni 首页(`app/[locale]/(default)/page.tsx`)顶部当前是浅色内联 hero(左侧文字 + 右侧视频卡片)。目标:替换为与 seedance 项目一致的**全屏背景视频 Hero**(居中白色标题 + 描述 + 两个 RainbowButton),复用 geminiomni 中已存在、与 seedance 完全相同的 `components/blocks/hero` 组件;背景视频换成指定的 Gemini Omni 介绍片;poster 换成从该视频抽帧的新封面。首页下方所有 Gemini Omni SEO 板块**原样保留**。
+dreamomni 首页(`app/[locale]/(default)/page.tsx`)顶部当前是浅色内联 hero(左侧文字 + 右侧视频卡片)。目标:替换为与 seedance 项目一致的**全屏背景视频 Hero**(居中白色标题 + 描述 + 两个 RainbowButton),复用 dreamomni 中已存在、与 seedance 完全相同的 `components/blocks/hero` 组件;背景视频换成指定的 Gemini Omni 介绍片;poster 换成从该视频抽帧的新封面。首页下方所有 Gemini Omni SEO 板块**原样保留**。
 
 ## 关键发现
 
-- geminiomni 已包含与 seedance 字节一致的 `components/blocks/hero/{index,bg,happy-users}.tsx`,但首页未引用(目前仅该组件自身 import 其类型)。所需依赖(`components/ui/rainbow-button`、`hooks/useHasInteracted`、`components/icon`、`types/blocks/hero.d.ts`、`public/imgs/intro/` poster 目录)均已存在。
-- seedance 的 hero 数据通路 `getLandingPage(locale).hero` 在 geminiomni 中仍是旧的 "Seedance 2.0" 文案 → **不复用该数据源**,否则首页会显示 Seedance 品牌。
+- dreamomni 已包含与 seedance 字节一致的 `components/blocks/hero/{index,bg,happy-users}.tsx`,但首页未引用(目前仅该组件自身 import 其类型)。所需依赖(`components/ui/rainbow-button`、`hooks/useHasInteracted`、`components/icon`、`types/blocks/hero.d.ts`、`public/imgs/intro/` poster 目录)均已存在。
+- seedance 的 hero 数据通路 `getLandingPage(locale).hero` 在 dreamomni 中仍是旧的 "Seedance 2.0" 文案 → **不复用该数据源**,否则首页会显示 Seedance 品牌。
 - `HERO_VIDEO_SRC` / `HERO_POSTER_SRC` 在 `bg.tsx` 中硬编码;该 Hero 组件目前无其他页面引用,直接改安全。
 
 ## 设计决策(已与用户确认)
 
 1. **范围**:仅替换首屏 hero `<section>`,保留下方所有 SEO 板块。
-2. **文案源**:`getGeminiOmniLandingCopy(locale).hero`(9 语言 i18n、Gemini Omni 品牌)。构造 Hero prop:`{ name: 'hero', title: copy.hero.title, highlight_text: 'Gemini Omni', description: copy.hero.description }`。
+2. **文案源**:`getDreamOmniLandingCopy(locale).hero`(9 语言 i18n、Gemini Omni 品牌)。构造 Hero prop:`{ name: 'hero', title: copy.hero.title, highlight_text: 'Gemini Omni', description: copy.hero.description }`。
 3. **按钮**:保持 seedance 原样硬编码 "Image to Video"→`/image-to-video`、"Text to Video"→`/text-to-video`,**不改** `components/blocks/hero/index.tsx`。
 4. **背景视频**:`HERO_VIDEO_SRC` = `https://r2.seedance.tv/intro/gemini%20omin/YTDown_YouTube_Introducing-Gemini-Omni-Create-Anything-_Media_KUyRq7szZsM_002_720p.mp4`(已验证可达,7.5MB,video/mp4)。
 5. **poster**:安装 ffmpeg,从视频抽一帧 → 转 webp → `public/imgs/intro/gemini-omni-hero-poster.webp`,更新 `HERO_POSTER_SRC`。

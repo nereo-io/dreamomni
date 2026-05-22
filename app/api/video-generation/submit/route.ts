@@ -420,11 +420,11 @@ export async function POST(req: Request) {
 
     // 根据模型类型添加相应参数
     const hasMediaUrls = media_urls && Array.isArray(media_urls) && media_urls.length > 0;
-    const hasGeminiOmniStructuredInput =
+    const hasDreamOmniStructuredInput =
       (finalVideoList && finalVideoList.length > 0) ||
       (finalCharacterIds && finalCharacterIds.length > 0);
 
-    if (isImageToVideoModel(finalModel) && !hasMediaUrls && !hasGeminiOmniStructuredInput) {
+    if (isImageToVideoModel(finalModel) && !hasMediaUrls && !hasDreamOmniStructuredInput) {
       if (!finalImageUrls || finalImageUrls.length === 0) {
         return respErr("Image-to-video models require at least one image");
       }

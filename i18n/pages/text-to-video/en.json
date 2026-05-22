@@ -11,7 +11,7 @@
       {
         "id": "best-text-to-video-generator",
         "question": "What is the best text to video AI generator?",
-        "answer": "GeminiOmni combines a fast prompt-to-video workflow with Gemini Omni-style creative guidance, so creators can generate cinematic AI videos online."
+        "answer": "DreamOmni combines a fast prompt-to-video workflow with Gemini Omni-style creative guidance, so creators can generate cinematic AI videos online."
       },
       {
         "id": "how-does-text-to-video-work",
@@ -25,8 +25,8 @@
       },
       {
         "id": "is-text-to-video-free",
-        "question": "Is GeminiOmni's text to video generator free?",
-        "answer": "GeminiOmni offers free trial credits and paid options for supported AI video generation models."
+        "question": "Is DreamOmni's text to video generator free?",
+        "answer": "DreamOmni offers free trial credits and paid options for supported AI video generation models."
       }
     ]
   },
@@ -37,7 +37,7 @@
   },
   "aiModelsHero": {
     "title": "All-in-One AI Text to Video Generator",
-    "description": "GeminiOmni is an all-in-one AI text to video generator. Create cinematic videos with prompt control, image references, and supported video models like Veo, Hailuo, Wan, Sora-style alternatives, and Seedance.",
+    "description": "DreamOmni is an all-in-one AI text to video generator. Create cinematic videos with prompt control, image references, and supported video models like Veo, Hailuo, Wan, Sora-style alternatives, and Seedance.",
     "models": [
       {
         "id": "sora2",

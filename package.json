@@ -1,10 +1,10 @@
 {
-  "name": "geminiomni",
+  "name": "dreamomni",
   "version": "1.0.0",
   "private": true,
   "author": "jasper",
-  "description": "GeminiOmni.tv - Free Gemini Omni AI video generator.",
-  "homepage": "https://geminiomni.tv",
+  "description": "DreamOmni.ai - Free Gemini Omni AI video generator.",
+  "homepage": "https://dreamomni.ai",
   "type": "module",
   "engines": {
     "node": "22.x"

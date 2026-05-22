@@ -1,16 +1,16 @@
 {
   "banner": {
     "title": "Gemini Omni Free Access",
-    "description": "Learn how to try Gemini Omni-style AI video generation for free on GeminiOmni, what free credits are best for, and where practical limits start when you move from experiments to production.",
+    "description": "Learn how to try Gemini Omni-style AI video generation for free on DreamOmni, what free credits are best for, and where practical limits start when you move from experiments to production.",
     "tabs": [
       {
         "type": "text",
         "title": "Start With a Free Prompt",
         "subTitle": "Prompt",
         "value": "text-to-video",
-        "modelName": "GeminiOmni",
+        "modelName": "DreamOmni",
         "modelLogo": "/logo.png",
-        "placeholder": "Write a focused video idea to test your free GeminiOmni workflow...",
+        "placeholder": "Write a focused video idea to test your free DreamOmni workflow...",
         "buttonText": "Create Free"
       },
       {
@@ -18,7 +18,7 @@
         "title": "Try Image to Video",
         "subTitle": "Image",
         "value": "image-to-video",
-        "modelName": "GeminiOmni",
+        "modelName": "DreamOmni",
         "modelLogo": "/logo.png",
         "placeholder": "Upload a reference image and test image-to-video creation",
         "tips": "Upload JPG, PNG, WEBP, or GIF images up to 20MB.",
@@ -42,7 +42,7 @@
     "details": [
       {
         "title": "Validate the Workflow Before Paying",
-        "description": "Free access is best for learning how prompts behave, testing image references, and deciding whether GeminiOmni fits your creative style. Use it to test the interface, generation speed, prompt structure, and download flow before you buy more credits.",
+        "description": "Free access is best for learning how prompts behave, testing image references, and deciding whether DreamOmni fits your creative style. Use it to test the interface, generation speed, prompt structure, and download flow before you buy more credits.",
         "type": "table",
         "data": {
           "headers": [
@@ -202,7 +202,7 @@
     ]
   },
   "usageGuide": {
-    "title": "How to Try GeminiOmni for Free",
+    "title": "How to Try DreamOmni for Free",
     "description": "Use free access to answer one question: can this workflow produce the kind of video you need?",
     "steps": [
       {
@@ -292,8 +292,8 @@
     "description": "Answers about starting without paying first.",
     "items": [
       {
-        "title": "Can I use GeminiOmni for free?",
-        "description": "Yes. GeminiOmni provides a free starting path with credits so you can try AI video generation before choosing a paid plan."
+        "title": "Can I use DreamOmni for free?",
+        "description": "Yes. DreamOmni provides a free starting path with credits so you can try AI video generation before choosing a paid plan."
       },
       {
         "title": "Do free credits last forever?",
@@ -304,14 +304,14 @@
         "description": "Start with one concrete prompt or one reference image that represents your real use case. This gives a more useful signal than random demos."
       },
       {
-        "title": "Is free GeminiOmni access the same as a free Google API?",
-        "description": "No. GeminiOmni free access is product-level access. Official Google API access and pricing are separate."
+        "title": "Is free DreamOmni access the same as a free Google API?",
+        "description": "No. DreamOmni free access is product-level access. Official Google API access and pricing are separate."
       }
     ]
   },
   "cta": {
     "title": "Use Your First Free Credits on a Real Idea",
     "description": "A focused prompt teaches you more than a generic demo.",
-    "buttonText": "Try GeminiOmni Free"
+    "buttonText": "Try DreamOmni Free"
   }
 }

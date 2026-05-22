@@ -20,9 +20,9 @@ import AuthRedirect from '@/components/auth/auth-redirect';
 import StructuredData from '@/components/seo/structured-data';
 import { Button } from '@/components/ui/button';
 import {
-  getGeminiOmniIntentLinks,
-  getGeminiOmniLandingCopy,
-} from '@/config/geminiomni-landing';
+  getDreamOmniIntentLinks,
+  getDreamOmniLandingCopy,
+} from '@/config/dreamomni-landing';
 import { defaultLocale, locales } from '@/i18n/locale';
 
 export const revalidate = 3600;
@@ -97,7 +97,7 @@ const homePageSectionCopy: Record<string, HomePageSectionCopy> = {
         {
           title: 'Text prompts become cinematic scenes',
           description:
-            'Describe the subject, action, camera move, lighting, and mood. GeminiOmni helps turn that creative brief into a watchable AI video draft.',
+            'Describe the subject, action, camera move, lighting, and mood. DreamOmni helps turn that creative brief into a watchable AI video draft.',
         },
         {
           title: 'Images guide identity and style',
@@ -168,9 +168,9 @@ const homePageSectionCopy: Record<string, HomePageSectionCopy> = {
       ],
     },
     reasons: {
-      title: 'Why choose GeminiOmni for Gemini Omni-style video creation',
+      title: 'Why choose DreamOmni for Gemini Omni-style video creation',
       description:
-        'GeminiOmni keeps the product promise simple: free starting access, creator-friendly workflows, and enough SEO content to answer search intent without changing the site into a developer platform.',
+        'DreamOmni keeps the product promise simple: free starting access, creator-friendly workflows, and enough SEO content to answer search intent without changing the site into a developer platform.',
       items: [
         {
           title: 'Free starting path',
@@ -185,7 +185,7 @@ const homePageSectionCopy: Record<string, HomePageSectionCopy> = {
         {
           title: 'Clear model overview',
           description:
-            'GeminiOmni explains what the model direction means, then gives search visitors examples, use cases, prompt advice, and creation routes.',
+            'DreamOmni explains what the model direction means, then gives search visitors examples, use cases, prompt advice, and creation routes.',
         },
       ],
     },
@@ -205,7 +205,7 @@ const homePageSectionCopy: Record<string, HomePageSectionCopy> = {
         {
           title: '文字提示词变成电影级场景',
           description:
-            '描述主体、动作、镜头运动、光线和情绪，GeminiOmni 会把创意简报转换成可观看的 AI 视频草稿。',
+            '描述主体、动作、镜头运动、光线和情绪，DreamOmni 会把创意简报转换成可观看的 AI 视频草稿。',
         },
         {
           title: '图片参考控制身份和风格',
@@ -276,9 +276,9 @@ const homePageSectionCopy: Record<string, HomePageSectionCopy> = {
       ],
     },
     reasons: {
-      title: '为什么选择 GeminiOmni 创作 Gemini Omni 风格视频',
+      title: '为什么选择 DreamOmni 创作 Gemini Omni 风格视频',
       description:
-        'GeminiOmni 保持清晰的产品承诺：免费起步、创作者友好的流程，以及足够回答搜索意图的 SEO 内容，而不是把网站改成开发者平台。',
+        'DreamOmni 保持清晰的产品承诺：免费起步、创作者友好的流程，以及足够回答搜索意图的 SEO 内容，而不是把网站改成开发者平台。',
       items: [
         {
           title: '免费起步路径',
@@ -293,7 +293,7 @@ const homePageSectionCopy: Record<string, HomePageSectionCopy> = {
         {
           title: '清晰的模型介绍',
           description:
-            'GeminiOmni 解释模型方向的含义，并提供示例、使用场景、提示词建议和创作入口。',
+            'DreamOmni 解释模型方向的含义，并提供示例、使用场景、提示词建议和创作入口。',
         },
       ],
     },
@@ -313,7 +313,7 @@ const homePageSectionCopy: Record<string, HomePageSectionCopy> = {
         {
           title: 'Текстовые промпты становятся кинематографичными сценами',
           description:
-            'Опишите объект, действие, движение камеры, свет и настроение. GeminiOmni помогает превратить такую идею в готовый черновик ИИ-видео.',
+            'Опишите объект, действие, движение камеры, свет и настроение. DreamOmni помогает превратить такую идею в готовый черновик ИИ-видео.',
         },
         {
           title: 'Изображения задают идентичность и стиль',
@@ -384,9 +384,9 @@ const homePageSectionCopy: Record<string, HomePageSectionCopy> = {
       ],
     },
     reasons: {
-      title: 'Почему стоит выбрать GeminiOmni для видео в стиле Gemini Omni',
+      title: 'Почему стоит выбрать DreamOmni для видео в стиле Gemini Omni',
       description:
-        'GeminiOmni сохраняет простое обещание продукта: бесплатный старт, удобный для авторов процесс и достаточно SEO-контента, чтобы ответить на поисковый запрос без превращения сайта в платформу для разработчиков.',
+        'DreamOmni сохраняет простое обещание продукта: бесплатный старт, удобный для авторов процесс и достаточно SEO-контента, чтобы ответить на поисковый запрос без превращения сайта в платформу для разработчиков.',
       items: [
         {
           title: 'Бесплатный старт',
@@ -401,7 +401,7 @@ const homePageSectionCopy: Record<string, HomePageSectionCopy> = {
         {
           title: 'Понятный обзор модели',
           description:
-            'GeminiOmni объясняет направление модели и дает посетителям примеры, сценарии использования, советы по промптам и пути к созданию видео.',
+            'DreamOmni объясняет направление модели и дает посетителям примеры, сценарии использования, советы по промптам и пути к созданию видео.',
         },
       ],
     },
@@ -421,7 +421,7 @@ const homePageSectionCopy: Record<string, HomePageSectionCopy> = {
         {
           title: 'テキストプロンプトを映画的なシーンへ',
           description:
-            '被写体、動き、カメラワーク、照明、ムードを説明すると、GeminiOmni がそのクリエイティブブリーフを視聴できる AI 動画ドラフトに近づけます。',
+            '被写体、動き、カメラワーク、照明、ムードを説明すると、DreamOmni がそのクリエイティブブリーフを視聴できる AI 動画ドラフトに近づけます。',
         },
         {
           title: '画像で人物性とスタイルを誘導',
@@ -492,9 +492,9 @@ const homePageSectionCopy: Record<string, HomePageSectionCopy> = {
       ],
     },
     reasons: {
-      title: 'Gemini Omni 風の動画制作に GeminiOmni を選ぶ理由',
+      title: 'Gemini Omni 風の動画制作に DreamOmni を選ぶ理由',
       description:
-        'GeminiOmni は、無料で始められること、クリエイターに使いやすい制作フロー、検索意図に応える十分な SEO コンテンツという約束を保ち、サイトを開発者向けプラットフォームには寄せません。',
+        'DreamOmni は、無料で始められること、クリエイターに使いやすい制作フロー、検索意図に応える十分な SEO コンテンツという約束を保ち、サイトを開発者向けプラットフォームには寄せません。',
       items: [
         {
           title: '無料で始められる導線',
@@ -509,7 +509,7 @@ const homePageSectionCopy: Record<string, HomePageSectionCopy> = {
         {
           title: 'わかりやすいモデル概要',
           description:
-            'GeminiOmni はモデルの方向性を説明し、検索ユーザーにサンプル、用途、プロンプトのヒント、作成導線を提供します。',
+            'DreamOmni はモデルの方向性を説明し、検索ユーザーにサンプル、用途、プロンプトのヒント、作成導線を提供します。',
         },
       ],
     },
@@ -529,7 +529,7 @@ const homePageSectionCopy: Record<string, HomePageSectionCopy> = {
         {
           title: '텍스트 프롬프트가 시네마틱 장면으로',
           description:
-            '피사체, 액션, 카메라 움직임, 조명, 분위기를 설명하면 GeminiOmni가 그 크리에이티브 브리프를 볼 수 있는 AI 비디오 초안으로 만드는 데 도움을 줍니다.',
+            '피사체, 액션, 카메라 움직임, 조명, 분위기를 설명하면 DreamOmni가 그 크리에이티브 브리프를 볼 수 있는 AI 비디오 초안으로 만드는 데 도움을 줍니다.',
         },
         {
           title: '이미지로 정체성과 스타일 안내',
@@ -600,9 +600,9 @@ const homePageSectionCopy: Record<string, HomePageSectionCopy> = {
       ],
     },
     reasons: {
-      title: 'Gemini Omni 스타일 비디오 제작에 GeminiOmni를 선택하는 이유',
+      title: 'Gemini Omni 스타일 비디오 제작에 DreamOmni를 선택하는 이유',
       description:
-        'GeminiOmni는 무료 시작, 크리에이터 친화적인 워크플로, 검색 의도에 답하는 충분한 SEO 콘텐츠라는 제품 약속을 지키며 사이트를 개발자 플랫폼으로 바꾸지 않습니다.',
+        'DreamOmni는 무료 시작, 크리에이터 친화적인 워크플로, 검색 의도에 답하는 충분한 SEO 콘텐츠라는 제품 약속을 지키며 사이트를 개발자 플랫폼으로 바꾸지 않습니다.',
       items: [
         {
           title: '무료 시작 경로',
@@ -617,7 +617,7 @@ const homePageSectionCopy: Record<string, HomePageSectionCopy> = {
         {
           title: '명확한 모델 개요',
           description:
-            'GeminiOmni는 모델 방향을 설명하고 검색 방문자에게 예시, 활용 사례, 프롬프트 조언, 제작 경로를 제공합니다.',
+            'DreamOmni는 모델 방향을 설명하고 검색 방문자에게 예시, 활용 사례, 프롬프트 조언, 제작 경로를 제공합니다.',
         },
       ],
     },
@@ -637,7 +637,7 @@ const homePageSectionCopy: Record<string, HomePageSectionCopy> = {
         {
           title: 'Textprompts werden zu filmischen Szenen',
           description:
-            'Beschreiben Sie Motiv, Handlung, Kamerabewegung, Licht und Stimmung. GeminiOmni hilft dabei, dieses Briefing in einen nutzbaren KI-Videoentwurf zu verwandeln.',
+            'Beschreiben Sie Motiv, Handlung, Kamerabewegung, Licht und Stimmung. DreamOmni hilft dabei, dieses Briefing in einen nutzbaren KI-Videoentwurf zu verwandeln.',
         },
         {
           title: 'Bilder steuern Identität und Stil',
@@ -708,9 +708,9 @@ const homePageSectionCopy: Record<string, HomePageSectionCopy> = {
       ],
     },
     reasons: {
-      title: 'Warum GeminiOmni für Gemini-Omni-Style-Videos wählen',
+      title: 'Warum DreamOmni für Gemini-Omni-Style-Videos wählen',
       description:
-        'GeminiOmni hält das Produktversprechen klar: kostenloser Einstieg, creatorfreundliche Workflows und genug SEO-Inhalt, um Suchintentionen zu beantworten, ohne die Seite in eine Entwicklerplattform zu verwandeln.',
+        'DreamOmni hält das Produktversprechen klar: kostenloser Einstieg, creatorfreundliche Workflows und genug SEO-Inhalt, um Suchintentionen zu beantworten, ohne die Seite in eine Entwicklerplattform zu verwandeln.',
       items: [
         {
           title: 'Kostenloser Einstieg',
@@ -725,7 +725,7 @@ const homePageSectionCopy: Record<string, HomePageSectionCopy> = {
         {
           title: 'Klare Modellübersicht',
           description:
-            'GeminiOmni erklärt die Richtung des Modells und bietet Suchbesuchern Beispiele, Anwendungsfälle, Prompt-Tipps und Wege zur Erstellung.',
+            'DreamOmni erklärt die Richtung des Modells und bietet Suchbesuchern Beispiele, Anwendungsfälle, Prompt-Tipps und Wege zur Erstellung.',
         },
       ],
     },
@@ -745,7 +745,7 @@ const homePageSectionCopy: Record<string, HomePageSectionCopy> = {
         {
           title: 'Les prompts texte deviennent des scènes cinématographiques',
           description:
-            'Décrivez le sujet, l’action, le mouvement de caméra, la lumière et l’ambiance. GeminiOmni aide à transformer ce brief créatif en brouillon vidéo IA regardable.',
+            'Décrivez le sujet, l’action, le mouvement de caméra, la lumière et l’ambiance. DreamOmni aide à transformer ce brief créatif en brouillon vidéo IA regardable.',
         },
         {
           title: 'Les images guident l’identité et le style',
@@ -816,9 +816,9 @@ const homePageSectionCopy: Record<string, HomePageSectionCopy> = {
       ],
     },
     reasons: {
-      title: 'Pourquoi choisir GeminiOmni pour créer des vidéos style Gemini Omni',
+      title: 'Pourquoi choisir DreamOmni pour créer des vidéos style Gemini Omni',
       description:
-        'GeminiOmni garde une promesse produit simple : démarrage gratuit, workflows adaptés aux créateurs et contenu SEO suffisant pour répondre à l’intention de recherche sans transformer le site en plateforme développeur.',
+        'DreamOmni garde une promesse produit simple : démarrage gratuit, workflows adaptés aux créateurs et contenu SEO suffisant pour répondre à l’intention de recherche sans transformer le site en plateforme développeur.',
       items: [
         {
           title: 'Démarrage gratuit',
@@ -833,7 +833,7 @@ const homePageSectionCopy: Record<string, HomePageSectionCopy> = {
         {
           title: 'Présentation claire du modèle',
           description:
-            'GeminiOmni explique la direction du modèle et propose aux visiteurs des exemples, cas d’usage, conseils de prompts et chemins de création.',
+            'DreamOmni explique la direction du modèle et propose aux visiteurs des exemples, cas d’usage, conseils de prompts et chemins de création.',
         },
       ],
     },
@@ -853,7 +853,7 @@ const homePageSectionCopy: Record<string, HomePageSectionCopy> = {
         {
           title: 'Los prompts de texto se convierten en escenas cinematográficas',
           description:
-            'Describe el sujeto, la acción, el movimiento de cámara, la iluminación y el ambiente. GeminiOmni ayuda a convertir ese brief creativo en un borrador de video con IA.',
+            'Describe el sujeto, la acción, el movimiento de cámara, la iluminación y el ambiente. DreamOmni ayuda a convertir ese brief creativo en un borrador de video con IA.',
         },
         {
           title: 'Las imágenes guían identidad y estilo',
@@ -924,9 +924,9 @@ const homePageSectionCopy: Record<string, HomePageSectionCopy> = {
       ],
     },
     reasons: {
-      title: 'Por qué elegir GeminiOmni para crear videos estilo Gemini Omni',
+      title: 'Por qué elegir DreamOmni para crear videos estilo Gemini Omni',
       description:
-        'GeminiOmni mantiene una promesa de producto simple: acceso gratuito para empezar, flujos amigables para creadores y suficiente contenido SEO para responder a la intención de búsqueda sin convertir el sitio en una plataforma para desarrolladores.',
+        'DreamOmni mantiene una promesa de producto simple: acceso gratuito para empezar, flujos amigables para creadores y suficiente contenido SEO para responder a la intención de búsqueda sin convertir el sitio en una plataforma para desarrolladores.',
       items: [
         {
           title: 'Ruta gratuita para empezar',
@@ -941,7 +941,7 @@ const homePageSectionCopy: Record<string, HomePageSectionCopy> = {
         {
           title: 'Resumen claro del modelo',
           description:
-            'GeminiOmni explica qué significa la dirección del modelo y ofrece ejemplos, casos de uso, consejos de prompts y rutas de creación.',
+            'DreamOmni explica qué significa la dirección del modelo y ofrece ejemplos, casos de uso, consejos de prompts y rutas de creación.',
         },
       ],
     },
@@ -961,7 +961,7 @@ const homePageSectionCopy: Record<string, HomePageSectionCopy> = {
         {
           title: 'Prompts de texto viram cenas cinematográficas',
           description:
-            'Descreva o assunto, a ação, o movimento de câmera, a luz e o clima. O GeminiOmni ajuda a transformar esse briefing criativo em um rascunho de vídeo com IA.',
+            'Descreva o assunto, a ação, o movimento de câmera, a luz e o clima. O DreamOmni ajuda a transformar esse briefing criativo em um rascunho de vídeo com IA.',
         },
         {
           title: 'Imagens orientam identidade e estilo',
@@ -1032,9 +1032,9 @@ const homePageSectionCopy: Record<string, HomePageSectionCopy> = {
       ],
     },
     reasons: {
-      title: 'Por que escolher o GeminiOmni para criar vídeos no estilo Gemini Omni',
+      title: 'Por que escolher o DreamOmni para criar vídeos no estilo Gemini Omni',
       description:
-        'O GeminiOmni mantém uma promessa simples: acesso gratuito para começar, fluxos amigáveis para criadores e conteúdo de SEO suficiente para responder à intenção de busca sem transformar o site em uma plataforma para desenvolvedores.',
+        'O DreamOmni mantém uma promessa simples: acesso gratuito para começar, fluxos amigáveis para criadores e conteúdo de SEO suficiente para responder à intenção de busca sem transformar o site em uma plataforma para desenvolvedores.',
       items: [
         {
           title: 'Caminho gratuito para começar',
@@ -1049,7 +1049,7 @@ const homePageSectionCopy: Record<string, HomePageSectionCopy> = {
         {
           title: 'Visão clara do modelo',
           description:
-            'O GeminiOmni explica o significado da direção do modelo e oferece exemplos, casos de uso, dicas de prompt e caminhos de criação.',
+            'O DreamOmni explica o significado da direção do modelo e oferece exemplos, casos de uso, dicas de prompt e caminhos de criação.',
         },
       ],
     },
@@ -1072,9 +1072,9 @@ export async function generateMetadata({
 }: {
   params: { locale: string };
 }) {
-  const baseUrl = process.env.NEXT_PUBLIC_WEB_URL || 'https://geminiomni.tv';
+  const baseUrl = process.env.NEXT_PUBLIC_WEB_URL || 'https://dreamomni.ai';
   const canonicalUrl = locale === defaultLocale ? baseUrl : `${baseUrl}/${locale}`;
-  const copy = getGeminiOmniLandingCopy(locale);
+  const copy = getDreamOmniLandingCopy(locale);
 
   return {
     title: copy.metadata.title,
@@ -1093,10 +1093,10 @@ export default async function LandingPage({
 }) {
   const textToVideoHref = getLocalizedPath(locale, '/text-to-video');
   const omniStudioHref = getLocalizedPath(locale, '/omni-studio');
-  const copy = getGeminiOmniLandingCopy(locale);
+  const copy = getDreamOmniLandingCopy(locale);
   const homeCopy =
     homePageSectionCopy[locale] || homePageSectionCopy[defaultLocale];
-  const intentLinks = getGeminiOmniIntentLinks(locale);
+  const intentLinks = getDreamOmniIntentLinks(locale);
   const relatedIntentLinks = intentLinks.filter(
     (item) => !item.href.includes('api')
   );

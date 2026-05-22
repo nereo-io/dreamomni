@@ -37,7 +37,7 @@ function getLocaleHref(path: string, locale?: string) {
 }
 
 function getAbsolutePostHref(post: Post) {
-  const baseUrl = process.env.NEXT_PUBLIC_WEB_URL || "https://geminiomni.tv";
+  const baseUrl = process.env.NEXT_PUBLIC_WEB_URL || "https://dreamomni.ai";
 
   return new URL(getPostHref(post), baseUrl).toString();
 }

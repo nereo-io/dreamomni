@@ -3,9 +3,9 @@ import Header from "@/components/blocks/header";
 import { ReactNode } from "react";
 import { getLandingPage } from "@/services/page";
 import {
-  buildGeminiOmniFooter,
-  buildGeminiOmniHeader,
-} from "@/config/geminiomni-footer";
+  buildDreamOmniFooter,
+  buildDreamOmniHeader,
+} from "@/config/dreamomni-footer";
 
 export default async function DefaultLayout({
   children,
@@ -17,12 +17,12 @@ export default async function DefaultLayout({
   const page = await getLandingPage(locale);
 
   if (page.footer) {
-    page.footer = buildGeminiOmniFooter(page.footer, locale);
+    page.footer = buildDreamOmniFooter(page.footer, locale);
   }
 
   return (
     <>
-      {page.header && <Header header={buildGeminiOmniHeader(page.header)} />}
+      {page.header && <Header header={buildDreamOmniHeader(page.header)} />}
       <main className="overflow-x-hidden">{children}</main>
       {page.footer && <Footer footer={page.footer} />}
     </>

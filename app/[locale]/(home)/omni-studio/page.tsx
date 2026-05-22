@@ -13,7 +13,7 @@ export async function generateMetadata({
       : `${baseUrl}/${locale}/omni-studio`;
 
   return {
-    title: "Omni Studio | GeminiOmni",
+    title: "Omni Studio | DreamOmni",
     description:
       "Create and edit Gemini Omni videos with text, image, video, audio ID, and character references.",
     alternates: {

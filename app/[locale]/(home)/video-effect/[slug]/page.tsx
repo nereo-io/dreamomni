@@ -80,7 +80,7 @@ export async function generateMetadata({
 
   if (!isValidVideoEffectSlug(slug)) {
     return {
-      title: "Effect Not Found | GeminiOmni",
+      title: "Effect Not Found | DreamOmni",
       description: "The requested video effect could not be found.",
       robots: "noindex,nofollow",
     };
@@ -90,10 +90,10 @@ export async function generateMetadata({
   const heroTitle = page?.hero?.title;
   const heroSubtitle = page?.hero?.subtitle;
   const fallbackTitle = heroTitle
-    ? `${heroTitle} | GeminiOmni`
-    : "Video Effect | GeminiOmni";
+    ? `${heroTitle} | DreamOmni`
+    : "Video Effect | DreamOmni";
   const fallbackDescription =
-    heroSubtitle ?? "Create AI-powered video effects with GeminiOmni.";
+    heroSubtitle ?? "Create AI-powered video effects with DreamOmni.";
 
   const canonicalUrl = `${process.env.NEXT_PUBLIC_WEB_URL}${
     locale !== "en" ? `/${locale}` : ""
@@ -103,11 +103,11 @@ export async function generateMetadata({
     title: seo?.title ?? fallbackTitle,
     description: seo?.description ?? fallbackDescription,
     openGraph: {
-      title: seo?.title ?? heroTitle ?? "Video Effect | GeminiOmni",
+      title: seo?.title ?? heroTitle ?? "Video Effect | DreamOmni",
       description: seo?.description ?? fallbackDescription,
       url: canonicalUrl,
       type: "article",
-      siteName: "GeminiOmni",
+      siteName: "DreamOmni",
     },
     alternates: {
       canonical: canonicalUrl,

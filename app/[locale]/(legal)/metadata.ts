@@ -2,7 +2,7 @@ import { locales } from "@/i18n/locale";
 import { Metadata } from "next";
 
 function getBaseUrl() {
-  return process.env.NEXT_PUBLIC_WEB_URL || "https://geminiomni.tv";
+  return process.env.NEXT_PUBLIC_WEB_URL || "https://dreamomni.ai";
 }
 
 function buildLocalizedLegalUrl(locale: string, path: string) {

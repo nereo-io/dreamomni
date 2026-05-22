@@ -1315,5 +1315,25 @@
     "title": "Generateur d images IA GPT Image 2 en ligne | Seedance",
     "description": "Essayez GPT Image 2 sur Seedance pour generer et modifier des images. Creez des affiches lisibles, etiquettes produit, maquettes UI, publicites et visuels creatifs.",
     "keywords": "GPT Image 2, generateur image IA, texte en image, edition image, modele image OpenAI, affiche IA, etiquette produit IA"
+  },
+  "gemini-omni-api": {
+    "title": "Gemini Omni API Access Guide",
+    "description": "Learn Gemini Omni API access options, when to use DreamOmni's browser workflow, and how official Google Veo API paths affect cost and setup.",
+    "keywords": "Gemini Omni API, Gemini Omni API access, Gemini Omni developer API, Gemini API video, Veo 3.1 API, AI video API, DreamOmni API"
+  },
+  "gemini-omni-pricing": {
+    "title": "Gemini Omni Pricing: Free Credits, Plans, and Costs",
+    "description": "Compare Gemini Omni pricing options on DreamOmni, including free credits, subscriptions, credit packs, and practical AI video generation budgeting.",
+    "keywords": "Gemini Omni pricing, Gemini Omni cost, Gemini Omni plans, Gemini Omni credits, free Gemini Omni, AI video pricing, DreamOmni pricing"
+  },
+  "gemini-omni-free": {
+    "title": "Gemini Omni Free Access: Try AI Video Generation",
+    "description": "See how to try Gemini Omni-style AI video generation free on DreamOmni, what free credits cover, and when paid credits make sense.",
+    "keywords": "Gemini Omni free, free Gemini Omni access, Gemini Omni free trial, free AI video generator, DreamOmni free credits, try Gemini Omni"
+  },
+  "gemini-omni-alternatives-vs-veo-3-1": {
+    "title": "Gemini Omni Alternatives vs Veo 3.1",
+    "description": "Compare Gemini Omni-style workflows with Veo 3.1 and other AI video alternatives by access, cost, API setup, creative control, and best use case.",
+    "keywords": "Gemini Omni alternatives, Gemini Omni vs Veo 3.1, Veo 3.1 alternative, Gemini Omni comparison, AI video generator alternatives, best Gemini Omni alternative"
   }
 }

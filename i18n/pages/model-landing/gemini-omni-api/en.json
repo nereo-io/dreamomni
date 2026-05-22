@@ -1,14 +1,14 @@
 {
   "banner": {
     "title": "Gemini Omni API Access Guide",
-    "description": "A practical guide for teams searching for Gemini Omni API access: what you can do inside GeminiOmni today, when to use official Google Veo API paths, and how to plan credits, prompts, and production workflows without assuming unlimited free video generation.",
+    "description": "A practical guide for teams searching for Gemini Omni API access: what you can do inside DreamOmni today, when to use official Google Veo API paths, and how to plan credits, prompts, and production workflows without assuming unlimited free video generation.",
     "tabs": [
       {
         "type": "text",
         "title": "Try a Gemini Omni-Style Prompt",
         "subTitle": "Prompt",
         "value": "text-to-video",
-        "modelName": "GeminiOmni",
+        "modelName": "DreamOmni",
         "modelLogo": "/logo.png",
         "placeholder": "Describe the video you want to generate, including subject, camera motion, scene, style, and audio direction...",
         "buttonText": "Create Video"
@@ -18,7 +18,7 @@
         "title": "Use an Image Reference",
         "subTitle": "Image",
         "value": "image-to-video",
-        "modelName": "GeminiOmni",
+        "modelName": "DreamOmni",
         "modelLogo": "/logo.png",
         "placeholder": "Upload a reference image to guide subject, composition, or product appearance",
         "tips": "Upload JPG, PNG, WEBP, or GIF images up to 20MB.",
@@ -41,8 +41,8 @@
     "title": "Gemini Omni API Access Options",
     "details": [
       {
-        "title": "Use GeminiOmni for Browser-Based Generation",
-        "description": "GeminiOmni is built for creators who want an online workflow first: sign in, submit text or image-to-video prompts, track generation history, and download finished assets. This is the fastest path when you need output without maintaining API credentials, queue workers, storage callbacks, or provider billing logic.",
+        "title": "Use DreamOmni for Browser-Based Generation",
+        "description": "DreamOmni is built for creators who want an online workflow first: sign in, submit text or image-to-video prompts, track generation history, and download finished assets. This is the fastest path when you need output without maintaining API credentials, queue workers, storage callbacks, or provider billing logic.",
         "type": "table",
         "data": {
           "headers": [
@@ -62,7 +62,7 @@
                 },
                 {
                   "type": "text",
-                  "content": "Use GeminiOmni text-to-video or image-to-video in the browser"
+                  "content": "Use DreamOmni text-to-video or image-to-video in the browser"
                 }
               ]
             },
@@ -95,7 +95,7 @@
       },
       {
         "title": "Plan Official API Work Separately",
-        "description": "Official Google video API access changes over time and is billed separately from GeminiOmni. Public Google docs currently list Veo 3.1 in paid Gemini API and Vertex AI paths, with per-second pricing rather than a permanent free tier. Treat official API integration as a developer project with budget controls, retries, moderation, storage, and usage monitoring.",
+        "description": "Official Google video API access changes over time and is billed separately from DreamOmni. Public Google docs currently list Veo 3.1 in paid Gemini API and Vertex AI paths, with per-second pricing rather than a permanent free tier. Treat official API integration as a developer project with budget controls, retries, moderation, storage, and usage monitoring.",
         "type": "table",
         "data": {
           "headers": [
@@ -148,7 +148,7 @@
       },
       {
         "title": "When an API Is Not the Right First Step",
-        "description": "If your team is still testing prompts, brand rules, model quality, or campaign formats, a manual web workflow often teaches you more than an early API integration. Use GeminiOmni to discover repeatable prompt patterns, then automate only the pieces that are stable enough to justify engineering work.",
+        "description": "If your team is still testing prompts, brand rules, model quality, or campaign formats, a manual web workflow often teaches you more than an early API integration. Use DreamOmni to discover repeatable prompt patterns, then automate only the pieces that are stable enough to justify engineering work.",
         "type": "table",
         "data": {
           "headers": [
@@ -221,13 +221,13 @@
         "description": "For automation, review current Google Gemini API or Vertex AI video docs and estimate per-second cost before implementation."
       }
     ],
-    "buttonText": "Try GeminiOmni"
+    "buttonText": "Try DreamOmni"
   },
   "comparison": {
     "title": "Gemini Omni API vs Browser Workflow",
     "featureLabel": "Criteria",
     "models": [
-      "GeminiOmni Browser",
+      "DreamOmni Browser",
       "Official Google Video API",
       "Generic Wrapper API"
     ],
@@ -297,11 +297,11 @@
     "description": "Practical answers for developers and teams evaluating Gemini Omni API access.",
     "items": [
       {
-        "title": "Does GeminiOmni provide a public developer API?",
-        "description": "GeminiOmni is primarily a browser-based AI video generator. If you need official Google video API access, review the current Gemini API or Vertex AI documentation and pricing before building."
+        "title": "Does DreamOmni provide a public developer API?",
+        "description": "DreamOmni is primarily a browser-based AI video generator. If you need official Google video API access, review the current Gemini API or Vertex AI documentation and pricing before building."
       },
       {
-        "title": "Can I use GeminiOmni before building an API integration?",
+        "title": "Can I use DreamOmni before building an API integration?",
         "description": "Yes. It is often smarter to validate prompts, references, and expected output quality in the web app before committing engineering time to automation."
       },
       {
@@ -309,14 +309,14 @@
         "description": "Google public docs currently list Veo 3.1 on the paid tier for Gemini API, with video priced per second. Always check the official docs before budgeting."
       },
       {
-        "title": "Is GeminiOmni affiliated with Google?",
-        "description": "No. GeminiOmni.tv is an independent product and is not affiliated with Google, Gemini, or Google DeepMind."
+        "title": "Is DreamOmni affiliated with Google?",
+        "description": "No. DreamOmni.ai is an independent product and is not affiliated with Google, Gemini, or Google DeepMind."
       }
     ]
   },
   "cta": {
     "title": "Test the Workflow Before You Build the API",
-    "description": "Create a prompt-driven video in GeminiOmni, then decide whether automation is worth the engineering work.",
+    "description": "Create a prompt-driven video in DreamOmni, then decide whether automation is worth the engineering work.",
     "buttonText": "Start Creating"
   }
 }

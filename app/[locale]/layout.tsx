@@ -19,9 +19,9 @@ import BingUET from "@/components/analytics/bing-uet";
 import GoogleAnalytics from "@/components/analytics/google-analytics";
 import Plausible from "@/components/analytics/plausible";
 import {
-  prepareGeminiOmniClientMessages,
-  sanitizeGeminiOmniString,
-} from "@/config/geminiomni-messages";
+  prepareDreamOmniClientMessages,
+  sanitizeDreamOmniString,
+} from "@/config/dreamomni-messages";
 // import { SpeedInsights } from '@vercel/speed-insights/next';
 // import { Analytics } from "@vercel/analytics/react";
 
@@ -42,32 +42,32 @@ export async function generateMetadata({
 }): Promise<Metadata> {
   const t = await getTranslations();
 
-  const baseUrl = process.env.NEXT_PUBLIC_WEB_URL || "https://geminiomni.tv";
-  const title = sanitizeGeminiOmniString(
+  const baseUrl = process.env.NEXT_PUBLIC_WEB_URL || "https://dreamomni.ai";
+  const title = sanitizeDreamOmniString(
     t("metadata.title") ||
       "Free Gemini Omni AI Video Generator"
   );
-  const description = sanitizeGeminiOmniString(
+  const description = sanitizeDreamOmniString(
     t("metadata.description") ||
-      "Create cinematic AI videos online with GeminiOmni. Turn text prompts and images into videos with a free Gemini Omni-style AI video generator."
+      "Create cinematic AI videos online with DreamOmni. Turn text prompts and images into videos with a free Gemini Omni-style AI video generator."
   );
 
   return {
     title: {
-      template: `%s | GeminiOmni`,
+      template: `%s | DreamOmni`,
       default: title,
     },
     description: description,
-    keywords: sanitizeGeminiOmniString(t("metadata.keywords") || ""),
+    keywords: sanitizeDreamOmniString(t("metadata.keywords") || ""),
     icons: {
       icon: [
         {
-          url: "/favicon.ico?v=geminiomni-20260521",
+          url: "/favicon.ico?v=dreamomni-20260521",
           type: "image/png",
         },
       ],
-      shortcut: "/favicon.ico?v=geminiomni-20260521",
-      apple: "/favicon.ico?v=geminiomni-20260521",
+      shortcut: "/favicon.ico?v=dreamomni-20260521",
+      apple: "/favicon.ico?v=dreamomni-20260521",
     },
     alternates: {
       canonical: locale === "en" ? baseUrl : `${baseUrl}/${locale}`,
@@ -87,13 +87,13 @@ export async function generateMetadata({
       title: title,
       description: description,
       url: locale === "en" ? baseUrl : `${baseUrl}/${locale}`,
-      siteName: "GeminiOmni",
+      siteName: "DreamOmni",
       images: [
         {
           url: `${baseUrl}/og-image.png`,
           width: 1200,
           height: 630,
-          alt: "GeminiOmni AI Video Generator",
+          alt: "DreamOmni AI Video Generator",
         },
       ],
       locale: locale,
@@ -127,7 +127,7 @@ export default async function RootLayout({
   params: { locale: string };
 }>) {
   const messages = await getMessages();
-  const clientMessages = prepareGeminiOmniClientMessages(messages);
+  const clientMessages = prepareDreamOmniClientMessages(messages);
 
   return (
     <html lang={locale} suppressHydrationWarning className="dark">
@@ -136,14 +136,14 @@ export default async function RootLayout({
           type="organization"
           data={{
             description:
-              "GeminiOmni is an independent AI video generator for creating cinematic videos from prompts and images.",
+              "DreamOmni is an independent AI video generator for creating cinematic videos from prompts and images.",
           }}
         />
         <StructuredData
           type="website"
           data={{
             description:
-              "Create cinematic AI videos online with GeminiOmni's free AI video generator.",
+              "Create cinematic AI videos online with DreamOmni's free AI video generator.",
           }}
         />
       </head>

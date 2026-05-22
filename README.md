@@ -1,6 +1,6 @@
-# GeminiOmni.tv
+# DreamOmni.ai
 
-GeminiOmni.tv 是一个基于 Next.js 14 构建的 AI 媒体生成平台,围绕旗舰 **Gemini Omni** 视频模型,支持视频、图像、音乐与特效生成,并提供多模态创作界面 **Omni Studio**。
+DreamOmni.ai 是一个基于 Next.js 14 构建的 AI 媒体生成平台,围绕旗舰 **Gemini Omni** 视频模型,支持视频、图像、音乐与特效生成,并提供多模态创作界面 **Omni Studio**。
 
 核心能力:
 - 文本 / 图像转视频(Text / Image to Video)

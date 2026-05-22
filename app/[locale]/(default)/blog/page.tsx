@@ -42,7 +42,7 @@ export async function generateMetadata({
   searchParams?: { page?: string | string[] };
 }) {
   const t = await getTranslations();
-  const baseUrl = process.env.NEXT_PUBLIC_WEB_URL || 'https://geminiomni.tv';
+  const baseUrl = process.env.NEXT_PUBLIC_WEB_URL || 'https://dreamomni.ai';
   const currentPage = parsePageParam(searchParams?.page) || 1;
   const canonicalUrl = `${baseUrl}${getBlogPath(locale, currentPage)}`;
 

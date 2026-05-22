@@ -33,4 +33,4 @@ Allow: /image-to-image
 Allow: /video-effects
 Allow: /video-effects/
 
-Sitemap: https://geminiomni.tv/sitemap.xml
+Sitemap: https://dreamomni.ai/sitemap.xml

@@ -20,7 +20,7 @@ export async function generateMetadata({
 
   if (!effect) {
     return {
-      title: "Effect Not Found | GeminiOmni",
+      title: "Effect Not Found | DreamOmni",
       description: "The requested video effect could not be found.",
       robots: "noindex,nofollow",
     };
@@ -50,11 +50,11 @@ export async function generateMetadata({
           alt: `${effect.title} - AI Video Effect Preview`,
         },
       ],
-      siteName: "GeminiOmni",
+      siteName: "DreamOmni",
     },
     twitter: {
       card: "summary_large_image",
-      site: "@geminiomni",
+      site: "@dreamomni",
       title: effect.page_title,
       description,
       images: [
@@ -106,7 +106,7 @@ export default async function EffectDetailPage({
     video: effect.preview_video || null,
     creator: {
       "@type": "Organization",
-      name: "GeminiOmni",
+      name: "DreamOmni",
       url: process.env.NEXT_PUBLIC_WEB_URL,
     },
   };

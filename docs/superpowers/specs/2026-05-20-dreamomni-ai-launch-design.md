@@ -1,8 +1,8 @@
-# GeminiOmni.tv Launch Design
+# DreamOmni.ai Launch Design
 
 ## Goal
 
-Launch `geminiomni.tv` quickly from the existing Seedance codebase as an independent SEO and product site for the Google Gemini Omni trend.
+Launch `dreamomni.ai` quickly from the existing Seedance codebase as an independent SEO and product site for the Google Gemini Omni trend.
 
 The first release should capture search demand around Gemini Omni while staying accurate about provider availability: Google has announced Gemini Omni Flash, but KIE public docs do not currently list Gemini Omni as a supported model. The site must not claim that it can run Gemini Omni until a real provider is available.
 
@@ -17,8 +17,8 @@ The first release should capture search demand around Gemini Omni while staying 
 
 Use the recommended first-release positioning:
 
-1. Primary site identity: `GeminiOmni`.
-2. Primary domain: `https://geminiomni.tv`.
+1. Primary site identity: `DreamOmni`.
+2. Primary domain: `https://dreamomni.ai`.
 3. Primary intent: Gemini Omni news, capability explanation, and SEO capture.
 4. Product path: offer a working AI video generator using currently available models from the Seedance stack.
 5. Availability disclaimer: Gemini Omni API and KIE support are not available yet; the site tracks availability and will support it when a reliable provider exists.
@@ -31,7 +31,7 @@ The homepage should be the actual product landing experience, not a generic mark
 Hero:
 
 - H1: `Gemini Omni AI Video Generator`
-- Supporting copy: explain that Gemini Omni is Google's new multimodal video model and that GeminiOmni.tv tracks access while offering practical AI video generation today.
+- Supporting copy: explain that Gemini Omni is Google's new multimodal video model and that DreamOmni.ai tracks access while offering practical AI video generation today.
 - Primary CTA: `Try AI Video Generator`
 - Secondary CTA: `Get Gemini Omni Updates`
 - Status pill: `Gemini Omni API status: monitoring`
@@ -53,16 +53,16 @@ The homepage should contain these sections, in this order:
 
 The KIE status section must say:
 
-`Gemini Omni is not currently listed in KIE public docs or market pages. GeminiOmni.tv will add native Gemini Omni support only after a real provider endpoint is available.`
+`Gemini Omni is not currently listed in KIE public docs or market pages. DreamOmni.ai will add native Gemini Omni support only after a real provider endpoint is available.`
 
 ## Data and Auth
 
 Use the Seedance auth model:
 
 - Email signup and login remain enabled.
-- Google OAuth remains enabled after a new Google OAuth client is created for `geminiomni.tv`.
+- Google OAuth remains enabled after a new Google OAuth client is created for `dreamomni.ai`.
 - Keep Supabase as the user and app database.
-- Create a fresh Supabase project for `geminiomni`, not a shared Seedance database.
+- Create a fresh Supabase project for `dreamomni`, not a shared Seedance database.
 - Do not copy Seedance production secrets into committed files.
 - Vercel envs should use new project-specific values.
 
@@ -76,13 +76,13 @@ The app should preserve Stripe env variable slots and avoid breaking the pricing
 
 Target setup:
 
-- GitHub repository: `liuweifly/geminiomni`.
-- Local project path: `/Users/river/Projects/geminiomni`.
+- GitHub repository: `nereo-io/dreamomni`.
+- Local project path: `/Users/neyric/WorkSpace/dreamomni`.
 - Git source: Seedance repository copied or mirrored, with `upstream` pointing to `git@github.com:liuweifly/seedance.git`.
-- New Vercel project: `geminiomni` in `team_pTUZk2EO9Idm85w8UMO6umJf`.
-- New Supabase project: `geminiomni`, preferred region `ap-southeast-1` to match Seedance unless the owner chooses otherwise.
-- Domain: `geminiomni.tv`, DNS managed in Cloudflare.
-- Production URL: `https://geminiomni.tv`.
+- New Vercel project: `dreamomni` in `team_pTUZk2EO9Idm85w8UMO6umJf`.
+- New Supabase project: `dreamomni`, preferred region `ap-southeast-1` to match Seedance unless the owner chooses otherwise.
+- Domain: `dreamomni.ai`, DNS managed in Cloudflare.
+- Production URL: `https://dreamomni.ai`.
 
 ## External Access Boundaries
 
@@ -98,13 +98,13 @@ Known current access state:
 
 The first release must ship:
 
-- Correct `NEXT_PUBLIC_WEB_URL=https://geminiomni.tv`.
-- `public/robots.txt` pointing to `https://geminiomni.tv/sitemap.xml`.
-- Sitemap generating GeminiOmni URLs.
+- Correct `NEXT_PUBLIC_WEB_URL=https://dreamomni.ai`.
+- `public/robots.txt` pointing to `https://dreamomni.ai/sitemap.xml`.
+- Sitemap generating DreamOmni URLs.
 - Homepage title and description focused on Gemini Omni.
 - FAQ structured data for Gemini Omni questions.
 - Clear independence disclaimer.
-- GSC submission of `https://geminiomni.tv/sitemap.xml` as soon as production is live and verified.
+- GSC submission of `https://dreamomni.ai/sitemap.xml` as soon as production is live and verified.
 
 ## Verification Requirements
 
@@ -114,9 +114,9 @@ Before calling the launch complete, verify:
 - `pnpm build` passes.
 - Homepage renders in a browser at local or preview URL.
 - `robots.txt` returns the new sitemap URL.
-- `sitemap.xml` contains `https://geminiomni.tv`.
+- `sitemap.xml` contains `https://dreamomni.ai`.
 - Production Vercel deployment is ready.
-- `https://geminiomni.tv` loads over HTTPS.
+- `https://dreamomni.ai` loads over HTTPS.
 - Email auth and Google auth are configured for the new domain.
 - Supabase envs point to the new project.
 - GSC property exists and sitemap has been submitted, or the exact manual blocker is documented.

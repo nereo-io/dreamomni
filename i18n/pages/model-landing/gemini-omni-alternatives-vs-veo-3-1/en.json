@@ -8,9 +8,9 @@
         "title": "Test a Comparison Prompt",
         "subTitle": "Prompt",
         "value": "text-to-video",
-        "modelName": "GeminiOmni",
+        "modelName": "DreamOmni",
         "modelLogo": "/logo.png",
-        "placeholder": "Describe a cinematic video idea you would use to compare GeminiOmni, Veo 3.1, and other alternatives...",
+        "placeholder": "Describe a cinematic video idea you would use to compare DreamOmni, Veo 3.1, and other alternatives...",
         "buttonText": "Create Video"
       },
       {
@@ -18,7 +18,7 @@
         "title": "Compare Image to Video",
         "subTitle": "Image",
         "value": "image-to-video",
-        "modelName": "GeminiOmni",
+        "modelName": "DreamOmni",
         "modelLogo": "/logo.png",
         "placeholder": "Upload a reference image to test visual control",
         "tips": "Upload JPG, PNG, WEBP, or GIF images up to 20MB.",
@@ -41,8 +41,8 @@
     "title": "How to Choose Between Gemini Omni-Style Tools and Veo 3.1",
     "details": [
       {
-        "title": "Use GeminiOmni When You Need Fast Online Creation",
-        "description": "GeminiOmni is strongest as a practical browser workflow: generate from text, animate images, review history, and download outputs without building infrastructure. It is a good first stop for marketers, creators, and teams that want results before API engineering.",
+        "title": "Use DreamOmni When You Need Fast Online Creation",
+        "description": "DreamOmni is strongest as a practical browser workflow: generate from text, animate images, review history, and download outputs without building infrastructure. It is a good first stop for marketers, creators, and teams that want results before API engineering.",
         "type": "table",
         "data": {
           "headers": [
@@ -227,7 +227,7 @@
     "title": "Gemini Omni Alternatives Compared with Veo 3.1",
     "featureLabel": "Criteria",
     "models": [
-      "GeminiOmni",
+      "DreamOmni",
       "Veo 3.1",
       "Other AI Video Tools"
     ],
@@ -302,15 +302,15 @@
     "name": "faq",
     "label": "FAQ",
     "title": "Gemini Omni Alternatives Questions",
-    "description": "Answers for comparing GeminiOmni, Veo 3.1, and other AI video tools.",
+    "description": "Answers for comparing DreamOmni, Veo 3.1, and other AI video tools.",
     "items": [
       {
-        "title": "Is GeminiOmni the same as Veo 3.1?",
-        "description": "No. GeminiOmni is an independent browser-based product for Gemini Omni-style video creation. Veo 3.1 is an official Google video model family available through Google surfaces."
+        "title": "Is DreamOmni the same as Veo 3.1?",
+        "description": "No. DreamOmni is an independent browser-based product for Gemini Omni-style video creation. Veo 3.1 is an official Google video model family available through Google surfaces."
       },
       {
-        "title": "Which is better, GeminiOmni or Veo 3.1?",
-        "description": "Choose GeminiOmni when you want fast online creation without API setup. Choose Veo 3.1 when you specifically need official Google video model access and can manage API or cloud billing."
+        "title": "Which is better, DreamOmni or Veo 3.1?",
+        "description": "Choose DreamOmni when you want fast online creation without API setup. Choose Veo 3.1 when you specifically need official Google video model access and can manage API or cloud billing."
       },
       {
         "title": "What are the best Gemini Omni alternatives?",

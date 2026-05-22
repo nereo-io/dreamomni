@@ -1,10 +1,10 @@
-# GeminiOmni - Free Gemini Omni AI Video Generator
+# DreamOmni - Free Gemini Omni AI Video Generator
 
 ## Project Overview
 
-GeminiOmni (geminiomni.tv) is an independent AI video platform focused on practical Gemini Omni-style video generation workflows. The site helps creators turn prompts and images into cinematic AI videos online.
+DreamOmni (dreamomni.ai) is an independent AI video platform focused on practical Gemini Omni-style video generation workflows. The site helps creators turn prompts and images into cinematic AI videos online.
 
-GeminiOmni.tv is not affiliated with Google, Gemini, or Google DeepMind.
+DreamOmni.ai is not affiliated with Google, Gemini, or Google DeepMind.
 
 ## Gemini Omni Model Context
 
@@ -39,16 +39,16 @@ Google announced Gemini Omni at Google I/O 2026 as a new multimodal video genera
 ### Backend and Infrastructure
 - **Supabase** for PostgreSQL and auth-related storage
 - **Vercel** for production deployment
-- **Cloudflare DNS** for geminiomni.tv
+- **Cloudflare DNS** for dreamomni.ai
 - **Provider Webhooks** for generation status updates
 
 ### AI Integration
 - Existing generation flows support currently integrated providers.
-- GeminiOmni should avoid claiming Google affiliation or unavailable provider capabilities.
+- DreamOmni should avoid claiming Google affiliation or unavailable provider capabilities.
 
 ## Launch Priorities
 
-1. Publish geminiomni.tv with product-forward Gemini Omni AI video generator positioning.
+1. Publish dreamomni.ai with product-forward Gemini Omni AI video generator positioning.
 2. Avoid falsely claiming Google affiliation or unavailable provider capabilities.
 3. Configure Supabase, Vercel, Cloudflare DNS, Google Auth, and email auth for production.
 4. Submit sitemap and property to Google Search Console as soon as DNS and deployment are live.

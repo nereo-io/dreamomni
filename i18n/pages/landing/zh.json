@@ -3,10 +3,10 @@
   "theme": "light",
   "header": {
     "brand": {
-      "title": "GeminiOmni",
+      "title": "DreamOmni",
       "logo": {
         "src": "/logo.png",
-        "alt": "GeminiOmni AI Video Generator"
+        "alt": "DreamOmni AI Video Generator"
       },
       "url": "/"
     },
@@ -271,15 +271,15 @@
   "footer": {
     "name": "footer",
     "brand": {
-      "title": "GeminiOmni AI Video Generator",
+      "title": "DreamOmni AI Video Generator",
       "description": "Create Gemini Omni-style AI videos online with text-to-video and image-to-video tools.",
       "logo": {
         "src": "/logo.png",
-        "alt": "GeminiOmni AI Video Generator"
+        "alt": "DreamOmni AI Video Generator"
       },
       "url": "/"
     },
-    "copyright": " 2026 • GeminiOmni AI Video Generator All rights reserved.",
+    "copyright": " 2026 • DreamOmni AI Video Generator All rights reserved.",
     "nav": {
       "items": [
         {
@@ -425,9 +425,9 @@
       "items": [
         {
           "title": "邮件支持",
-          "value": "support@geminiomni.tv",
+          "value": "support@dreamomni.ai",
           "icon": "RiMailFill",
-          "url": "mailto:support@geminiomni.tv",
+          "url": "mailto:support@dreamomni.ai",
           "target": "_self"
         },
         {

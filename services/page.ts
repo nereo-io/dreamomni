@@ -10,7 +10,7 @@ import { ImageToImagePage } from "@/types/pages/image-to-image";
 import { ModelLandingPage } from "@/types/pages/model-landing-page";
 import { ImageEffectPage } from "@/types/pages/image-effect-page";
 import { VideoEffectPage } from "@/types/pages/video-effect-page";
-import { sanitizeGeminiOmniContent } from "@/config/geminiomni-messages";
+import { sanitizeDreamOmniContent } from "@/config/dreamomni-messages";
 
 export async function getLandingPage(locale: string): Promise<LandingPage> {
   try {
@@ -19,11 +19,11 @@ export async function getLandingPage(locale: string): Promise<LandingPage> {
     }
     return await import(
       `@/i18n/pages/landing/${locale.toLowerCase()}.json`
-    ).then((module) => sanitizeGeminiOmniContent(module.default as LandingPage));
+    ).then((module) => sanitizeDreamOmniContent(module.default as LandingPage));
   } catch (error) {
     console.warn(`Failed to load ${locale}.json, falling back to en.json`);
     return await import("@/i18n/pages/landing/en.json").then(
-      (module) => sanitizeGeminiOmniContent(module.default as LandingPage)
+      (module) => sanitizeDreamOmniContent(module.default as LandingPage)
     );
   }
 }
@@ -112,13 +112,13 @@ export async function getPricingBlock(locale: string): Promise<Pricing> {
     }
     return await import(
       `@/i18n/blocks/pricing/${locale.toLowerCase()}.json`
-    ).then((module) => sanitizeGeminiOmniContent(module.default as Pricing));
+    ).then((module) => sanitizeDreamOmniContent(module.default as Pricing));
   } catch (error) {
     console.warn(
       `Failed to load pricing/${locale}.json, falling back to en.json`
     );
     return await import("@/i18n/blocks/pricing/en.json").then(
-      (module) => sanitizeGeminiOmniContent(module.default as Pricing)
+      (module) => sanitizeDreamOmniContent(module.default as Pricing)
     );
   }
 }
@@ -173,14 +173,14 @@ export async function getTextToVideoPage(
     return await import(
       `@/i18n/pages/text-to-video/${locale.toLowerCase()}.json`
     ).then((module) =>
-      sanitizeGeminiOmniContent(module.default as TextToVideoPage)
+      sanitizeDreamOmniContent(module.default as TextToVideoPage)
     );
   } catch (error) {
     console.warn(
       `Failed to load text-to-video/${locale}.json, falling back to en.json`
     );
     return await import("@/i18n/pages/text-to-video/en.json").then(
-      (module) => sanitizeGeminiOmniContent(module.default as TextToVideoPage)
+      (module) => sanitizeDreamOmniContent(module.default as TextToVideoPage)
     );
   }
 }
@@ -195,14 +195,14 @@ export async function getImageToVideoPage(
     return await import(
       `@/i18n/pages/image-to-video/${locale.toLowerCase()}.json`
     ).then((module) =>
-      sanitizeGeminiOmniContent(module.default as ImageToVideoPage)
+      sanitizeDreamOmniContent(module.default as ImageToVideoPage)
     );
   } catch (error) {
     console.warn(
       `Failed to load image-to-video/${locale}.json, falling back to en.json`
     );
     return await import("@/i18n/pages/image-to-video/en.json").then(
-      (module) => sanitizeGeminiOmniContent(module.default as ImageToVideoPage)
+      (module) => sanitizeDreamOmniContent(module.default as ImageToVideoPage)
     );
   }
 }
@@ -228,7 +228,7 @@ export async function getReferenceToVideoPage(
     return await import(
       `@/i18n/pages/reference-to-video/${locale.toLowerCase()}.json`
     ).then((module) =>
-      sanitizeGeminiOmniContent(module.default as ReferenceToVideoPage)
+      sanitizeDreamOmniContent(module.default as ReferenceToVideoPage)
     );
   } catch (error) {
     console.warn(
@@ -236,7 +236,7 @@ export async function getReferenceToVideoPage(
     );
     return await import("@/i18n/pages/reference-to-video/en.json").then(
       (module) =>
-        sanitizeGeminiOmniContent(module.default as ReferenceToVideoPage)
+        sanitizeDreamOmniContent(module.default as ReferenceToVideoPage)
     );
   }
 }
@@ -251,7 +251,7 @@ export async function getMotionControlPage(
     return await import(
       `@/i18n/pages/motion-control/${locale.toLowerCase()}.json`
     ).then((module) =>
-      sanitizeGeminiOmniContent(module.default as ReferenceToVideoPage)
+      sanitizeDreamOmniContent(module.default as ReferenceToVideoPage)
     );
   } catch (error) {
     console.warn(
@@ -272,14 +272,14 @@ export async function getTextToImagePage(
     return await import(
       `@/i18n/pages/text-to-image/${locale.toLowerCase()}.json`
     ).then((module) =>
-      sanitizeGeminiOmniContent(module.default as TextToImagePage)
+      sanitizeDreamOmniContent(module.default as TextToImagePage)
     );
   } catch (error) {
     console.warn(
       `Failed to load text-to-image/${locale}.json, falling back to en.json`
     );
     return await import("@/i18n/pages/text-to-image/en.json").then(
-      (module) => sanitizeGeminiOmniContent(module.default as TextToImagePage)
+      (module) => sanitizeDreamOmniContent(module.default as TextToImagePage)
     );
   }
 }
@@ -294,14 +294,14 @@ export async function getImageToImagePage(
     return await import(
       `@/i18n/pages/image-to-image/${locale.toLowerCase()}.json`
     ).then((module) =>
-      sanitizeGeminiOmniContent(module.default as ImageToImagePage)
+      sanitizeDreamOmniContent(module.default as ImageToImagePage)
     );
   } catch (error) {
     console.warn(
       `Failed to load image-to-image/${locale}.json, falling back to en.json`
     );
     return await import("@/i18n/pages/image-to-image/en.json").then(
-      (module) => sanitizeGeminiOmniContent(module.default as ImageToImagePage)
+      (module) => sanitizeDreamOmniContent(module.default as ImageToImagePage)
     );
   }
 }

@@ -1,22 +1,22 @@
 import type { Footer } from '@/types/blocks/footer';
 import type { Header } from '@/types/blocks/header';
 import { defaultLocale } from '@/i18n/locale';
-import { getGeminiOmniIntentLinks } from '@/config/geminiomni-landing';
+import { getDreamOmniIntentLinks } from '@/config/dreamomni-landing';
 
 const geminiOmniLogo = {
   src: '/logo.png',
-  alt: 'GeminiOmni AI Video Generator',
+  alt: 'DreamOmni AI Video Generator',
 };
 
 const isVideoEffectsLink = (url?: string) => url === '/video-effects';
 
-export function buildGeminiOmniHeader(header: Header): Header {
+export function buildDreamOmniHeader(header: Header): Header {
   return {
     ...header,
     brand: header.brand
       ? {
           ...header.brand,
-          title: 'GeminiOmni',
+          title: 'DreamOmni',
           logo: geminiOmniLogo,
           url: header.brand.url || '/',
         }
@@ -189,16 +189,16 @@ function getFooterCopy(locale: string) {
   return footerCopy[locale as keyof typeof footerCopy] || footerCopy[defaultLocale];
 }
 
-export function buildGeminiOmniFooter(footer: Footer, locale = defaultLocale): Footer {
+export function buildDreamOmniFooter(footer: Footer, locale = defaultLocale): Footer {
   const copy = getFooterCopy(locale);
-  const intentLinks = getGeminiOmniIntentLinks(locale);
+  const intentLinks = getDreamOmniIntentLinks(locale);
 
   return {
     ...footer,
     brand: footer.brand
       ? {
           ...footer.brand,
-          title: 'GeminiOmni',
+          title: 'DreamOmni',
           description: copy.description,
           logo: geminiOmniLogo,
         }

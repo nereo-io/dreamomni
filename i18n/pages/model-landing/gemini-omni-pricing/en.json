@@ -1,14 +1,14 @@
 {
   "banner": {
     "title": "Gemini Omni Pricing and Credits",
-    "description": "Understand how GeminiOmni pricing works: free signup credits for trying the product, paid subscription tiers for recurring creation, and credit packs for teams that need extra AI video or image generation capacity.",
+    "description": "Understand how DreamOmni pricing works: free signup credits for trying the product, paid subscription tiers for recurring creation, and credit packs for teams that need extra AI video or image generation capacity.",
     "tabs": [
       {
         "type": "text",
         "title": "Create Before You Scale",
         "subTitle": "Prompt",
         "value": "text-to-video",
-        "modelName": "GeminiOmni",
+        "modelName": "DreamOmni",
         "modelLogo": "/logo.png",
         "placeholder": "Describe a short video you want to generate before choosing a larger credit plan...",
         "buttonText": "Create Video"
@@ -18,7 +18,7 @@
         "title": "Image to Video",
         "subTitle": "Image",
         "value": "image-to-video",
-        "modelName": "GeminiOmni",
+        "modelName": "DreamOmni",
         "modelLogo": "/logo.png",
         "placeholder": "Upload an image to estimate whether this workflow fits your project",
         "tips": "Upload JPG, PNG, WEBP, or GIF images up to 20MB.",
@@ -38,11 +38,11 @@
     ]
   },
   "features": {
-    "title": "How GeminiOmni Pricing Works",
+    "title": "How DreamOmni Pricing Works",
     "details": [
       {
         "title": "Start Free, Then Scale with Credits",
-        "description": "GeminiOmni uses a credit-based model so different generation workflows can have different costs. New users can start with free credits, then move to subscriptions or credit bundles when they need more output, higher volume, or repeated campaign work.",
+        "description": "DreamOmni uses a credit-based model so different generation workflows can have different costs. New users can start with free credits, then move to subscriptions or credit bundles when they need more output, higher volume, or repeated campaign work.",
         "type": "table",
         "data": {
           "headers": [
@@ -248,7 +248,7 @@
     ]
   },
   "usageGuide": {
-    "title": "How to Choose a GeminiOmni Plan",
+    "title": "How to Choose a DreamOmni Plan",
     "description": "Match plan size to how often you create, how many variants you need, and whether you are experimenting or producing finished assets.",
     "steps": [
       {
@@ -343,12 +343,12 @@
     "description": "Answers about credits, plans, and budgeting.",
     "items": [
       {
-        "title": "Is GeminiOmni free?",
-        "description": "GeminiOmni offers a free starting path with signup credits. Larger or repeated generation workloads require paid credits or a subscription."
+        "title": "Is DreamOmni free?",
+        "description": "DreamOmni offers a free starting path with signup credits. Larger or repeated generation workloads require paid credits or a subscription."
       },
       {
         "title": "What are credits?",
-        "description": "Credits are the unit GeminiOmni uses to pay for AI generation workflows. Different models and settings can require different credit amounts."
+        "description": "Credits are the unit DreamOmni uses to pay for AI generation workflows. Different models and settings can require different credit amounts."
       },
       {
         "title": "Which plan should I choose?",
@@ -356,7 +356,7 @@
       },
       {
         "title": "Is this the same as Google API pricing?",
-        "description": "No. GeminiOmni pricing is product credit pricing. Official Google Gemini API or Vertex AI video pricing is separate and may be billed per second."
+        "description": "No. DreamOmni pricing is product credit pricing. Official Google Gemini API or Vertex AI video pricing is separate and may be billed per second."
       }
     ]
   },

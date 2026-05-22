@@ -19,7 +19,7 @@ export async function generateMetadata({
     getPostLocalesBySlug(params.slug, locales),
   ]);
 
-  const baseUrl = process.env.NEXT_PUBLIC_WEB_URL || "https://geminiomni.tv";
+  const baseUrl = process.env.NEXT_PUBLIC_WEB_URL || "https://dreamomni.ai";
   let canonicalUrl = `${baseUrl}/blog/${params.slug}`;
 
   if (params.locale !== "en") {

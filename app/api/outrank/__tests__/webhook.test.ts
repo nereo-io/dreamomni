@@ -12,7 +12,7 @@ async function loadRoute() {
 }
 
 function buildRequest(body: unknown, token = 'test-secret') {
-  return new Request('https://geminiomni.tv/api/outrank/webhook', {
+  return new Request('https://dreamomni.ai/api/outrank/webhook', {
     method: 'POST',
     headers: {
       authorization: `Bearer ${token}`,
