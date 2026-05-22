@@ -13,6 +13,7 @@ import {
   Sparkles,
   Wand2,
 } from 'lucide-react';
+import HoverPlayVideo from '@/components/blocks/hover-play-video';
 import OmniVideoHero from '@/components/blocks/omni-video-hero';
 import AuthRedirect from '@/components/auth/auth-redirect';
 import StructuredData from '@/components/seo/structured-data';
@@ -1135,17 +1136,13 @@ export default async function LandingPage({
                 </Link>
               </Button>
             </div>
-            <div className="mt-8 grid gap-4 md:grid-cols-2 lg:grid-cols-4">
+            <div className="mt-8 flex snap-x snap-mandatory gap-4 overflow-x-auto pb-4 md:grid md:grid-cols-2 md:overflow-visible md:pb-0 lg:grid-cols-4">
               {exampleVideos.map((src, index) => (
-                <video
+                <HoverPlayVideo
                   key={src}
-                  className="aspect-[9/16] w-full rounded-md border border-white/10 bg-black object-cover shadow-lg shadow-black/40"
+                  className="aspect-[9/16] w-[78%] shrink-0 snap-start rounded-md border border-white/10 bg-black object-cover shadow-lg shadow-black/40 md:w-full md:shrink"
                   src={src}
-                  controls
-                  muted
-                  playsInline
-                  preload="metadata"
-                  aria-label={`${homeCopy.examples.ariaLabel} ${index + 1}`}
+                  ariaLabel={`${homeCopy.examples.ariaLabel} ${index + 1}`}
                 />
               ))}
             </div>
@@ -1388,13 +1385,9 @@ function VideoFeatureCard({
 }) {
   return (
     <article className="overflow-hidden rounded-md border border-white/10 bg-white/[0.045] text-white shadow-sm">
-      <video
+      <HoverPlayVideo
         className="aspect-video w-full bg-black object-cover"
         src={item.src}
-        controls
-        muted
-        playsInline
-        preload="metadata"
       />
       <div className="p-5">
         <Film className="h-5 w-5 text-blue-400" />

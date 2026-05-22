@@ -101,6 +101,16 @@ export default function OmniVideoHero({
               playsInline
               poster={posterSrc}
               preload="none"
+              onMouseEnter={() => {
+                const v = videoRef.current;
+                if (!v) return;
+                v.muted = false;
+                void v.play().catch(() => {});
+              }}
+              onMouseLeave={() => {
+                const v = videoRef.current;
+                if (v) v.muted = true;
+              }}
             >
               <source src={videoSrc} type="video/mp4" />
             </video>
