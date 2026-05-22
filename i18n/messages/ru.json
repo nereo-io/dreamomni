@@ -1237,6 +1237,8 @@
     "agent_character_ref_refund": "Возврат за ссылку на персонажа агента"
   },
   "header": {
+    "affiliate": "Партнёрам",
+    "affiliate_badge": "30% дохода",
     "video_effects": "Видеоэффекты",
     "more_effects": "Ещё эффекты"
   },

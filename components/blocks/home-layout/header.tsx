@@ -2,6 +2,7 @@
 
 import { Button } from "@/components/ui/button"
 import { useAppContext } from "@/contexts/app"
+import { AffiliateButton } from "@/components/blocks/home-layout/affiliate-button"
 import LocaleToggle from "@/components/locale/toggle"
 import SignToggle from "@/components/sign/toggle"
 import Link from "next/link"
@@ -28,6 +29,7 @@ export function AIVideoHeader() {
           <span>DreamOmni</span>
         </Link>
         <div className="flex items-center gap-2 sm:gap-4">
+          <AffiliateButton />
           <LocaleToggle />
           {user ? (
             <SignToggle />

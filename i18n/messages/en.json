@@ -1244,6 +1244,8 @@
     "agent_character_ref_refund": "Agent Character Ref Refund"
   },
   "header": {
+    "affiliate": "Affiliate",
+    "affiliate_badge": "Earn 30%",
     "video_effects": "Video Effects",
     "more_effects": "More Effects"
   },

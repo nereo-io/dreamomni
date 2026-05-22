@@ -1245,6 +1245,8 @@
     "agent_character_ref_refund": "Remboursement référence de personnage de l'agent"
   },
   "header": {
+    "affiliate": "Affiliation",
+    "affiliate_badge": "Gagnez 30%",
     "video_effects": "Effets vidéo",
     "more_effects": "Plus d'effets"
   },

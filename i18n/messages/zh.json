@@ -72,6 +72,8 @@
     "membership": "会员"
   },
   "header": {
+    "affiliate": "推广合作",
+    "affiliate_badge": "赚 30%",
     "video_effects": "视频效果",
     "more_effects": "更多效果"
   },
