@@ -245,14 +245,14 @@ export default function PricingModal({
         console.error("Failed to get payment methods:", error);
         setAvailableMethods([
           {
-            id: "stripe",
+            id: "creem",
             name: "Credit Card",
-            logo: "/payment-logos/stripe.png",
-            provider: "stripe",
+            logo: "/payment-logos/creem.svg",
+            provider: "creem",
           },
         ]);
-        setSelectedPaymentMethod("stripe");
-        setSelectedProvider("stripe");
+        setSelectedPaymentMethod("creem");
+        setSelectedProvider("creem");
       }
     }
   }, [locationLoading, isRussia]);
@@ -364,8 +364,8 @@ export default function PricingModal({
         amount: bundle.amount,
         currency: "USD",
         valid_months: 1,
-        payment_method: selectedPaymentMethod || "stripe",
-        user_preference: selectedProvider || "stripe",
+        payment_method: selectedPaymentMethod || "creem",
+        user_preference: selectedProvider || "creem",
       };
 
       // Set payment pending marker
@@ -804,7 +804,6 @@ export default function PricingModal({
                                 </div>
                                 <div className="grid grid-cols-2 gap-3">
                                   {availableMethods
-                                    .filter((m) => m.provider === "payssion")
                                     .map((method) => (
                                       <div
                                         key={method.id}

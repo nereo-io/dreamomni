@@ -235,13 +235,12 @@ export default function EnhancedPricing({ pricing }: EnhancedPricingProps) {
               setSelectedProvider("payssion");
             }
           } else {
-            // 非俄罗斯用户: 默认选择 Stripe
+            // 非俄罗斯用户: 优先选择 Stripe；当前非俄罗斯 methods 仅返回 Creem，会 fallback 到第一个
             const stripeMethod = methods.find((m) => m.provider === "stripe");
             if (stripeMethod) {
               setSelectedPaymentMethod(stripeMethod.id);
               setSelectedProvider("stripe");
             } else if (methods.length > 0) {
-              // Fallback: 如果没有Stripe，选择列表中的第一个
               setSelectedPaymentMethod(methods[0].id);
               setSelectedProvider(methods[0].provider);
             }
@@ -249,17 +248,17 @@ export default function EnhancedPricing({ pricing }: EnhancedPricingProps) {
         }
       } catch (error) {
         console.error("Failed to get payment methods:", error);
-        // 设置默认的支付方式
+        // 设置默认的 Creem 支付方式
         setAvailableMethods([
           {
-            id: "stripe",
+            id: "creem",
             name: "Credit Card",
-            logo: "/payment-logos/stripe.png",
-            provider: "stripe",
+            logo: "/payment-logos/creem.svg",
+            provider: "creem",
           },
         ]);
-        setSelectedPaymentMethod("stripe");
-        setSelectedProvider("stripe");
+        setSelectedPaymentMethod("creem");
+        setSelectedProvider("creem");
       }
     }
   }, [locationLoading, isRussia]);
@@ -368,8 +367,8 @@ export default function EnhancedPricing({ pricing }: EnhancedPricingProps) {
         amount: bundle.amount,
         currency: "USD",
         valid_months: 1,
-        payment_method: selectedPaymentMethod || "stripe",
-        user_preference: selectedProvider || "stripe",
+        payment_method: selectedPaymentMethod || "creem",
+        user_preference: selectedProvider || "creem",
       };
 
       // Set payment pending marker
@@ -785,7 +784,6 @@ export default function EnhancedPricing({ pricing }: EnhancedPricingProps) {
                                   </div>
                                   <div className="grid grid-cols-2 gap-3">
                                     {availableMethods
-                                      .filter((m) => m.provider === "payssion")
                                       .map((method) => (
                                         <div
                                           key={method.id}
@@ -794,9 +792,10 @@ export default function EnhancedPricing({ pricing }: EnhancedPricingProps) {
                                               ? "border-primary bg-primary/10"
                                               : "border-gray-200/80 bg-card dark:border-gray-600/50 hover:border-primary/50"
                                           }`}
-                                          onClick={() =>
-                                            setSelectedPaymentMethod(method.id)
-                                          }
+                                          onClick={() => {
+                                            setSelectedPaymentMethod(method.id);
+                                            setSelectedProvider(method.provider);
+                                          }}
                                         >
                                           <div
                                             className={`flex h-5 w-5 flex-shrink-0 items-center justify-center rounded-full border-2 transition-colors duration-200 ${

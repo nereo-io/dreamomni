@@ -79,10 +79,8 @@ export function getAvailablePaymentMethods(
     // 添加 Creem 作为备选
     methods.push(...getCreemMethods());
   } else {
-    // 其他地区优先显示 Stripe
-    methods.push(...getStripeMethods());
-    // 如果需要也可以添加 Payssion
-    methods.push(...getPayssionMethods(isSubscription));
+    // 非俄罗斯地区直接使用 Creem
+    methods.push(...getCreemMethods());
   }
 
   return methods;
@@ -95,11 +93,12 @@ export function getSubscriptionPaymentMethods(isRussia: boolean): PaymentMethodC
   const methods: PaymentMethodConfig[] = [];
 
   if (isRussia) {
-    // 俄罗斯地区使用 Payssion V2 订阅
+    // 俄罗斯地区优先使用 Payssion V2 订阅，Creem 作为备选
     methods.push(...getPayssionMethods(true));
+    methods.push(...getCreemMethods());
   } else {
-    // 其他地区使用 Stripe 订阅
-    methods.push(...getStripeMethods());
+    // 非俄罗斯地区直接使用 Creem 订阅
+    methods.push(...getCreemMethods());
   }
 
   return methods;
@@ -112,7 +111,7 @@ export function getPaymentProvider(paymentMethod: string): string {
   if (paymentMethod === "creem") return "creem";
   if (paymentMethod === "stripe") return "stripe";
   if (["sberpay", "yoomoney", "mir"].includes(paymentMethod)) return "payssion";
-  return "stripe"; // 默认
+  return "creem"; // 默认走 Creem
 }
 
 /**
@@ -123,7 +122,7 @@ export function getRecommendedProvider(isRussia: boolean): {
   reason: string;
 } {
   return {
-    provider: isRussia ? "payssion" : "stripe",
-    reason: isRussia ? "local_payment_methods" : "global_coverage",
+    provider: isRussia ? "payssion" : "creem",
+    reason: isRussia ? "local_payment_methods" : "creem_global_coverage",
   };
 }
