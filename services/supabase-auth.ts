@@ -4,18 +4,14 @@ import { getSupabaseErrorMessage } from "@/lib/supabase-error-codes";
 
 // 创建Supabase客户端，用于认证
 function getSupabaseAuthClient() {
-  const supabaseUrl =
-    process.env.NEXT_PUBLIC_SUPABASE_URL || process.env.SUPABASE_URL || "";
-  const supabaseAnonKey =
-    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY ||
-    process.env.SUPABASE_ANON_KEY ||
-    "";
+  const supabaseUrl = process.env.SUPABASE_URL || "";
+  const supabaseKey = process.env.SUPABASE_SERVICE_ROLE_KEY || "";
 
-  if (!supabaseUrl || !supabaseAnonKey) {
-    throw new Error("Supabase URL or anon key is not set");
+  if (!supabaseUrl || !supabaseKey) {
+    throw new Error("Supabase URL or SUPABASE_SERVICE_ROLE_KEY is not set");
   }
 
-  return createClient(supabaseUrl, supabaseAnonKey);
+  return createClient(supabaseUrl, supabaseKey);
 }
 
 /**

@@ -16,11 +16,7 @@ import { Order } from "@/types/order";
 import { getSnowId } from "@/lib/hash";
 import { getPayssionConfig } from "@/config/payssion";
 import { getPaymentProvider } from "@/lib/payment-methods";
-import { getPublicWebUrl } from "@/lib/env";
-import { findActiveSubscriptionsByUserUuid } from "@/models/subscription";
-import { findActiveCreemSubscriptionsByUserUuid } from "@/models/creem-subscription";
-import { findActiveStripeSubscriptionsByUserUuid } from "@/models/stripe-subscription";
-import { getAnyProductConfig } from "@/config/products";
+import { hasActiveMembership } from "@/services/membership";
 
 // 日志函数 - 只输出到控制台，不写入文件
 function logInfo(message: string, data?: any) {
@@ -62,21 +58,6 @@ export async function POST(req: NextRequest) {
       payment_method,
     } = body;
 
-    const productConfig = product_id ? getAnyProductConfig(product_id) : undefined;
-    if (!productConfig) {
-      logError("❌ Invalid product_id", { product_id });
-      return respErr("invalid product_id");
-    }
-
-    // Server-trust the product config (prevents client-side tampering).
-    credits = productConfig.credits;
-    currency = productConfig.currency;
-    amount = productConfig.amount;
-    interval = productConfig.interval;
-    valid_months = productConfig.valid_months;
-    product_name = productConfig.product_name;
-    product_type = interval === "one-time" ? "bundle" : "subscription";
-
     const config = getPayssionConfig();
     const returnUrl = config.subscription.defaultReturnUrl;
 
@@ -97,23 +78,13 @@ export async function POST(req: NextRequest) {
     // 新增：年订阅标记为按月发放
     const isMonthlyDistribution = interval === "year";
 
-    // Bundle purchase requires active subscription
+    // Bundle purchase requires active membership
     if (is_bundle) {
-      const [payssionSubscriptions, creemSubscriptions, stripeSubscriptions] =
-        await Promise.all([
-          findActiveSubscriptionsByUserUuid(user_uuid),
-          findActiveCreemSubscriptionsByUserUuid(user_uuid),
-          findActiveStripeSubscriptionsByUserUuid(user_uuid),
-        ]);
+      const isMembershipActive = await hasActiveMembership(user_uuid);
 
-      const hasActiveSubscription =
-        payssionSubscriptions.length > 0 ||
-        creemSubscriptions.length > 0 ||
-        stripeSubscriptions.length > 0;
-
-      if (!hasActiveSubscription) {
-        logError("❌ Bundle purchase requires active subscription", { user_uuid });
-        return respErr("Active subscription required to purchase credit bundles");
+      if (!isMembershipActive) {
+        logError("❌ Bundle purchase requires active membership", { user_uuid });
+        return respErr("Active membership required to purchase credit bundles");
       }
     }
 
@@ -189,9 +160,9 @@ export async function POST(req: NextRequest) {
 
     let expired_at = "";
 
-    // Bundle: 使用 valid_months（默认1个月），无延迟
+    // Bundle: 使用 valid_months（默认12个月），无延迟
     // Subscription: 使用 valid_months + 24小时延迟
-    const bundleValidMonths = is_bundle ? (valid_months || 1) : valid_months;
+    const bundleValidMonths = is_bundle ? (valid_months || 12) : valid_months;
     const timePeriod = new Date(currentDate);
     timePeriod.setMonth(currentDate.getMonth() + bundleValidMonths);
 
@@ -222,7 +193,6 @@ export async function POST(req: NextRequest) {
       currency: currency,
       product_id: product_id,
       product_name: product_name,
-      product_type: product_type,
       valid_months: valid_months,
       payment_provider: getPaymentProvider(payment_method),
       payment_method: payment_method,
@@ -265,41 +235,43 @@ export async function POST(req: NextRequest) {
       userUuid: user_uuid,
       userEmail: user_email,
       paymentMethod: payment_method,
-      returnUrl: `${getPublicWebUrl()}/pricing`,
+      returnUrl: `${process.env.NEXT_PUBLIC_WEB_URL}/pricing`,
       // returnUrl: `https://www.veo3ai.io/pricing`,
       reference: `mdt${order_no}`,
       metadata: {
+        project: process.env.NEXT_PUBLIC_PROJECT_NAME || "",
         product_name: product_name,
+        product_type: product_type,
         product_id: product_id,
+        product_slug: product_slug,
         order_no: order_no ? order_no.toString() : "",
         user_email: user_email,
-        credits: credits.toString(),
+        credits: credits,
         user_uuid: user_uuid,
         interval: interval,
-        amount: amount.toString(),
+        amount: amount,
         currency: currency,
       },
     };
 
     const result = await paymentRouter.createMandate(mandateRequest);
 
-    if (!result.success) {
-      logError("❌ 支付创建失败", { errorMessage: result.errorMessage, payment_method });
-      return respErr(result.errorMessage || "Payment creation failed");
+    if (result.success) {
+      // 更新订单详情 - 与 Stripe 保持一致
+      const { updateOrderSession } = await import("@/models/order");
+      const order_detail = JSON.stringify(mandateRequest);
+
+      await updateOrderSession(order_no, result.mandateId || "", order_detail);
     }
 
-    // 更新订单详情 - 与 Stripe 保持一致
-    const { updateOrderSession } = await import("@/models/order");
-    const order_detail = JSON.stringify(mandateRequest);
-    await updateOrderSession(order_no, result.mandateId || "", order_detail);
-
     return respData({
-      success: true,
+      success: result.success,
       order_no: order_no,
       mandateId: result.mandateId,
       redirect_url: result.redirectUrl, // 用户需要访问的授权 URL
       subscriptionId: result.subscriptionId, // 如果直接创建了订阅
       status: result.status, // 用于判断是否需要跳转
+      errorMessage: result.errorMessage,
     });
   } catch (error: any) {
     logError("🚨 订阅创建异常", error.message);

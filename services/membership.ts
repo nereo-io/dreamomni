@@ -101,3 +101,15 @@ export async function getUserMembershipHistory(
 
   return await getMembershipHistory(userUuid, page, limit);
 }
+
+// 判断用户是否拥有有效 membership（会先同步过期状态）
+export async function hasActiveMembership(userUuid: string): Promise<boolean> {
+  await checkAndUpdateMembershipStatus(userUuid);
+  const membership = await findActiveMembershipByUserUuid(userUuid);
+  if (!membership) {
+    return false;
+  }
+
+  const endTime = new Date(membership.end_date).getTime();
+  return !Number.isFinite(endTime) || endTime > Date.now();
+}

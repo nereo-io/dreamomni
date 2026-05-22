@@ -165,7 +165,7 @@ Provider keys are read via `process.env` in `ProviderFactory` / services (some a
 
 ```bash
 # Core
-SUPABASE_URL, SUPABASE_ANON_KEY, SUPABASE_SERVICE_ROLE_KEY
+SUPABASE_URL, SUPABASE_SERVICE_ROLE_KEY
 AUTH_SECRET, NEXTAUTH_URL, NEXT_PUBLIC_WEB_URL
 STORAGE_ACCESS_KEY, STORAGE_SECRET_KEY        # S3-compatible storage
 VIDEO_CALLBACK_SIGNING_SECRET                 # signed video callbacks

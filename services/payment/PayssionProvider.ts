@@ -483,6 +483,15 @@ export class PayssionProvider extends BasePaymentProvider {
         );
       }
 
+      const isDevMode = process.env.NODE_ENV === "development";
+      const subscriptionTimes = isDevMode
+        ? 1
+        : request.interval === "month"
+          ? 60
+          : request.interval === "year"
+            ? 5
+            : 5;
+
       const requestBody = {
         mandate_id: request.mandateId,
         email: request.userEmail,
@@ -491,7 +500,7 @@ export class PayssionProvider extends BasePaymentProvider {
         description:
           request.description || `Subscription for ${request.userEmail}`,
         interval_unit: request.interval,
-        times: 5, // 测试环境Payssion V2 要求必须为 1；正式环境为 5
+        times: subscriptionTimes,
         metadata: request.metadata || {},
       };
 
@@ -513,6 +522,13 @@ export class PayssionProvider extends BasePaymentProvider {
       );
 
       const result = await response.json();
+
+      // 添加详细的响应日志
+      console.log("Payssion V2 subscription API response:", {
+        status: response.status,
+        ok: response.ok,
+        result: JSON.stringify(result, null, 2),
+      });
 
       // 检查响应状态和结果
       if (!response.ok || !result.id) {

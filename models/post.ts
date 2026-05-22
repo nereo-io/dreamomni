@@ -27,9 +27,7 @@ const POST_LIST_SELECT = [
 
 function hasSupabaseConfig(): boolean {
   const hasUrl = Boolean(process.env.SUPABASE_URL);
-  const hasKey = Boolean(
-    process.env.SUPABASE_ANON_KEY || process.env.SUPABASE_SERVICE_ROLE_KEY
-  );
+  const hasKey = Boolean(process.env.SUPABASE_SERVICE_ROLE_KEY);
 
   return hasUrl && hasKey;
 }

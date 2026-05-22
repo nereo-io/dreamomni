@@ -1,6 +1,6 @@
 // Payssion V2 授权管理模型
 
-import { getSupabaseClient } from "./db";
+import { getSupabaseAdminClient } from "./db";
 
 export interface PayssionMandate {
   id: string;
@@ -22,7 +22,7 @@ export interface PayssionMandate {
 export async function insertPayssionMandate(
   mandate: Omit<PayssionMandate, "id" | "created_at" | "updated_at">
 ) {
-  const supabase = getSupabaseClient();
+  const supabase = getSupabaseAdminClient();
   const { data, error } = await supabase
     .from("payssion_mandates")
     .insert(mandate)
@@ -42,7 +42,7 @@ export async function insertPayssionMandate(
 export async function findPayssionMandateByMandateId(
   mandateId: string
 ): Promise<PayssionMandate | undefined> {
-  const supabase = getSupabaseClient();
+  const supabase = getSupabaseAdminClient();
   const { data, error } = await supabase
     .from("payssion_mandates")
     .select("*")
@@ -63,7 +63,7 @@ export async function findActivePayssionMandateByUserUuid(
   userUuid: string,
   paymentMethod?: string
 ): Promise<PayssionMandate | undefined> {
-  const supabase = getSupabaseClient();
+  const supabase = getSupabaseAdminClient();
 
   let query = supabase
     .from("payssion_mandates")
@@ -101,7 +101,7 @@ export async function updatePayssionMandateStatus(
   status: PayssionMandate["status"],
   expiresAt?: string
 ) {
-  const supabase = getSupabaseClient();
+  const supabase = getSupabaseAdminClient();
   const updateData: any = {
     status,
     updated_at: new Date().toISOString(),
@@ -137,7 +137,7 @@ export async function getPayssionMandatesByUserUuid(
   if (limit <= 0) limit = 10;
 
   const offset = (page - 1) * limit;
-  const supabase = getSupabaseClient();
+  const supabase = getSupabaseAdminClient();
 
   const { data, error } = await supabase
     .from("payssion_mandates")
@@ -194,7 +194,7 @@ export function mapPayssionMethodToFrontend(payssionMethod: string): string {
 export async function findActivePayssionSubscriptionByUserUuid(
   userUuid: string
 ) {
-  const supabase = getSupabaseClient();
+  const supabase = getSupabaseAdminClient();
   const { data, error } = await supabase
     .from("orders")
     .select("*")
@@ -220,7 +220,7 @@ export async function cancelPayssionSubscription(
   subscriptionId: string
 ): Promise<boolean> {
   try {
-    const supabase = getSupabaseClient();
+    const supabase = getSupabaseAdminClient();
     const { error } = await supabase
       .from("orders")
       .update({
@@ -243,7 +243,7 @@ export async function cancelPayssionSubscription(
 export async function findPayssionSubscriptionBySubscriptionId(
   subscriptionId: string
 ) {
-  const supabase = getSupabaseClient();
+  const supabase = getSupabaseAdminClient();
   const { data, error } = await supabase
     .from("orders")
     .select("*")

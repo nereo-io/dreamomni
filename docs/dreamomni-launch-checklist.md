@@ -47,17 +47,14 @@ Last checked: 2026-05-20 22:15 Asia/Shanghai.
   - `AUTH_SECRET`
   - `NEXTAUTH_SECRET`
   - `SUPABASE_URL`
-  - `NEXT_PUBLIC_SUPABASE_URL`
-  - `SUPABASE_ANON_KEY`
-  - `NEXT_PUBLIC_SUPABASE_ANON_KEY`
+  - `SUPABASE_SERVICE_ROLE_KEY`
   - `NEXT_PUBLIC_AUTH_EMAIL_ENABLED=true`
   - `NEXT_PUBLIC_AUTH_GOOGLE_ENABLED=true`
   - `AUTH_GOOGLE_ID`
   - `AUTH_GOOGLE_SECRET`
   - `NEXT_PUBLIC_AUTH_GOOGLE_ID`
   - `NEXT_PUBLIC_AUTH_GOOGLE_ONE_TAP_ENABLED=false`
-- Recommended production environment variables still pending:
-  - `SUPABASE_SERVICE_ROLE_KEY` (recommended; currently not available through the exposed tools, so server DB access falls back to anon key)
+- Supabase server access uses `SUPABASE_SERVICE_ROLE_KEY`; anon keys are not required for app DB access.
 - Required production environment variables before enabling generation:
   - `STORAGE_ENDPOINT`
   - `STORAGE_REGION`
@@ -121,8 +118,8 @@ Completed sequence:
 1. Confirmed cost and organization.
 2. Created Supabase project `dreamomni` in `AstroInspire` / `ap-southeast-1`.
 3. Applied a Seedance-compatible bootstrap schema for the app's current public tables and core RPC functions.
-4. Pulled project URL and anon keys.
-5. Wrote Supabase URL/anon env vars and `NEXT_PUBLIC_AUTH_EMAIL_ENABLED=true` to Vercel production.
+4. Pulled project URL and service role key.
+5. Wrote Supabase URL/service role env vars and `NEXT_PUBLIC_AUTH_EMAIL_ENABLED=true` to Vercel production.
 6. Redeployed production to `dpl_9EdssrgZx5pa24RM1W7iLoTWGVb1`.
 7. Configured Supabase Auth site URL and redirect URLs for the production domain.
 
