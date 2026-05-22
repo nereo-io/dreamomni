@@ -66,7 +66,7 @@ export default function Header({ header }: { header: HeaderType }) {
                 <img
                   src={header.brand.logo.src}
                   alt={header.brand.logo.alt || header.brand.title}
-                  className="h-9 w-9 rounded-md object-cover"
+                  className="h-9 w-9 object-contain"
                   width={32}
                   height={32}
                 />
@@ -199,7 +199,7 @@ export default function Header({ header }: { header: HeaderType }) {
                 <img
                   src={header.brand.logo.src}
                   alt={header.brand.logo.alt || header.brand.title}
-                  className="w-8"
+                  className="w-8 object-contain"
                   width={32}
                   height={32}
                 />
@@ -224,7 +224,7 @@ export default function Header({ header }: { header: HeaderType }) {
                         <img
                           src={header.brand.logo.src}
                           alt={header.brand.logo.alt || header.brand.title}
-                          className="w-8"
+                          className="w-8 object-contain"
                           width={32}
                           height={32}
                         />

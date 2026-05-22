@@ -21,7 +21,7 @@ export function AIVideoHeader() {
           <img
             src="/logo.png"
             alt="GeminiOmni"
-            className="h-8 w-8 rounded-lg object-cover"
+            className="h-8 w-8 object-contain"
             width={32}
             height={32}
           />
