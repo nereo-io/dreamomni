@@ -33,7 +33,7 @@ export const PRODUCT_CONFIGS: ProductConfig[] = [
     interval: "month",
     valid_months: 1,
     membershipType: "monthly",
-    creem_product_id: "prod_iexi0W7a5ZLk8zrLEQULY",
+    creem_product_id: "prod_dWuFUGDfC4cS9dmHiFI4G",
   },
   {
     product_id: "mini-yearly",
@@ -44,7 +44,7 @@ export const PRODUCT_CONFIGS: ProductConfig[] = [
     interval: "year",
     valid_months: 12,
     membershipType: "yearly",
-    creem_product_id: "prod_hAQhgLj5g13b3uAjvQK2q",
+    creem_product_id: "prod_51a1VPx3WqsINhXYqTgYKx",
   },
   {
     product_id: "standard-monthly",
@@ -55,7 +55,7 @@ export const PRODUCT_CONFIGS: ProductConfig[] = [
     interval: "month",
     valid_months: 1,
     membershipType: "monthly",
-    creem_product_id: "prod_4ZIm70NxktrglthRtP12bk",
+    creem_product_id: "prod_6O0Vq5CjMEDZ9aDlRXhhyb",
   },
   {
     product_id: "standard-yearly",
@@ -66,7 +66,7 @@ export const PRODUCT_CONFIGS: ProductConfig[] = [
     interval: "year",
     valid_months: 12,
     membershipType: "yearly",
-    creem_product_id: "prod_41CcgchN5WsbTejjiGXdPN",
+    creem_product_id: "prod_7lFHmsR6ifHlDJJFejy6TJ",
   },
   {
     product_id: "plus-monthly",
@@ -77,7 +77,7 @@ export const PRODUCT_CONFIGS: ProductConfig[] = [
     interval: "month",
     valid_months: 1,
     membershipType: "monthly",
-    creem_product_id: "prod_6Su5ujRsEoPnl4vLhUaKgz",
+    creem_product_id: "prod_6Ri4kSWOpqgjdN67QShjC4",
   },
   {
     product_id: "plus-yearly",
@@ -88,7 +88,7 @@ export const PRODUCT_CONFIGS: ProductConfig[] = [
     interval: "year",
     valid_months: 12,
     membershipType: "yearly",
-    creem_product_id: "prod_bkdYAKob7F4YjlLxXy2he",
+    creem_product_id: "prod_62lBNSqFJyMxue5vUTkaGw",
   },
 ];
 
@@ -176,7 +176,7 @@ export const BUNDLE_CONFIGS: BundleProductConfig[] = [
     credits: 400,
     interval: "one-time",
     valid_months: 1,
-    creem_product_id: "prod_1kNWK3dLY8QQndKJnxa89q",
+    creem_product_id: "prod_2LJGHKAVDnNJDsTtnlc2pE",
   },
   {
     product_id: "bundle-40",
@@ -186,7 +186,7 @@ export const BUNDLE_CONFIGS: BundleProductConfig[] = [
     credits: 800,
     interval: "one-time",
     valid_months: 1,
-    creem_product_id: "prod_6RsFop4XHhJ3bKe01XbFbI",
+    creem_product_id: "prod_jkimrXNLPAXY4yAgjMX3f",
   },
   {
     product_id: "bundle-100",
@@ -196,7 +196,7 @@ export const BUNDLE_CONFIGS: BundleProductConfig[] = [
     credits: 1600,
     interval: "one-time",
     valid_months: 1,
-    creem_product_id: "prod_28ExHkIFzlp6qZWg2OwP4m",
+    creem_product_id: "prod_17C61yd96HymxWqHveq9FD",
   },
   {
     product_id: "bundle-200",
@@ -206,7 +206,7 @@ export const BUNDLE_CONFIGS: BundleProductConfig[] = [
     credits: 3200,
     interval: "one-time",
     valid_months: 1,
-    creem_product_id: "prod_11dAH0UuhRdTt2biKM3ASJ",
+    creem_product_id: "prod_5263DzLJkuKemkIJ67bWzT",
   },
   {
     product_id: "bundle-500",
@@ -216,7 +216,7 @@ export const BUNDLE_CONFIGS: BundleProductConfig[] = [
     credits: 6400,
     interval: "one-time",
     valid_months: 1,
-    creem_product_id: "prod_6DTNC4F2fDB8K49Qb39z9O",
+    creem_product_id: "prod_5F2LEAeUvnaeIZyb29DUJ1",
   },
   {
     product_id: "bundle-1000",
@@ -226,7 +226,7 @@ export const BUNDLE_CONFIGS: BundleProductConfig[] = [
     credits: 12800,
     interval: "one-time",
     valid_months: 1,
-    creem_product_id: "prod_3l1WiUWhZm9SLlxl8pOii6",
+    creem_product_id: "prod_2an3f5ojKUslLhhMPvPig9",
   },
 ];
 
