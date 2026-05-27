@@ -9,7 +9,7 @@
         "subTitle": "Prompt",
         "value": "text-to-image",
         "modelName": "Google Nano Banana Pro",
-        "modelLogo": "https://videocdn.pollo.ai/web-cdn/pollo/test/cm97uxg1v000m1490lu4pqgla/image/1756783760309-5e0cde26-2d05-44c8-8b53-0bb58d05f252.svg",
+        "modelLogo": "/imgs/intro/nano-banana.svg",
         "placeholder": "Was möchten Sie erstellen?",
         "buttonText": "Erstellen"
       },
@@ -19,7 +19,7 @@
         "subTitle": "Bild",
         "value": "image-to-image",
         "modelName": "Google Nano Banana Pro",
-        "modelLogo": "https://videocdn.pollo.ai/web-cdn/pollo/test/cm97uxg1v000m1490lu4pqgla/image/1756783760309-5e0cde26-2d05-44c8-8b53-0bb58d05f252.svg",
+        "modelLogo": "/imgs/intro/nano-banana.svg",
         "placeholder": "Ziehen Sie ein Bild hierher oder klicken Sie zum Auswählen",
         "tips": "Wir akzeptieren JPEG, PNG, GIF, WEBP, JPG-Formate bis zu 20 MB mit Abmessungen bis zu 4096 x 4096 Pixel.",
         "buttonText": "Erstellen"

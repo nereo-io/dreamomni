@@ -10,7 +10,7 @@
         "value": "text-to-image",
         "modelName": "GPT Image 2",
         "modelId": "gpt-image-2-text-to-image",
-        "modelLogo": "/imgs/intro/gpt-image-2.svg",
+        "modelLogo": "/imgs/intro/openai.svg",
         "placeholder": "作りたい画像、レイアウト、文字、スタイル、形式を説明してください...",
         "buttonText": "作成"
       },
@@ -21,7 +21,7 @@
         "value": "image-to-image",
         "modelName": "GPT Image 2 Edit",
         "modelId": "gpt-image-2-image-to-image",
-        "modelLogo": "/imgs/intro/gpt-image-2.svg",
+        "modelLogo": "/imgs/intro/openai.svg",
         "placeholder": "画像をドラッグするか、クリックして選択",
         "tips": "GPT Image 2で編集する参考画像をアップロードしてください。JPEG、PNG、GIF、WEBP、JPG、最大20MBに対応しています。",
         "buttonText": "作成"

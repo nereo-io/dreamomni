@@ -10,7 +10,7 @@
         "value": "text-to-image",
         "modelName": "GPT Image 2",
         "modelId": "gpt-image-2-text-to-image",
-        "modelLogo": "/imgs/intro/gpt-image-2.svg",
+        "modelLogo": "/imgs/intro/openai.svg",
         "placeholder": "만들고 싶은 이미지, 레이아웃, 텍스트, 스타일, 형식을 설명하세요...",
         "buttonText": "생성"
       },
@@ -21,7 +21,7 @@
         "value": "image-to-image",
         "modelName": "GPT Image 2 Edit",
         "modelId": "gpt-image-2-image-to-image",
-        "modelLogo": "/imgs/intro/gpt-image-2.svg",
+        "modelLogo": "/imgs/intro/openai.svg",
         "placeholder": "이미지를 끌어오거나 클릭하여 선택하세요",
         "tips": "GPT Image 2 편집을 위한 참고 이미지를 업로드하세요. JPEG, PNG, GIF, WEBP, JPG 형식과 최대 20MB를 지원합니다.",
         "buttonText": "생성"

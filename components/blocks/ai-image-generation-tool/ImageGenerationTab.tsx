@@ -84,16 +84,16 @@ const getModelIconConfig = (modelId: string) => {
   if (modelId.startsWith("nano-banana")) {
     return {
       src: "/imgs/intro/nano-banana.svg",
-      bgClassName: "bg-gradient-to-br from-yellow-400 to-orange-500",
-      iconClassName: "h-3.5 w-3.5",
+      bgClassName: "bg-transparent",
+      iconClassName: "h-5 w-5",
     };
   }
 
   if (modelId.startsWith("gpt-image-2")) {
     return {
-      label: "G2",
-      bgClassName: "bg-gradient-to-br from-emerald-500 to-teal-600",
-      textClassName: "text-[10px] font-semibold text-white",
+      src: "/imgs/intro/openai.svg",
+      bgClassName: "bg-transparent",
+      iconClassName: "h-5 w-5",
     };
   }
 
@@ -110,18 +110,6 @@ const ModelIcon: React.FC<{ modelId: string; modelName: string }> = ({
     return (
       <div className="w-5 h-5 flex-shrink-0 rounded-full bg-gray-600 flex items-center justify-center">
         <span className="text-xs">✨</span>
-      </div>
-    );
-  }
-
-  // Text-label variant (for models without a brand asset, e.g. GPT Image 2)
-  if ("label" in config) {
-    return (
-      <div
-        className={`w-5 h-5 flex-shrink-0 rounded-full flex items-center justify-center ${config.bgClassName}`}
-        aria-label={`${modelName} icon`}
-      >
-        <span className={config.textClassName}>{config.label}</span>
       </div>
     );
   }

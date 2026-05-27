@@ -10,7 +10,7 @@
         "value": "text-to-image",
         "modelName": "GPT Image 2",
         "modelId": "gpt-image-2-text-to-image",
-        "modelLogo": "/imgs/intro/gpt-image-2.svg",
+        "modelLogo": "/imgs/intro/openai.svg",
         "placeholder": "描述你想创建的画面、布局、文字、风格和格式...",
         "buttonText": "创建"
       },
@@ -21,7 +21,7 @@
         "value": "image-to-image",
         "modelName": "GPT Image 2 Edit",
         "modelId": "gpt-image-2-image-to-image",
-        "modelLogo": "/imgs/intro/gpt-image-2.svg",
+        "modelLogo": "/imgs/intro/openai.svg",
         "placeholder": "拖拽图片到这里，或点击选择",
         "tips": "上传参考图，用 GPT Image 2 进行图像编辑。支持 JPEG、PNG、GIF、WEBP、JPG，最大 20MB。",
         "buttonText": "创建"

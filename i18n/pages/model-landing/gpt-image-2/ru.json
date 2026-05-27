@@ -10,7 +10,7 @@
         "value": "text-to-image",
         "modelName": "GPT Image 2",
         "modelId": "gpt-image-2-text-to-image",
-        "modelLogo": "/imgs/intro/gpt-image-2.svg",
+        "modelLogo": "/imgs/intro/openai.svg",
         "placeholder": "Опишите изображение, макет, текст, стиль и формат...",
         "buttonText": "Создать"
       },
@@ -21,7 +21,7 @@
         "value": "image-to-image",
         "modelName": "GPT Image 2 Edit",
         "modelId": "gpt-image-2-image-to-image",
-        "modelLogo": "/imgs/intro/gpt-image-2.svg",
+        "modelLogo": "/imgs/intro/openai.svg",
         "placeholder": "Перетащите изображение сюда или нажмите для выбора",
         "tips": "Загрузите референс для редактирования в GPT Image 2. Поддерживаются JPEG, PNG, GIF, WEBP и JPG до 20MB.",
         "buttonText": "Создать"
