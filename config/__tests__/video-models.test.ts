@@ -67,4 +67,27 @@ describe('video model availability', () => {
     expect(calculateCredits('kie-gemini-omni-video-text-to-video', 8, false, '1080p')).toBe(24);
     expect(calculateCredits('kie-gemini-omni-video-text-to-video', 8, false, '4k')).toBe(32);
   });
+
+  it.each([
+    'kie-veo3-text-to-video',
+    'kie-veo3-image-to-video',
+    'kie-veo3-reference-to-video',
+  ])('%s charges 1.25 credits per second', (modelId) => {
+    expect(getVideoModel(modelId)?.perSecondCredits).toBe(1.25);
+  });
+
+  it.each([
+    'kie-veo3-lite-text-to-video',
+    'kie-veo3-lite-image-to-video',
+  ])('%s charges 0.75 credits per second', (modelId) => {
+    expect(getVideoModel(modelId)?.perSecondCredits).toBe(0.75);
+  });
+
+  it.each([
+    'kie-veo3-text-to-video',
+    'kie-veo3-image-to-video',
+    'kie-veo3-reference-to-video',
+  ])('%s charges exactly 1.75 credits per second for 1080p', (modelId) => {
+    expect(calculateCredits(modelId, 8, false, '1080p')).toBe(14);
+  });
 });
