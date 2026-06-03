@@ -122,7 +122,7 @@ export async function optimizeVideoPrompt(
 
       // 尝试使用阿里云国际版 Qwen-VL
       const result = await generateText({
-        model: qwenClientIntl("qwen-vl-plus-latest"),
+        model: qwenClientIntl('qwen3-vl-flash'),
         messages,
         maxTokens: 500,
         temperature: 0.7,
